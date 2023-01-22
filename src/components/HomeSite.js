@@ -5,20 +5,20 @@ import { Link } from "react-router-dom";
 function HomeSite() {
     return (
         <div className="home-site">
-        <Navbar />
+            <Navbar />
             <h1>Hello</h1>
             <ul>
                 <li>
-                <Link to="/home">Home</Link>
+                    <Link to="/">Home</Link>
                 </li>
                 <li>
-                <Link to="/login">Login</Link>
+                    <Link to="/login">Login</Link>
                 </li>
                 <li>
-                <Link to="/persInfo">Form</Link>
+                    <Link to="/persInfo">Form</Link>
                 </li>
                 <li>
-                <Link to="/payment">Payment</Link>
+                    <Link to="/payment">Payment</Link>
                 </li>
             </ul>
 

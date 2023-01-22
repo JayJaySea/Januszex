@@ -14,12 +14,12 @@ import PaymentSite from './PaymentSite';
 function MyRoutes() {
   return (
     <Router>
-        <Routes>                   
-          <Route path="/home" element={<HomeSite/>} />
-          <Route path="/login" element={<LoginSite/>} />
-          <Route path="/persInfo" element={<PersInfoSite/>} />
-          <Route path="/payment" element={<PaymentSite/>} />
-        </Routes>
+      <Routes>
+        <Route index path="/" element={<HomeSite />} />
+        <Route path="/login" element={<LoginSite />} />
+        <Route path="/persInfo" element={<PersInfoSite />} />
+        <Route path="/payment" element={<PaymentSite />} />
+      </Routes>
     </Router>
   );
 }
