@@ -1,98 +1,69 @@
-import React, { useState, useRef, useEffect, useCallback  } from "react";
+import React from "react";
+import { Form, useActionData, useNavigation, json } from 'react-router-dom';
 
-function SignUpForm(props) {
+function SignUpForm({ method }) {
 
+  const navigation = useNavigation();
+  const data = useActionData();
+  const isSubmitting = navigation.state === 'submitting';
 
-    const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-  
-    const emailRef = useRef('');
-    const usernameRef = useRef('');
-    const passwordRef = useRef('');
-  
-    //get users from database
-    const fetchUsersHandler = useCallback(async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json');
-        if (!response.ok) {
-          throw new Error('Something went wrong!');
-        }
-  
-        const data = await response.json();
-  
-        const loadedUsers = [];
-  
-        for (const key in data) {
-          loadedUsers.push({
-            id: key,
-            usernameDB: data[key].username,
-            emailDB: data[key].email
-          });
-        }
-  
-        setUsers(loadedUsers);
-        console.log(loadedUsers);
-      } catch (error) {
-        setError("Something went wrong, try again.");
-      }
-      setIsLoading(false);
-    }, []);
-  
-    useEffect(() => {
-      fetchUsersHandler();
-    }, [fetchUsersHandler]);
-  
-
-    function submitHandler(event) {
-        event.preventDefault();
-        // could add validation here...
-
-        // Compare user info
-        if (users.find((user) => user.usernameDB != usernameRef.current.value)) {
-          if (users.find((user) => user.emailDB != emailRef.current.value)) {
-            setError(null);
-            setIsSubmitted(true);
-          } else {
-            // Invalid password
-            setError("Account already exists for this e-mail!");
-            return;
-          }
-        } else {
-          // Username not found
-          setError("Username already exists!");
-          return;
-        }
-
-
-        const tmpUser = {
-            username: usernameRef.current.value,
-            password: passwordRef.current.value,
-            email: emailRef.current.value,
-        };
-        props.onSignUpForm(tmpUser);
-    }
-
-
-    return (
-        <div className="pi-form" >
-            <form onSubmit={submitHandler}>
-                <h1>Sign up</h1>
-                <div className="pi-form__container">
-                    <label htmlFor="email"><strong>E-mail</strong></label>
-                    <input type="email" placeholder="Enter E-mail" name="email" ref={emailRef} required />
-                    <label htmlFor="username"><strong>Username</strong></label>
-                    <input type="text" placeholder="Enter Username" name="username" ref={usernameRef} />
-                    <label htmlFor="password"><strong>Password</strong></label>
-                    <input type="password" placeholder="Enter Password" name="password" ref={passwordRef} />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+  return (
+    <div className="pi-form" >
+      <Form method={method}>
+        <h1>Sign up</h1>
+        <div className="pi-form__container">
+          <label htmlFor="email"><strong>E-mail</strong></label>
+          <input id="email" type="email" placeholder="Enter E-mail" name="email" required />
+          <label htmlFor="username"><strong>Username</strong></label>
+          <input id="username" type="text" placeholder="Enter Username" name="username" required />
+          <label htmlFor="password"><strong>Password</strong></label>
+          <input id="password" type="password" placeholder="Enter Password" name="password" required />
         </div>
-    );
+        <button disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
+      </Form>
+    </div>
+  );
 }
 
 export default SignUpForm;
+
+export async function action({ request }) {
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get('mode') || 'login';
+  const method = request.method;
+
+  if (mode !== 'login' && mode !== 'signup') {
+    mode = 'login';
+  }
+
+  const data = await request.formData();
+
+  const authData = {
+    email: data.get('email'),
+    login: data.get('username'),
+    password: data.get('password')
+  };
+
+  console.log(data);
+
+  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json', { //http://localhost:8080/' + mode
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(authData),
+  });
+  console.log(authData);
+  if (response.status === 422 || response.status === 401) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+  }
+
+  // soon: manage that token
+  return null; //redirect('/');
+}

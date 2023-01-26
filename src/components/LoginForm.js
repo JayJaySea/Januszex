@@ -1,87 +1,67 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
+import { useActionData, useNavigation, Form, json } from 'react-router-dom';
+function LoginForm({method}) {
 
-function LoginForm() {
-
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-
-  //get users from database
-  const fetchUsersHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json');
-      if (!response.ok) {
-        throw new Error('Something went wrong!');
-      }
-
-      const data = await response.json();
-
-      const loadedUsers = [];
-
-      for (const key in data) {
-        loadedUsers.push({
-          id: key,
-          usernameDB: data[key].username,
-          passwordDB: data[key].password
-        });
-      }
-
-      setUsers(loadedUsers);
-      console.log(loadedUsers);
-    } catch (error) {
-      setError("Something went wrong, try again.");
-    }
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchUsersHandler();
-  }, [fetchUsersHandler]);
-
-
-  //check with users from database
-  const handleSubmit = (event) => {
-    //Prevent page reload
-    event.preventDefault();
-
-    var { username, password } = document.forms[0];
-
-    // Compare user info
-    if (users.find((user) => user.usernameDB == username.value)) {
-      if (users.find((user) => user.passwordDB == password.value)) {
-        setError(null);
-        setIsSubmitted(true);
-      } else {
-        // Invalid password
-        setError("invalid password");
-      }
-    } else {
-      // Username not found
-      setError("invalid username");
-    }
-  };
-
+  const navigation = useNavigation();
+  const data = useActionData();
+  const isSubmitting = navigation.state === 'submitting';
 
   return (
     <div className="login-form">
-      <form onSubmit={handleSubmit}>
+      <Form method={method}>
         <h1>Login Form</h1>
         <div className="login-form__container">
           <label htmlFor="username"><strong>Username</strong></label>
           <input type="text" placeholder="Enter Username" name="username" required />
           <label htmlFor="password"><strong>Password</strong></label>
           <input type="password" placeholder="Enter Password" name="password" required />
-          <p>{error}</p>
         </div>
-        <button type="submit">Login</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
 
-      </form>
+      </Form>
     </div>
   );
 }
 
 export default LoginForm;
+
+export async function action({ request }) {
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get('mode') || 'login';
+  const method = request.method;
+
+  if (mode !== 'login' && mode !== 'signup') {
+      mode = 'login';
+  }
+
+  const data = await request.formData();
+
+  const authData = {
+          email: data.get('email'),
+          login: data.get('username'),
+          password: data.get('password')
+  };
+  
+  console.log(data);
+  
+  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json', { //http://localhost:8080/' + mode
+      method: method,
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authData),
+  });
+  console.log(authData);
+  if (response.status === 422 || response.status === 401) {
+      return response;
+  }
+
+  if (!response.ok) {
+      throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+  }
+
+  // soon: manage that token
+  return null; //redirect('/');
+}

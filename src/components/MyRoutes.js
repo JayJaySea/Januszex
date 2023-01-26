@@ -1,27 +1,58 @@
 import React from 'react';
-import SignSite from "./SignSite";
-import HomeSite from "./HomeSite";
+import SignPage from "../pages/SignPage";
+import HomePage from "../pages/HomePage";
 // importing components from react-router-dom package
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import PersInfoSite from "./PersInfoSite";
-import PaymentSite from './PaymentSite';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import PersInfoPage from "../pages/PersInfoPage";
+import PaymentPage from '../pages/PaymentPage';
+import AccountPage from "../pages/AccountPage"
+import RootLayout from '../pages/Root';
+import { action as signAction } from '../components/SignUpForm';
+import { action as logoutAction} from '../pages/LogoutPage';
+import { checkAuthLoader, tokenLoader } from '../util/auth.js';
 
 function MyRoutes() {
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <RootLayout />,
+      //errorElement: <ErrorPage />,
+      id: 'root',
+      loader: tokenLoader,
+      children: [
+        { index: true, element: <HomePage /> },
+        {
+          path: 'sign',
+          element: <SignPage />,
+          action: signAction,
+        },
+        {
+          path: 'persInfo',
+          element: <PersInfoPage />,
+          //action: newsletterAction,
+        },
+        {
+          path: 'payment',
+          element: <PaymentPage />,
+          //action: logoutAction,
+        },
+        {
+          path: 'account',
+          element: <AccountPage />,
+          //action: logoutAction,
+        },
+        {
+          path: 'logout',
+          action: logoutAction,
+        }
+      ],
+    },
+  ]);
+
+
   return (
-    <Router>
-      <Routes>
-        <Route index path="/" element={<HomeSite />} />
-        <Route path="/sign" element={<SignSite />} />
-        <Route path="/persInfo" element={<PersInfoSite />} />
-        <Route path="/payment" element={<PaymentSite />} />
-        <Route path="/signUp" element={<PaymentSite />} />
-      </Routes>
-    </Router>
+    <RouterProvider router={router} />
   );
 }
 
