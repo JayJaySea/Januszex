@@ -3,4 +3,6 @@
   --main-color-light: #d16f6f;
   --accent-color-dark: #B57BCC;
   --accent-color-light: #ebd4f3;
+  --main-text-color: black;
+  --secondary-text-color: rgb(75, 75, 75);
 }

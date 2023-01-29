@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useLoaderData, useSubmit } from 'react-router-dom';
 import { getTokenDuration } from '../util/auth.js';
 import Navbar from "../components/Navbar";

@@ -1,13 +1,11 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import PaymentForm from "../components/PaymentForm";
 
 function PaymentPage() {
     return (
-        <body className="payment-page">
-            <Navbar />
+        <div className="payment-page">
             <PaymentForm />
-        </body>
+        </div>
     );
 }
 

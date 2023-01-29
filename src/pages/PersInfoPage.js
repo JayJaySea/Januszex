@@ -1,5 +1,4 @@
 import React from "react";
-import PageNav from "../components/Navbar";
 import PersInfoForm from "../components/PersInfoForm";
 
 function PersInfoPage() {
@@ -16,7 +15,6 @@ function PersInfoPage() {
 
     return (
         <div className="pers-info-page">
-            <PageNav />
             <PersInfoForm onPersInfoForm={sendPersInfoHandler} />
         </div>
     )

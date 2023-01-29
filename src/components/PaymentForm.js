@@ -1,9 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function PaymentForm() {
+
+const navigate = useNavigate();
+ 
+  function submitHandler() {
+    // Checking if user is not loggedIn 
+      navigate("/");
+  };
+
     return (
         <div className="payment-form">
-            <form>
+            <form onSubmit={submitHandler}>
                 <h1>Payment</h1>
                 <div className="payment-form__container">
                     <label htmlFor="name"><strong>Name</strong></label>

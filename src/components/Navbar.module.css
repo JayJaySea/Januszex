@@ -1,19 +1,24 @@
-@import "./colors.css";
+@import "./colors.module.css";
 
-.page-nav {
+.pageNav {
   display: flex;
   align-items: center;
   width: 100%;
+  margin: auto;
+  z-index: 99;
   height: 58px;
+  box-shadow: 0 3px 7px #858585;
   background-color: var(--main-color-dark);
+  position: fixed;
+  top: 0;
 }
 
-.page-nav .page-nav__logo {
+.logo {
   padding-left: 80px;
   justify-self: start;
 }
 
-.page-nav .page-nav__search-bar {
+.searchBar {
   display: flex;
   justify-self: center;
   position: relative;
@@ -21,7 +26,7 @@
   z-index: 10;
 }
 
-.page-nav .page-nav__search-bar .search-bar-input {
+.input {
   width: calc(300px - 18px);
   height: 29px;
   border-radius: 15px;
@@ -30,22 +35,22 @@
   padding-left: 18px;
 }
 
-.page-nav .page-nav__search-bar .search-icon {
+.searchIcon {
   position: relative;
   right: 36px;
   top: 5px;
 }
 
-.page-nav .page-nav__space {
+.space {
   width: 1250px;
   max-width: calc(65%);
 }
 
-.page-nav .page-nav__right-icons {
+.rightIcons {
   width: fit-content;
 }
 
-.page-nav .page-nav__right-icons .right-icons-elements {
+.rightIcons ul {
   display: flex;
   flex-direction: row;
   list-style: none;
@@ -54,7 +59,7 @@
   margin-right: 80px;
 }
 
-.page-nav .page-nav__right-icons .right-icons-elements li {
+.rightIcons li {
   margin: 0 14px;
   height: 58px;
   display: flex;
@@ -62,35 +67,13 @@
   justify-content: center;
 }
 
-.page-nav .page-nav__right-icons .right-icons-elements .shopping-cart:hover .shopping-cart-dropdown,
-.page-nav .page-nav__right-icons .right-icons-elements .shopping-cart-dropdown:hover {
-  display: flex;
-  transition: 0.1s;
-}
-
 @media screen and (min-width: 800px) {
-  .page-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 99;
-    margin: 0;
-    box-shadow: 0 3px 7px #858585;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 58px;
-    background-color: var(--main-color-dark);
-  }
-  .page-nav .page-nav__logo {
-    padding-left: 80px;
-    justify-self: start;
-  }
-  .page-nav .page-nav__search-bar {
+
+  .searchBar {
     left: calc(50% - 282px);
     top: 0px;
   }
-  .page-nav .page-nav__search-bar .search-bar-input {
+  .input {
     width: calc(300px - 18px);
     height: 29px;
     border-radius: 15px;
@@ -98,19 +81,19 @@
     background-color: var(--main-color-light);
     padding-left: 18px;
   }
-  .page-nav .page-nav__search-bar .search-icon {
+  .searchIcon {
     position: relative;
     right: 36px;
     top: 5px;
   }
-  .page-nav .page-nav__space {
+  .space {
     width: 1250px;
     max-width: calc(65%);
   }
-  .page-nav .page-nav__right-icons {
+  .rightIcons {
     width: fit-content;
   }
-  .page-nav .page-nav__right-icons .right-icons-elements {
+  .rightIcons ul {
     display: flex;
     flex-direction: row;
     list-style: none;
@@ -118,7 +101,7 @@
     padding: 0;
     margin-right: 80px;
   }
-  .page-nav .page-nav__right-icons .right-icons-elements li {
+  .rightIcons li {
     margin: 0 14px;
     height: 58px;
     display: flex;

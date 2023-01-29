@@ -5,7 +5,10 @@ import HomePage from "../pages/HomePage";
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import PersInfoPage from "../pages/PersInfoPage";
 import PaymentPage from '../pages/PaymentPage';
-import AccountPage from "../pages/AccountPage"
+import AccountPage, {
+  loader as userDetailLoader,
+  action as deleteUserAction,
+} from "../pages/AccountPage"
 import RootLayout from '../pages/Root';
 import { action as signAction } from '../components/SignUpForm';
 import { action as logoutAction} from '../pages/LogoutPage';
@@ -38,9 +41,22 @@ function MyRoutes() {
           //action: logoutAction,
         },
         {
-          path: 'account',
-          element: <AccountPage />,
-          //action: logoutAction,
+          path: 'account:userId',
+          id: 'user-detail',
+          loader: userDetailLoader,
+          children: [
+            {
+              index: true,
+              element: <AccountPage />,
+              action: deleteUserAction,
+            },
+            /*{
+              path: 'edit',
+              element: <EditEventPage />,
+              action: manipulateEventAction,
+              loader: checkAuthLoader,
+            },*/
+          ],
         },
         {
           path: 'logout',
