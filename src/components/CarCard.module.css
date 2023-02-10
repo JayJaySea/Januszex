@@ -1,0 +1,58 @@
+.cardConteiner {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #C4C4C4;
+    height: 210px;
+    margin: 10px 0px;
+}
+
+.card{
+    width:600px;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+}
+
+.image{
+    width: 50%;
+    height: 100;
+}
+
+.info{
+    width: 45%;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100;
+}
+
+.data {
+    width: 100%;
+display: flex;
+flex-direction: column;
+font-weight: 500;
+}
+.brandAndName {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 800;
+}
+
+.price {
+    font-size: large;
+    font-weight: 800;
+}
+
+.button{
+    margin-left: 100px;
+    height: 40px;
+    width: 150px;
+}
+
+.buttonContainer{
+    width: 100%;
+}
