@@ -8,6 +8,8 @@ register.addEventListener("click", function() {
 			{ 
 				name: 'janusz',
 				surname: 'januszewski',
+				login: "usze",
+				password: "xd",
 				drivingLicense: "B",
 				role: 1
 			})

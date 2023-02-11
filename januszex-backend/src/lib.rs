@@ -33,7 +33,7 @@ pub mod error;
 
 
 pub struct GlobalState {
-    pub db_conn: SqliteConnection,
+    db_conn: SqliteConnection,
 }
 
 impl GlobalState {
@@ -43,7 +43,7 @@ impl GlobalState {
         }
     }
 
-    pub fn establish_db_connection() -> SqliteConnection {
+    fn establish_db_connection() -> SqliteConnection {
         dotenv().ok();
 
         let database_url = env::var("DATABASE_URL")
@@ -53,7 +53,7 @@ impl GlobalState {
             .expect("Error connecting to {}")
     }
 
-    fn check_if_user_exists(&mut self, user: &UserNew) -> Result<(), ErrorInfo> {
+    pub fn check_if_user_exists(&mut self, user: &UserNew) -> Result<(), ErrorInfo> {
         use crate::schema::{
             users,
             users::login
@@ -72,7 +72,7 @@ impl GlobalState {
         Ok(())
     }
 
-    fn insert_user(&mut self, mut user: UserNew) -> Result<User, ErrorInfo> {
+    pub fn insert_user(&mut self, mut user: UserNew) -> Result<User, ErrorInfo> {
         use crate::schema::users;
 
         let salt = SaltString::generate(&mut OsRng);
@@ -88,7 +88,7 @@ impl GlobalState {
             .map_err(|_| Error::WrongData.into())
     }
 
-    fn user_from_credentials(&mut self, credentials: UserCredentials) -> Result<User, ErrorInfo> {
+    pub fn user_from_credentials(&mut self, credentials: UserCredentials) -> Result<User, ErrorInfo> {
         use crate::schema::{
             users,
             users::login,
@@ -99,25 +99,20 @@ impl GlobalState {
             .load::<User>(&mut self.db_conn)
             .map_err(|_| Error::WrongData)?;
 
-        if registered.len() == 1 {
-            if let Some(hashed_password) = registered[0].password.clone() {
-                let parsed_hash = PasswordHash::new(&hashed_password)
-                    .map_err(|_| Error::InternalServerError(file!(), line!()))
-                    ?;
-                if Argon2::default().verify_password(credentials.password.as_bytes(), &parsed_hash).is_ok() {
-                    Ok(registered[0].clone())
-                }
-                else {
-                    Err(Error::WrongCredentials.into())
-                }
-            }
-            else {
-                Err(Error::WrongCredentials.into())
-            }
-
+        if registered.len() > 1 {
+            Err(Error::InternalServerError(file!(), line!()))?;
         }
-        else if registered.len() > 1 {
-            Err(Error::InternalServerError(file!(), line!()).into())
+
+        let hashed_password = registered.get(0)
+            .ok_or(Error::WrongCredentials)?
+            .password.clone()
+            .ok_or(Error::WrongCredentials)?;
+
+        let parsed_hash = PasswordHash::new(&hashed_password)
+            .map_err(|_| Error::InternalServerError(file!(), line!()))?;
+
+        if Argon2::default().verify_password(credentials.password.as_bytes(), &parsed_hash).is_ok() {
+            Ok(registered[0].clone())
         }
         else {
             Err(Error::WrongCredentials.into())
