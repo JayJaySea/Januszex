@@ -1,0 +1,4 @@
+target
+migrations
+database.db
+Cargo.lock
