@@ -3,7 +3,8 @@
 use diesel::prelude::*;
 use crate::schema::{
     users,
-    roles
+    roles,
+    reservations
 };
 
 use chrono::{
@@ -55,3 +56,23 @@ pub struct Car {
     pub isATruck: bool,
 }
 
+#[derive(Insertable, Deserialize, Default, Clone)]
+#[diesel(table_name = reservations)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct ReserveNew {
+    pub rentDate: NaiveDateTime,
+    pub returnDate: NaiveDateTime,
+    pub carID: i32,
+    pub userID: i32,
+}
+
+#[derive(Queryable, Serialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+pub struct Reserve {
+    pub id: i32,
+    pub rentDate: NaiveDateTime,
+    pub returnDate: NaiveDateTime,
+    pub carID: i32,
+    pub userID: i32,
+}

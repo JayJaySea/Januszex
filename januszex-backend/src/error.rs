@@ -31,6 +31,7 @@ impl From<Error> for ErrorInfo {
             Error::NotLoggedIn => ErrorInfo::new(5, "Operation available only for users that logged in", ""),
             Error::InternalServerError(file, line) => ErrorInfo::new(6, "Oh sh*t, contact your backend guy", &format!("File: {}, Line: {}", file, line)),
             Error::MissingCredentials => ErrorInfo::new(7, "Missing credentials, cannot create user", ""),
+            Error::AlreadyReserved => ErrorInfo::new(8, "Car is already reserved", ""),
         }
     }
 }
@@ -42,5 +43,6 @@ pub enum Error {
     WrongId,
     NotLoggedIn,
     InternalServerError(&'static str, u32),
-    MissingCredentials
+    MissingCredentials,
+    AlreadyReserved
 }

@@ -7,6 +7,7 @@ use tokio::sync::Mutex;
 use januszex_backend::{
     users,
     cars,
+    reserve,
     GlobalState,
 };
 
@@ -23,6 +24,8 @@ fn rocket() -> _ {
             users::fail_logout,
 
             cars::list_cars,
+
+            reserve::reserve_logged,
         ])
         .mount("/", FileServer::from("./static"))
 }

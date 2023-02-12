@@ -1,4 +1,5 @@
 use diesel::{
+    result,
     prelude::*,
     sqlite::SqliteConnection,
 };
@@ -10,7 +11,9 @@ use crate::{
     models::{
         UserNew,
         User,
-        Car
+        Car,
+        Reserve,
+        ReserveNew,
     },
     error::{
         Error,
@@ -31,6 +34,7 @@ pub mod models;
 pub mod schema;
 pub mod error;
 pub mod cars;
+pub mod reserve;
 
 
 pub struct GlobalState {
@@ -136,5 +140,20 @@ impl GlobalState {
         cars::table
             .load::<Car>(&mut self.db_conn)
             .map_err(|_| Error::InternalServerError(file!(), line!()).into())
+    }
+
+    pub fn add_reservation(&mut self, reserve: ReserveNew) -> Result<Reserve, ErrorInfo> {
+
+        use crate::schema::reservations;
+
+        diesel::insert_into(reservations::table)
+            .values(reserve)
+            .get_result::<Reserve>(&mut self.db_conn)
+            .map_err(|err| {
+                match err {
+                    result::Error::DatabaseError(result::DatabaseErrorKind::UniqueViolation,.. ) => Error::AlreadyReserved.into(),
+                    _ => Error::WrongData.into()
+                }
+            })
     }
 }

@@ -85,7 +85,7 @@ pub async fn profile(
     Ok(Json::from(UserInfo::from(user)))
 }
 
-#[get("/profile", rank=1)]
+#[get("/profile", rank = 1)]
 pub async fn fail_profile() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
 }
@@ -97,14 +97,14 @@ pub async fn logout(_id: UserId, cookies: &CookieJar<'_>) -> Json<String> {
     Json(String::from("ok"))
 }
 
-#[get("/logout", rank=1)]
+#[get("/logout", rank = 1)]
 pub async fn fail_logout() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
 }
 
 
 #[derive(Debug)]
-pub struct UserId (i32);
+pub struct UserId (pub i32);
 
 #[rocket::async_trait]
 impl<'r> FromRequest<'r> for UserId {

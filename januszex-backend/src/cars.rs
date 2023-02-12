@@ -1,7 +1,3 @@
-use diesel::{
-    prelude::*,
-    sqlite::SqliteConnection,
-};
 use rocket::{
     State,
     get,

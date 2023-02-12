@@ -69,3 +69,21 @@ list.addEventListener("click", function() {
   	.then(data => console.log(data))
   	.catch(error => console.error(error));
 });
+
+const reserve = document.getElementById("reserve");
+
+reserve.addEventListener("click", function() {
+	fetch('/reserve', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(
+			{
+				rentDate: "2004-02-12T15:19:21",
+				returnDate: "2004-02-12T15:19:21",
+				carID: 6
+			})
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
