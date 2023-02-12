@@ -15,6 +15,7 @@ const options = [
         price: 999,
         isATruck: false,
         photoURL: "https://www.spa4car.pl/files/realizacje/mercedes_560sec/74956E60-77C6-4F09-92C0-C9D76C2770B5.jpeg",
+        id:1
     },
     {
         howManySeats: 6,
@@ -26,6 +27,7 @@ const options = [
         price: 299,
         isATruck: false,
         photoURL: "https://bidfax.info/uploads/posts/2019-06/25/audi-s3-premium-2015-waubfgff3f1079708-img1.jpg",
+        id:1
     },
     {
         howManySeats: 5,
@@ -37,6 +39,7 @@ const options = [
         price: 800,
         isATruck: true,
         photoURL: "https://otoklasyki.pl/Upload/posters/volkswagen-t3-westfalia-161575376680.jpeg",
+        id:1
     },
     {
         howManySeats: 5,
@@ -48,6 +51,7 @@ const options = [
         price: 999,
         isATruck: false,
         photoURL: "https://www.spa4car.pl/files/realizacje/mercedes_560sec/74956E60-77C6-4F09-92C0-C9D76C2770B5.jpeg",
+        id:1
     },
     {
         howManySeats: 6,
@@ -59,6 +63,7 @@ const options = [
         price: 299,
         isATruck: false,
         photoURL: "https://bidfax.info/uploads/posts/2019-06/25/audi-s3-premium-2015-waubfgff3f1079708-img1.jpg",
+        id:1
     },
     {
         howManySeats: 5,
@@ -70,6 +75,7 @@ const options = [
         price: 800,
         isATruck: true,
         photoURL: "https://otoklasyki.pl/Upload/posters/volkswagen-t3-westfalia-161575376680.jpeg",
+        id:1
     }
 ]
 

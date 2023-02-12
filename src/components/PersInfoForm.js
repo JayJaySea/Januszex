@@ -9,42 +9,6 @@ function PersInfoForm(props) {
   const [isLoading, setIsLoading] = useState(false);
 
 
-
-  //get users from database
-  const fetchUsersHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json');
-      if (!response.ok) {
-        throw new Error('Something went wrong!');
-      }
-
-      const data = await response.json();
-
-      const loadedUsers = [];
-
-      for (const key in data) {
-        loadedUsers.push({
-          id: key,
-          usernameDB: data[key].username,
-          emailDB: data[key].email
-        });
-      }
-
-      setUsers(loadedUsers);
-      console.log(loadedUsers);
-    } catch (error) {
-      setError("Something went wrong, try again.");
-    }
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchUsersHandler();
-  }, [fetchUsersHandler]);
-
-
   const nameRef = useRef('');
   const surnameRef = useRef('');
   const emailRef = useRef('');
