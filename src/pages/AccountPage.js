@@ -20,7 +20,6 @@ function AccountPage() {
   }
 
 
-
   return (
     <div className="account-page">
       <h1>Your account</h1>

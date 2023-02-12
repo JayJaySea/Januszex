@@ -8,7 +8,7 @@ import logo from "../icons/logo.png";
 
 function PageNav() {
 
-  const token = "gdfgd"; //useRouteLoaderData('root');
+  const token = 'ghfg'; //useRouteLoaderData('root');
 
   return (
     <div className={classes.pageNav}>
@@ -28,7 +28,7 @@ function PageNav() {
             </li>
           )}
           {token && (
-            <div>
+            <div className={classes.account}>
               <li><Link to="/account:userId"><img className="account-icon" src={accountIcon} width="25px" height="25px" /></Link></li>
               <li>
                 <Form action="/logout" method="post">

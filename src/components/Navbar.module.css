@@ -7,8 +7,9 @@
   margin: auto;
   z-index: 99;
   height: 58px;
-  box-shadow: 0 3px 7px #858585;
-  background-color: var(--main-color-dark);
+  box-shadow: 0 3px 7px var(--text-edit);
+  background-color: var(--top-panel);
+  color: var(--text);
   position: fixed;
   top: 0;
 }
@@ -31,7 +32,7 @@
   height: 29px;
   border-radius: 15px;
   border: none;
-  background-color: var(--main-color-light);
+  background-color: var(--button-idle);
   padding-left: 18px;
 }
 
@@ -67,6 +68,11 @@
   justify-content: center;
 }
 
+.rightIcons .account {
+  display: flex;
+  flex-direction: row;
+}
+
 @media screen and (min-width: 800px) {
 
   .searchBar {
@@ -78,7 +84,7 @@
     height: 29px;
     border-radius: 15px;
     border: none;
-    background-color: var(--main-color-light);
+    background-color: var(--button-idle);
     padding-left: 18px;
   }
   .searchIcon {
