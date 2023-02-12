@@ -1,6 +1,30 @@
 // @generated automatically by Diesel CLI.
 
 diesel::table! {
+    cars (id) {
+        id -> Integer,
+        howManySeats -> Integer,
+        color -> Text,
+        distanceCovered -> Float,
+        comfortScale -> Text,
+        brand -> Text,
+        model -> Text,
+        price -> Integer,
+        isATruck -> Bool,
+    }
+}
+
+diesel::table! {
+    reservations (id) {
+        id -> Integer,
+        rentDate -> Timestamp,
+        returnDate -> Timestamp,
+        carID -> Integer,
+        userID -> Integer,
+    }
+}
+
+diesel::table! {
     roles (id) {
         id -> Integer,
         name -> Text,
@@ -25,6 +49,7 @@ diesel::table! {
         id -> Integer,
         name -> Text,
         surname -> Text,
+        email -> Text,
         login -> Nullable<Text>,
         password -> Nullable<Text>,
         drivingLicense -> Text,
@@ -32,9 +57,13 @@ diesel::table! {
     }
 }
 
+diesel::joinable!(reservations -> cars (carID));
+diesel::joinable!(reservations -> users (userID));
 diesel::joinable!(users -> roles (role));
 
 diesel::allow_tables_to_appear_in_same_query!(
+    cars,
+    reservations,
     roles,
     users,
 );

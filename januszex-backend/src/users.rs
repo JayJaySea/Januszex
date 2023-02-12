@@ -9,7 +9,7 @@ use rocket::{
     put,
     delete,
     http::{Status, CookieJar, Cookie},
-    serde::{json::Json, Deserialize},
+    serde::{json::Json, Deserialize, Serialize},
     request::{self, Request, FromRequest},
     outcome::IntoOutcome
 };
@@ -26,6 +26,82 @@ use crate::{
     }
 };
 use tokio::sync::Mutex;
+
+
+#[post("/register", format = "json", data = "<user>")]
+pub async fn register(
+    state: &State<Mutex<GlobalState>>,
+    cookies: &CookieJar<'_>,
+    user: Json<UserNew<'_>>
+) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+
+    let user = user.into_inner();
+    check_user_data_valid(&user).await?;
+
+    let state = &mut state.lock().await;
+    state.check_if_user_exists(&user)?;
+    let user = state.insert_user(user)?;
+    cookies.add_private(Cookie::new("id", user.id.to_string()));
+
+    Ok(Json::from(UserInfo::from(user)))
+}
+
+async fn check_user_data_valid(user: &UserNew<'_>) -> Result<(), ErrorInfo> {
+    if  user.name.trim().is_empty() ||
+        user.surname.trim().is_empty() ||
+        user.login.trim().is_empty() || 
+        user.password.trim().is_empty() ||
+        user.drivingLicense.trim().is_empty() 
+    {
+        return Err(Error::MissingCredentials.into());
+    };
+
+    Ok(())
+}
+
+#[post("/login", format = "json", data = "<credentials>")]
+pub async fn login(
+    state: &State<Mutex<GlobalState>>,
+    cookies: &CookieJar<'_>,
+    credentials: Json<UserCredentials<'_>>
+) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+
+    let state = &mut state.lock().await;
+    let user = state.user_from_credentials(credentials.into_inner())?;
+
+    cookies.add_private(Cookie::new("id", user.id.to_string()));
+    Ok(Json::from(UserInfo::from(user)))
+}
+
+#[get("/profile")]
+pub async fn profile(
+    state: &State<Mutex<GlobalState>>,
+    id: UserId
+) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+
+    let state = &mut state.lock().await;
+    let user = state.user_from_id(id.0)?;
+
+    Ok(Json::from(UserInfo::from(user)))
+}
+
+#[get("/profile", rank=1)]
+pub async fn fail_profile() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
+
+
+#[get("/logout")]
+pub async fn logout(_id: UserId, cookies: &CookieJar<'_>) -> Json<String> {
+    cookies.remove_private(Cookie::named("id"));
+    Json(String::from("ok"))
+}
+
+#[get("/logout", rank=1)]
+pub async fn fail_logout() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
+
 
 #[derive(Debug)]
 pub struct UserId (i32);
@@ -51,64 +127,19 @@ pub struct UserCredentials<'a> {
     pub password: &'a str,
 }
 
-#[post("/register", format = "json", data = "<user>")]
-pub async fn register(
-    state: &State<Mutex<GlobalState>>,
-    cookies: &CookieJar<'_>,
-    user: Json<UserNew<'_>>
-) -> Result<Json<User>, Json<ErrorInfo>> {
-
-    let user = user.into_inner();
-    check_user_data_valid(&user).await?;
-
-    let state = &mut state.lock().await;
-    state.check_if_user_exists(&user)?;
-    let user = state.insert_user(user)?;
-    cookies.add_private(Cookie::new("id", user.id.to_string()));
-
-    Ok(Json::from(user))
+#[derive(Serialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct UserInfo {
+    pub id: i32,
+    pub name: String,
+    pub surname: String,
+    pub email: String,
+    pub license: String,
 }
 
-async fn check_user_data_valid(user: &UserNew<'_>) -> Result<(), ErrorInfo> {
-    if  user.name.trim().is_empty() ||
-        user.surname.trim().is_empty() ||
-        user.login.trim().is_empty() || 
-        user.password.trim().is_empty() ||
-        user.drivingLicense.trim().is_empty() 
-    {
-        return Err(Error::MissingCredentials.into());
-    };
-
-    Ok(())
-}
-
-#[post("/login", format = "json", data = "<credentials>")]
-pub async fn login(
-    state: &State<Mutex<GlobalState>>,
-    cookies: &CookieJar<'_>,
-    credentials: Json<UserCredentials<'_>>
-) -> Result<Json<User>, Json<ErrorInfo>> {
-
-    let state = &mut state.lock().await;
-    let user = state.user_from_credentials(credentials.into_inner())?;
-
-    cookies.add_private(Cookie::new("id", user.id.to_string()));
-    Ok(Json::from(user))
-}
-
-#[get("/profile")]
-pub async fn profile(
-    state: &State<Mutex<GlobalState>>,
-    id: UserId
-) -> Result<Json<User>, Json<ErrorInfo>> {
-
-    let state = &mut state.lock().await;
-    let user = state.user_from_id(id.0)?;
-
-    Ok(Json::from(user))
-}
-
-#[get("/profile", rank=1)]
-pub async fn fail_profile() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+impl From<User> for UserInfo {
+    fn from(user: User) -> Self {
+        Self { id: user.id, name: user.name, surname: user.surname, email: user.email, license: user.license}
+    }
 }

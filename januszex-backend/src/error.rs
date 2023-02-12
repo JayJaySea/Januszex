@@ -28,7 +28,7 @@ impl From<Error> for ErrorInfo {
             Error::WrongData => ErrorInfo::new(2, "Wrong data in json body", ""),
             Error::WrongCredentials => ErrorInfo::new(3, "Credentials didn't match any user in the database", ""),
             Error::WrongId => ErrorInfo::new(4, "ID didn't match any item in the table", ""),
-            Error::NotLoggedIn => ErrorInfo::new(5, "Resource is only for users that logged in", ""),
+            Error::NotLoggedIn => ErrorInfo::new(5, "Operation available only for users that logged in", ""),
             Error::InternalServerError(file, line) => ErrorInfo::new(6, "Oh sh*t, contact your backend guy", &format!("File: {}, Line: {}", file, line)),
             Error::MissingCredentials => ErrorInfo::new(7, "Missing credentials, cannot create user", ""),
         }

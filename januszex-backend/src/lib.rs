@@ -28,7 +28,6 @@ use argon2::{
 pub mod users;
 pub mod models;
 pub mod schema;
-pub mod db;
 pub mod error;
 
 

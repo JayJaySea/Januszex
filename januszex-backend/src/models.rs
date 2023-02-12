@@ -19,6 +19,7 @@ use rocket::serde::{Serialize, Deserialize};
 pub struct UserNew<'a> {
     pub name: &'a str,
     pub surname: &'a str,
+    pub email: &'a str,
     pub login: &'a str,
     pub password: String,
     pub drivingLicense: &'a str,
@@ -31,6 +32,7 @@ pub struct User {
     pub id: i32,
     pub name: String,
     pub surname: String,
+    pub email: String,
     pub login: Option<String>,
     pub password: Option<String>,
     pub license: String,
