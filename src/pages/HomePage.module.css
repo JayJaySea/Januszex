@@ -1,16 +1,38 @@
 
 .homePage {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 2em;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: aqua;
 }
 
 .cardsConteiner{
+    padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width:100vw;
+    width:70%;
+    background-color: blue;
+}
+
+.filters{
+
+    width: 30%;
+    background-color: red;
+}
+
+.filtersTitle{
+    font-size: 50px;
+    text-align: center;
+}
+
+.filtersData{
+    font-size: 35px;
+    margin-left: 20px;
+}
+
+.select{
+    font-size: 25px;
+    margin-left: 20px;
 }
