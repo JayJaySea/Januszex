@@ -60,12 +60,21 @@ pub struct Car {
 #[derive(Insertable, Deserialize, Default, Clone)]
 #[diesel(table_name = reservations)]
 #[serde(crate = "rocket::serde")]
-#[serde(default)]
 pub struct ReserveNew {
     pub rentDate: NaiveDateTime,
     pub returnDate: NaiveDateTime,
+    pub deliveryAddress: String,
     pub carID: i32,
     pub userID: i32,
+}
+
+#[derive(Deserialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+pub struct ReserveRequest {
+    pub rentDate: NaiveDateTime,
+    pub deliveryAddress: String,
+    pub returnDate: NaiveDateTime,
+    pub carID: i32,
 }
 
 #[derive(Queryable, Serialize, Default, Clone)]
@@ -74,6 +83,7 @@ pub struct Reserve {
     pub id: i32,
     pub rentDate: NaiveDateTime,
     pub returnDate: NaiveDateTime,
+    pub deliveryAddress: String,
     pub carID: i32,
     pub userID: i32,
 }

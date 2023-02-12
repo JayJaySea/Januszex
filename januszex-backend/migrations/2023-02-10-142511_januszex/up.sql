@@ -4,7 +4,7 @@ CREATE TABLE "users" (
 	"name"	 	TEXT NOT NULL,
 	"surname" 	TEXT NOT NULL,
 	"email" 	TEXT NOT NULL,
-	"login" 	TEXT,
+	"login" 	TEXT UNIQUE,
 	"password" 	TEXT,
 	"drivingLicense" 	TEXT NOT NULL,
 	"role"		INTEGER default NULL,
@@ -36,6 +36,7 @@ CREATE TABLE "reservations" (
 	"id"					INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	"rentDate"				DATETIME NOT NULL,
 	"returnDate"			DATETIME NOT NULL,
+	"deliveryAddress"		TEXT NOT NULL,
 	"carID"					INTEGER NOT NULL UNIQUE,
 	"userID"				INTEGER NOT NULL,
 	CONSTRAINT fk_car

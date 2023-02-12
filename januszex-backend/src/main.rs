@@ -37,6 +37,7 @@ fn rocket() -> _ {
             reserve::reserve_guest,
         ])
         .mount("/", FileServer::from("./static"))
+        .register("/", catchers![internal_error, not_found, wrong_data])
 }
 
 #[catch(500)]
@@ -47,4 +48,9 @@ fn internal_error() -> Json<ErrorInfo> {
 #[catch(404)]
 fn not_found(req: &Request) -> Json<ErrorInfo> {
     Json(Error::NotFound(req.uri().to_string()).into())
+}
+
+#[catch(422)]
+fn wrong_data() -> Json<ErrorInfo> {
+    Json(Error::WrongData.into())
 }

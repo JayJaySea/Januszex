@@ -80,6 +80,7 @@ reserve.addEventListener("click", function() {
 			{
 				rentDate: "2004-02-12T15:19:21",
 				returnDate: "2004-02-12T15:19:21",
+				deliveryAddress: "abcd",
 				carID: 6
 			})
 })	
@@ -106,6 +107,7 @@ reserve_guest.addEventListener("click", function() {
 				reserve: {
 					rentDate: "2004-02-12T15:19:21",
 					returnDate: "2004-02-12T15:19:21",
+					deliveryAddress: "abcd",
 					carID: 6
 				}
 			})

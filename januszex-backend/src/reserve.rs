@@ -12,6 +12,7 @@ use crate::{
     GlobalState,
     models::{
         ReserveNew,
+        ReserveRequest,
         Reserve,
         UserNew,
     },
@@ -27,11 +28,18 @@ use tokio::sync::Mutex;
 pub async fn reserve_logged(
     state: &State<Mutex<GlobalState>>,
     id: UserId,
-    reserve: Json<ReserveNew>
+    reserve: Json<ReserveRequest>
 ) -> Result<Json<Reserve>, Json<ErrorInfo>> {
 
-    let mut reserve = reserve.into_inner();
-    reserve.userID = id.0;
+    let reserve = reserve.into_inner();
+
+    let reserve = ReserveNew {
+        rentDate: reserve.rentDate,
+        returnDate: reserve.returnDate,
+        deliveryAddress: reserve.deliveryAddress,
+        carID: reserve.carID,
+        userID: id.0
+    };
 
     let state = &mut state.lock().await;
 
@@ -50,10 +58,17 @@ pub async fn reserve_guest(
 
     let state = &mut state.lock().await;
     let user = state.insert_user(reserve_info.user)?;
-    reserve_info.reserve.userID = user.id;
+    let reserve = reserve_info.reserve;
 
+    let reserve = ReserveNew {
+        rentDate: reserve.rentDate,
+        returnDate: reserve.returnDate,
+        deliveryAddress: reserve.deliveryAddress,
+        carID: reserve.carID,
+        userID: user.id
+    };
 
-    Ok(Json(state.add_reservation(reserve_info.reserve)?))
+    Ok(Json(state.add_reservation(reserve)?))
 
 }
 
@@ -74,5 +89,5 @@ pub async fn check_guest_data_valid(user: &UserNew) -> Result<(), ErrorInfo> {
 #[serde(default)]
 pub struct ReserveInfo {
     pub user: UserNew,
-    pub reserve: ReserveNew,
+    pub reserve: ReserveRequest,
 }
