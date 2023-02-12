@@ -116,3 +116,35 @@ reserve_guest.addEventListener("click", function() {
   	.then(data => console.log(data))
   	.catch(error => console.error(error));
 });
+
+const report_damage = document.getElementById("report_damage");
+
+report_damage.addEventListener("click", function() {
+	fetch('/report_damage', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(
+			{
+				description: "jakaś usterka"
+			})
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
+
+const give_feedback = document.getElementById("give_feedback");
+
+give_feedback.addEventListener("click", function() {
+	fetch('/give_feedback', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(
+			{
+				description: "jakaś uwaga"
+			})
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});

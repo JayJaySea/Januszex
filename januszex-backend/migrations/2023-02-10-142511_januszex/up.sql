@@ -7,6 +7,7 @@ CREATE TABLE "users" (
 	"login" 	TEXT UNIQUE,
 	"password" 	TEXT,
 	"drivingLicense" 	TEXT NOT NULL,
+	"licCategoryNumber" 	INTEGER NOT NULL,
 	"role"		INTEGER default NULL,
 	CONSTRAINT fk_role
 		FOREIGN KEY ("role") 
@@ -60,6 +61,16 @@ CREATE TABLE "cars" (
 	"price"					INTEGER NOT NULL,
 	"isATruck"				BOOLEAN NOT NULL,
 	"pictureURL"			TEXT NOT NULL
+);
+
+CREATE TABLE "damages" (
+	"id"					INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"description"			TEXT NOT NULL
+);
+
+CREATE TABLE "feedbacks" (
+	"id"					INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"description"			TEXT NOT NULL
 );
 
 insert into roles 

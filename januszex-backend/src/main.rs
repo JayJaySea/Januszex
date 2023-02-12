@@ -32,6 +32,8 @@ fn rocket() -> _ {
             users::fail_logout,
 
             cars::list_cars,
+            cars::give_feedback,
+            cars::report_damage,
 
             reserve::reserve_logged,
             reserve::reserve_guest,

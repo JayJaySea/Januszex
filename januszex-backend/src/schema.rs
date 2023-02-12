@@ -16,6 +16,20 @@ diesel::table! {
 }
 
 diesel::table! {
+    damages (id) {
+        id -> Integer,
+        description -> Text,
+    }
+}
+
+diesel::table! {
+    feedbacks (id) {
+        id -> Integer,
+        description -> Text,
+    }
+}
+
+diesel::table! {
     reservations (id) {
         id -> Integer,
         rentDate -> Timestamp,
@@ -55,6 +69,7 @@ diesel::table! {
         login -> Nullable<Text>,
         password -> Nullable<Text>,
         drivingLicense -> Text,
+        licCategoryNumber -> Integer,
         role -> Nullable<Integer>,
     }
 }
@@ -65,6 +80,8 @@ diesel::joinable!(users -> roles (role));
 
 diesel::allow_tables_to_appear_in_same_query!(
     cars,
+    damages,
+    feedbacks,
     reservations,
     roles,
     users,

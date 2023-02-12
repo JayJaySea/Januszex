@@ -4,6 +4,8 @@ use diesel::prelude::*;
 use crate::schema::{
     users,
     roles,
+    damages,
+    feedbacks,
     reservations
 };
 
@@ -26,6 +28,7 @@ pub struct UserNew {
     pub login: String,
     pub password: String,
     pub drivingLicense: String,
+    pub licCategoryNumber: i32,
     pub role: Option<i32>,
 }
 
@@ -39,6 +42,7 @@ pub struct User {
     pub login: Option<String>,
     pub password: Option<String>,
     pub license: String,
+    pub licCategoryNumber: i32,
     pub role: Option<i32>,
 }
 
@@ -86,4 +90,33 @@ pub struct Reserve {
     pub deliveryAddress: String,
     pub carID: i32,
     pub userID: i32,
+}
+
+#[derive(Insertable, Deserialize, Default, Clone)]
+#[diesel(table_name = damages)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct DamageNew {
+    pub description: String,
+}
+
+#[derive(Queryable, Serialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+pub struct Damage {
+    pub id: i32,
+    pub description: String,
+}
+
+#[derive(Insertable, Deserialize, Default, Clone)]
+#[diesel(table_name = feedbacks)]
+#[serde(crate = "rocket::serde")]
+pub struct FeedbackNew {
+    pub description: String,
+}
+
+#[derive(Queryable, Serialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+pub struct Feedback {
+    pub id: i32,
+    pub description: String,
 }

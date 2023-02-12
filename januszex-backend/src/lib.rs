@@ -14,6 +14,10 @@ use crate::{
         Car,
         Reserve,
         ReserveNew,
+        DamageNew,
+        Damage,
+        FeedbackNew,
+        Feedback
     },
     error::{
         Error,
@@ -143,7 +147,6 @@ impl GlobalState {
     }
 
     pub fn add_reservation(&mut self, reserve: ReserveNew) -> Result<Reserve, ErrorInfo> {
-
         use crate::schema::reservations;
 
         diesel::insert_into(reservations::table)
@@ -155,5 +158,23 @@ impl GlobalState {
                     _ => Error::WrongData.into()
                 }
             })
+    }
+
+    pub fn add_damage_report(&mut self, damage: DamageNew) -> Result<Damage, ErrorInfo> {
+        use crate::schema::damages;
+
+        diesel::insert_into(damages::table)
+            .values(damage)
+            .get_result::<Damage>(&mut self.db_conn)
+            .map_err(|_| Error::WrongData.into())
+    }
+
+    pub fn add_feedback(&mut self, feedback: FeedbackNew) -> Result<Feedback, ErrorInfo> {
+        use crate::schema::feedbacks;
+
+        diesel::insert_into(feedbacks::table)
+            .values(feedback)
+            .get_result::<Feedback>(&mut self.db_conn)
+            .map_err(|_| Error::WrongData.into())
     }
 }
