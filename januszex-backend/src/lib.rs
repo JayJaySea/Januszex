@@ -9,7 +9,8 @@ use crate::{
     users::UserCredentials,
     models::{
         UserNew,
-        User
+        User,
+        Car
     },
     error::{
         Error,
@@ -29,6 +30,7 @@ pub mod users;
 pub mod models;
 pub mod schema;
 pub mod error;
+pub mod cars;
 
 
 pub struct GlobalState {
@@ -126,5 +128,13 @@ impl GlobalState {
             .map_err(|_| Error::WrongId)?;
 
         Ok(user)
+    }
+    
+    pub fn get_cars_list(&mut self) -> Result<Vec<Car>, ErrorInfo> {
+        use crate::schema::cars;
+        
+        cars::table
+            .load::<Car>(&mut self.db_conn)
+            .map_err(|_| Error::InternalServerError(file!(), line!()).into())
     }
 }

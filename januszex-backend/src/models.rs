@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 use diesel::prelude::*;
 use crate::schema::{
     users,
@@ -37,5 +39,19 @@ pub struct User {
     pub password: Option<String>,
     pub license: String,
     pub role: Option<i32>,
+}
+
+#[derive(Queryable, Serialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+pub struct Car {
+    pub id: i32,
+    pub howManySeats: i32,
+    pub color: String,
+    pub distanceCovered: f32,
+    pub comfortScale: String,
+    pub brand: String,
+    pub model: String,
+    pub price: i32,
+    pub isATruck: bool,
 }
 

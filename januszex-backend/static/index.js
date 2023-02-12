@@ -58,3 +58,14 @@ logout.addEventListener("click", function() {
   	.then(data => console.log(data))
   	.catch(error => console.error(error));
 });
+
+const list = document.getElementById("list");
+
+list.addEventListener("click", function() {
+	fetch('/list_cars', {
+		method: 'GET',
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});

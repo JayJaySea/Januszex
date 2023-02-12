@@ -65,3 +65,23 @@ insert into roles
 canConfirmCarStatus, canManageManagers, canManageCars, canManageReservations, canGenerateBalance, canManagePermissions, salary)
 values
 ("user", true, false, false, false, false, false, false, false, false, false, false, false, 0.0);
+
+insert into cars 
+(howManySeats, color, distanceCovered, comfortScale, brand, model, price, isATruck)
+values
+(7, "blue", 1337.2, 'A', "Audi", "A4", 420, false);
+
+insert into cars 
+(howManySeats, color, distanceCovered, comfortScale, brand, model, price, isATruck)
+values
+(6, "black", 56900.4, 'H', "Honda", "B4", 1500190, false);
+
+insert into cars 
+(howManySeats, color, distanceCovered, comfortScale, brand, model, price, isATruck)
+values
+(2, "white", 123123.0, 'B', "Mercendes", "Benz", 10, true);
+
+insert into cars 
+(howManySeats, color, distanceCovered, comfortScale, brand, model, price, isATruck)
+values
+(5, "red", 1337.2, 'D', "Skoda", "Fabia", 420, false);
