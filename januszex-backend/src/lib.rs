@@ -65,7 +65,7 @@ impl GlobalState {
         };
 
         let used: i64 = users::table
-            .filter(login.eq(user.login))
+            .filter(login.eq(&user.login))
             .count()
             .get_result(&mut self.db_conn)
             .map_err(|_| Error::WrongData)?;

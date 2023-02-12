@@ -1,0 +1,5 @@
+[release]
+address = "0.0.0.0"
+
+# Replace with `openssl rand -base64 32`
+secret_key = "I4ym7W/YfKXIJr5BIFcIFOdUwOoAuoLMaL4TCJy3MFk="

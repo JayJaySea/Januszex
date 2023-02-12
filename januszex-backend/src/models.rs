@@ -19,14 +19,14 @@ use rocket::serde::{Serialize, Deserialize};
 #[diesel(table_name = users)]
 #[serde(crate = "rocket::serde")]
 #[serde(default)]
-pub struct UserNew<'a> {
-    pub name: &'a str,
-    pub surname: &'a str,
-    pub email: &'a str,
-    pub login: &'a str,
+pub struct UserNew {
+    pub name: String,
+    pub surname: String,
+    pub email: String,
+    pub login: String,
     pub password: String,
-    pub drivingLicense: &'a str,
-    pub role: i32,
+    pub drivingLicense: String,
+    pub role: Option<i32>,
 }
 
 #[derive(Queryable, Serialize, Default, Clone)]
@@ -54,6 +54,7 @@ pub struct Car {
     pub model: String,
     pub price: i32,
     pub isATruck: bool,
+    pub pictureURL: String
 }
 
 #[derive(Insertable, Deserialize, Default, Clone)]

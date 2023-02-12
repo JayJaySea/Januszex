@@ -11,6 +11,7 @@ diesel::table! {
         model -> Text,
         price -> Integer,
         isATruck -> Bool,
+        pictureURL -> Text,
     }
 }
 

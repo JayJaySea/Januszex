@@ -32,23 +32,25 @@ use tokio::sync::Mutex;
 pub async fn register(
     state: &State<Mutex<GlobalState>>,
     cookies: &CookieJar<'_>,
-    user: Json<UserNew<'_>>
+    user: Json<UserNew>
 ) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
 
-    let user = user.into_inner();
+    let mut user = user.into_inner();
     check_user_data_valid(&user).await?;
 
     let state = &mut state.lock().await;
     state.check_if_user_exists(&user)?;
+    user.role = Some(0);
     let user = state.insert_user(user)?;
     cookies.add_private(Cookie::new("id", user.id.to_string()));
 
     Ok(Json::from(UserInfo::from(user)))
 }
 
-async fn check_user_data_valid(user: &UserNew<'_>) -> Result<(), ErrorInfo> {
+pub async fn check_user_data_valid(user: &UserNew) -> Result<(), ErrorInfo> {
     if  user.name.trim().is_empty() ||
         user.surname.trim().is_empty() ||
+        user.email.trim().is_empty() ||
         user.login.trim().is_empty() || 
         user.password.trim().is_empty() ||
         user.drivingLicense.trim().is_empty() 

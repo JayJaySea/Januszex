@@ -1,10 +1,18 @@
 #[macro_use] 
 extern crate rocket;
 
-use rocket::routes;
+use rocket::{
+    serde::json::Json,
+    routes,
+    Request
+};
 use rocket::fs::FileServer;
 use tokio::sync::Mutex;
 use januszex_backend::{
+    error::{
+        Error,
+        ErrorInfo
+    },
     users,
     cars,
     reserve,
@@ -26,6 +34,17 @@ fn rocket() -> _ {
             cars::list_cars,
 
             reserve::reserve_logged,
+            reserve::reserve_guest,
         ])
         .mount("/", FileServer::from("./static"))
+}
+
+#[catch(500)]
+fn internal_error() -> Json<ErrorInfo> {
+    Json(Error::InternalServerError(file!(), line!()).into())
+}
+
+#[catch(404)]
+fn not_found(req: &Request) -> Json<ErrorInfo> {
+    Json(Error::NotFound(req.uri().to_string()).into())
 }
