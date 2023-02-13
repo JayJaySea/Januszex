@@ -1,0 +1,23 @@
+@import "./colors.module.css";
+
+.navContainer {
+    background-color: var(--button-idle);
+    border-radius: 10px;
+}
+
+li {
+    padding: 10px 15px;
+    
+}
+
+button {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1em;
+  }
+  
+  button:hover {
+    color: var(--not-member);
+    cursor: pointer;
+  }
