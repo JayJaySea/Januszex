@@ -12,7 +12,7 @@ function AccountNav({ reserv }) {
                 <li><Link to="/account:userId">Moje konto</Link></li>
                 <li><Link to="/account:userId/reservationsHistory">Historia rezerwacji</Link></li>
                 <li><Form action="/logout" method="post">
-                  <button>Logout</button>
+                  <button>Wyloguj się</button>
                 </Form></li>
             </ul>
         </div>

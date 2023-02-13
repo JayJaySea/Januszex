@@ -6,7 +6,7 @@
   width: 100%;
   margin: auto;
   z-index: 99;
-  height: 58px;
+  height: 65px;
   box-shadow: 0 3px 7px var(--text-edit);
   background-color: var(--top-panel);
   color: var(--text);
@@ -15,7 +15,7 @@
 }
 
 .logo {
-  padding-left: 80px;
+  padding-left: 100px;
   justify-self: start;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .space {
-  width: 1250px;
+  width: 1000px;
   max-width: calc(65%);
 }
 
@@ -73,45 +73,25 @@
   flex-direction: row;
 }
 
-@media screen and (min-width: 800px) {
+button {
+  background-color: var(--top-panel);
+  border: none;
+  color: var(--text);
+  font-size: 1em;
+}
 
-  .searchBar {
-    left: calc(50% - 282px);
-    top: 0px;
-  }
-  .input {
-    width: calc(300px - 18px);
-    height: 29px;
-    border-radius: 15px;
-    border: none;
-    background-color: var(--button-idle);
-    padding-left: 18px;
-  }
-  .searchIcon {
-    position: relative;
-    right: 36px;
-    top: 5px;
-  }
-  .space {
-    width: 1250px;
-    max-width: calc(65%);
-  }
-  .rightIcons {
-    width: fit-content;
-  }
-  .rightIcons ul {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    align-items: center;
-    padding: 0;
-    margin-right: 80px;
-  }
-  .rightIcons li {
-    margin: 0 14px;
-    height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+button:hover {
+  color: var(--not-member);
+  cursor: pointer;
+}
+
+.leftIcons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.leftIcons li{
+  margin: 0 10px;
+  width: max-content;
 }

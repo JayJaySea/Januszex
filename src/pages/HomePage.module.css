@@ -14,25 +14,20 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width:70%;
+    width:60%;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 .filters{
-    width: 30%;
+    margin-left:5% ;
+    width: 20%;
     position: fixed;
 }
 
+
 .filtersTitle{
-    font-size: 50px;
-    text-align: center;
-}
-
-.filtersData{
-    font-size: 35px;
+    font-size: 1.5em;
     margin-left: 20px;
-}
-
-.select{
-    font-size: 25px;
-    margin-left: 20px;
+    margin-top: 5px;
 }

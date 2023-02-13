@@ -14,6 +14,7 @@ import { action as signAction } from '../components/SignUpForm';
 import { action as logoutAction } from '../pages/LogoutPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth.js';
 import ResHistoryPage, {action as deleteReservationAction} from '../pages/ResHistoryPage';
+import DamagesPage from '../pages/DamagesPage';
 
 function MyRoutes() {
 
@@ -59,7 +60,10 @@ function MyRoutes() {
           path: '/logout',
           action: logoutAction,
         },
-
+        {
+          path: '/damages',
+          element: <DamagesPage />,
+        },
       ],
     },
   ]);

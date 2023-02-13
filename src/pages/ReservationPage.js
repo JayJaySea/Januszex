@@ -19,13 +19,15 @@ function ReservationPage(props) {
     const emailRef = useRef('');
     const drivLicNumbRef = useRef('');
     const licCategNumbRef = useRef('');
+    const collectAddressRef = useRef('');
 
     function datePickerHandler(dates) {
         setDates(dates);
         const resData = {
             rentDate: dates.startDate,
             returnDate: dates.endDate,
-            carID: carData.id
+            carID: carData.id,
+            collectAddress: collectAddressRef.current.value
         }
         setReservData(resData);
     }
@@ -88,6 +90,10 @@ function ReservationPage(props) {
                         </div>
                     </div>
                 }
+                <label htmlFor="collect-address">Adres odbioru</label>
+                <textarea className="collect-address" placeholder="Write your message" rows="3" ref={collectAddressRef} required></textarea>
+                <label htmlFor="comments">Uwagi do rezerwacji</label>
+                <textarea className="comments" placeholder="Write your message" rows="5" required></textarea>
                 <button type="submit">Zarezerwuj</button>
             </form>
         </div>

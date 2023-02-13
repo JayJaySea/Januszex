@@ -12,11 +12,14 @@ function PageNav() {
 
   return (
     <div className={classes.pageNav}>
-      <Link to="/"><img className={classes.logo} src={logo} width="70px" height="50px" /></Link>
-      <div className={classes.searchBar}>
+    <ul className={classes.leftIcons}>
+      <li><Link to="/"><img className={classes.logo} src={logo} width="90px" height="65px" /></Link></li>
+      <li><Link to="/damages">Zgłoś usterkę</Link></li>
+      </ul>
+      {/*<div className={classes.searchBar}>
         <input type="text" className={classes.input} placeholder="Search..." />
         <img className={classes.searchIcon} src={searchIcon} width="20px" height="20px" />
-      </div>
+      </div>*/}
       <span className={classes.space}></span>
       <div className={classes.rightIcons}>
         <ul>
@@ -32,7 +35,7 @@ function PageNav() {
               <li><Link to="/account:userId"><img className="account-icon" src={accountIcon} width="25px" height="25px" /></Link></li>
               <li>
                 <Form action="/logout" method="post">
-                  <button>Logout</button>
+                  <button>Wyloguj się</button>
                 </Form>
               </li>
             </div>
