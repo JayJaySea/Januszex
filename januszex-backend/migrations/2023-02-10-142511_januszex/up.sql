@@ -1,4 +1,6 @@
 -- Your SQL goes here
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE "users" (
 	"id"		INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	"name"	 	TEXT NOT NULL,
@@ -10,8 +12,8 @@ CREATE TABLE "users" (
 	"licCategoryNumber" 	INTEGER NOT NULL,
 	"role"		INTEGER default NULL,
 	CONSTRAINT fk_role
-		FOREIGN KEY ("role") 
-		REFERENCES roles("id")
+		FOREIGN KEY (role) 
+		REFERENCES roles(id)
 		ON DELETE SET NULL
 );
 
@@ -39,16 +41,13 @@ CREATE TABLE "reservations" (
 	"returnDate"			DATETIME NOT NULL,
 	"deliveryAddress"		TEXT NOT NULL,
 	"valid"					BOOLEAN NOT NULL,
-	"carID"					INTEGER NOT NULL,
-	"userID"				INTEGER NOT NULL,
-	CONSTRAINT fk_car
-		FOREIGN KEY ("carID") 
-		REFERENCES cars("id")
-		ON DELETE CASCADE,
-	CONSTRAINT fk_user
-		FOREIGN KEY ("userID") 
-		REFERENCES users("id")
-		ON DELETE CASCADE
+	"carID"					INTEGER NOT NULL
+	REFERENCES cars(id)
+	ON DELETE CASCADE,
+
+	"userID"				INTEGER NOT NULL
+	REFERENCES users(id)
+	ON DELETE CASCADE
 );
 
 CREATE TABLE "cars" (

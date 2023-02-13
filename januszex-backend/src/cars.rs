@@ -8,6 +8,7 @@ use rocket::{
 use crate::{
     AnyId,
     GlobalState,
+    users::UserId,
     models::{
         Car,
         DamageNew,
@@ -15,7 +16,10 @@ use crate::{
         FeedbackNew,
         Feedback
     },
-    error::ErrorInfo,
+    error::{
+        ErrorInfo,
+        Error
+    },
 };
 use tokio::sync::Mutex;
 
@@ -33,6 +37,19 @@ pub async fn get_car(state: &State<Mutex<GlobalState>>, car_id: Json<AnyId>) -> 
     let cars = state.get_car(car_id.id)?;
 
     Ok(Json::from(cars))
+}
+
+#[get("/reserved_cars")]
+pub async fn reserved_cars(state: &State<Mutex<GlobalState>>, user_id: UserId) -> Result<Json<Vec<Car>>, Json<ErrorInfo>> {
+    let state = &mut state.lock().await;
+    let cars = state.get_reserved_cars(user_id.0)?;
+
+    Ok(Json::from(cars))
+}
+
+#[get("/reserved_cars", rank = 1)]
+pub async fn fail_reserved_cars() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
 }
 
 #[post("/report_damage", format = "json", data = "<damage>")]

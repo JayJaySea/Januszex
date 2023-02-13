@@ -8,7 +8,7 @@ register.addEventListener("click", function() {
 			{ 
 				name: 'janusz',
 				surname: 'januszewski',
-				login: "usze",
+				login: "januszek",
 				email: "janusz@gmail.com",
 				password: "xd",
 				drivingLicense: "B",
@@ -81,7 +81,7 @@ reserve.addEventListener("click", function() {
 				rentDate: "2004-02-12T00:00:00",
 				returnDate: "2004-02-12T00:00:00",
 				deliveryAddress: "abcd",
-				carID: 3
+				carID: 2
 			})
 })	
   	.then(response => response.json())
@@ -198,6 +198,17 @@ get_car.addEventListener("click", function() {
 			{
 				id: 1
 			})
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
+
+const reserved_cars = document.getElementById("reserved_cars");
+
+reserved_cars.addEventListener("click", function() {
+	fetch('/reserved_cars', {
+		method: 'GET',
 })	
   	.then(response => response.json())
   	.then(data => console.log(data))

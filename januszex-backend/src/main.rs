@@ -35,6 +35,8 @@ fn rocket() -> _ {
 
             cars::list_cars,
             cars::get_car,
+            cars::reserved_cars,
+            cars::fail_reserved_cars,
             cars::give_feedback,
             cars::report_damage,
 

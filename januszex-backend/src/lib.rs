@@ -165,6 +165,22 @@ impl GlobalState {
             .map_err(|_| Error::WrongId.into())
     }
 
+    pub fn get_reserved_cars(&mut self, user_id: i32) -> Result<Vec<Car>, ErrorInfo> {
+        let user_reserve = self.get_user_reservations(user_id)?;
+        let mut reserved = Vec::new();
+
+        for res in user_reserve {
+            if res.valid {
+                reserved.push(
+                    self.get_car(res.carID)
+                    .map_err(|_| Error::InternalServerError(file!(), line!()))?
+                );
+            }
+        }
+        
+        Ok(reserved)
+    }
+
     pub fn add_reservation(&mut self, reserve: ReserveNew) -> Result<Reserve, ErrorInfo> {
         use crate::schema::reservations;
 
@@ -182,6 +198,11 @@ impl GlobalState {
             reservations::carID,
             reservations::valid
         };
+        let last_car_id: usize = self.get_cars_list()?.len();
+
+        if reserve.carID <= 0 || reserve.carID > last_car_id as i32 {
+            return Err(Error::WrongId.into());
+        }
 
         let conflicting: i64 = reservations::table
             .filter(carID.eq(reserve.carID))
