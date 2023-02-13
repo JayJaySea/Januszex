@@ -18,7 +18,8 @@ use crate::{
         DamageNew,
         Damage,
         FeedbackNew,
-        Feedback
+        Feedback,
+        UserUpdate
     },
     error::{
         Error,
@@ -94,6 +95,23 @@ impl GlobalState {
 
         diesel::insert_into(users::table)
             .values(user)
+            .get_result::<User>(&mut self.db_conn)
+            .map_err(|_| Error::WrongData.into())
+    }
+
+    pub fn user_update(&mut self, id: i32, mut user: UserUpdate) -> Result<User, ErrorInfo> {
+        use crate::schema::users;
+
+        let salt = SaltString::generate(&mut OsRng);
+        let argon2 = Argon2::default();
+
+        user.password = argon2.hash_password(user.password.as_bytes(), &salt)
+            .map_err(|_| Error::WrongData)?
+            .to_string();
+
+        diesel::update(users::table)
+            .filter(users::id.eq(id))
+            .set(user)
             .get_result::<User>(&mut self.db_conn)
             .map_err(|_| Error::WrongData.into())
     }
@@ -198,6 +216,7 @@ impl GlobalState {
             reservations::carID,
             reservations::valid
         };
+
         let last_car_id: usize = self.get_cars_list()?.len();
 
         if reserve.carID <= 0 || reserve.carID > last_car_id as i32 {

@@ -17,6 +17,7 @@ use rocket::{
 use crate::{
     GlobalState,
     models::{
+        UserUpdate,
         UserNew,
         User
     },
@@ -92,6 +93,24 @@ pub async fn fail_profile() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
 }
 
+#[put("/profile", format = "json", data = "<user>")]
+pub async fn update_profile(
+    state: &State<Mutex<GlobalState>>,
+    id: UserId,
+    user: Json<UserUpdate>
+) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+    let state = &mut state.lock().await;
+
+    let user = state.user_update(id.0, user.into_inner())?;
+
+    Ok(Json(UserInfo::from(user)))
+}
+
+#[put("/profile", rank = 1)]
+pub async fn fail_update_profile() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
+
 #[delete("/delete_account")]
 pub async fn delete_account(
     state: &State<Mutex<GlobalState>>,
@@ -108,6 +127,28 @@ pub async fn delete_account(
 
 #[delete("/delete_account", rank = 1)]
 pub async fn fail_delete_account() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
+
+#[delete("/loyality_card")]
+pub async fn loyality_card(
+    state: &State<Mutex<GlobalState>>,
+    id: UserId
+) -> Result<Json<LoyalityCard>, Json<ErrorInfo>> {
+
+    let state = &mut state.lock().await;
+    let reser_count = state.get_user_reservations(id.0)?.len();
+
+    let card = LoyalityCard {
+        points: (reser_count * 123) as i32,
+        orders: reser_count as i32,
+    };
+
+    Ok(Json::from(card))
+}
+
+#[delete("/loyality_card", rank = 1)]
+pub async fn fail_loyality_card() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
 }
 
@@ -156,10 +197,19 @@ pub struct UserInfo {
     pub surname: String,
     pub email: String,
     pub license: String,
+    pub category_number: i32,
 }
 
 impl From<User> for UserInfo {
     fn from(user: User) -> Self {
-        Self { id: user.id, name: user.name, surname: user.surname, email: user.email, license: user.license}
+        Self { id: user.id, name: user.name, surname: user.surname, email: user.email, license: user.license, category_number: user.licCategoryNumber}
     }
+}
+
+#[derive(Serialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct LoyalityCard {
+    pub points: i32,
+    pub orders: i32,
 }

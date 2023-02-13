@@ -32,6 +32,20 @@ pub struct UserNew {
     pub role: Option<i32>,
 }
 
+#[derive(AsChangeset, Deserialize, Default, Clone)]
+#[diesel(table_name = users)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct UserUpdate {
+    pub name: String,
+    pub surname: String,
+    pub email: String,
+    pub login: String,
+    pub password: String,
+    pub drivingLicense: String,
+    pub licCategoryNumber: i32,
+}
+
 #[derive(Queryable, Serialize, Default, Clone)]
 #[serde(crate = "rocket::serde")]
 pub struct User {

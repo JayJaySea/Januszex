@@ -32,6 +32,10 @@ fn rocket() -> _ {
             users::fail_logout,
             users::delete_account,
             users::fail_delete_account,
+            users::loyality_card,
+            users::fail_loyality_card,
+            users::update_profile,
+            users::fail_update_profile,
 
             cars::list_cars,
             cars::get_car,

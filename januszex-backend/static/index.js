@@ -28,7 +28,7 @@ login.addEventListener("click", function() {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(
 			{ 
-				login: "usze",
+				login: "januszek",
 				password: "xd"
 			})
 })	
@@ -81,7 +81,7 @@ reserve.addEventListener("click", function() {
 				rentDate: "2004-02-12T00:00:00",
 				returnDate: "2004-02-12T00:00:00",
 				deliveryAddress: "abcd",
-				carID: 2
+				carID: 1
 			})
 })	
   	.then(response => response.json())
@@ -209,6 +209,28 @@ const reserved_cars = document.getElementById("reserved_cars");
 reserved_cars.addEventListener("click", function() {
 	fetch('/reserved_cars', {
 		method: 'GET',
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
+
+const update_profile = document.getElementById("update_profile");
+
+update_profile.addEventListener("click", function() {
+	fetch('/profile', {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(
+			{
+				name: 'jan',
+				surname: 'kowalski',
+				login: "jk",
+				email: "jan@gmail.com",
+				password: "kowalski",
+				drivingLicense: "c",
+				licCategoryNumber: 5,
+			})
 })	
   	.then(response => response.json())
   	.then(data => console.log(data))
