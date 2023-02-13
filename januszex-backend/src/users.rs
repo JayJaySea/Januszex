@@ -92,6 +92,24 @@ pub async fn fail_profile() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
 }
 
+#[delete("/delete_account")]
+pub async fn delete_account(
+    state: &State<Mutex<GlobalState>>,
+    cookies: &CookieJar<'_>,
+    id: UserId
+) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+
+    let state = &mut state.lock().await;
+    let user = state.delete_user(id.0)?;
+    cookies.remove_private(Cookie::named("id"));
+
+    Ok(Json::from(UserInfo::from(user)))
+}
+
+#[delete("/delete_account", rank = 1)]
+pub async fn fail_delete_account() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
 
 #[get("/logout")]
 pub async fn logout(_id: UserId, cookies: &CookieJar<'_>) -> Json<String> {

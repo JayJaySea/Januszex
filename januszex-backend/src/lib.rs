@@ -97,6 +97,15 @@ impl GlobalState {
             .map_err(|_| Error::WrongData.into())
     }
 
+    pub fn delete_user(&mut self, id: i32) -> Result<User, ErrorInfo> {
+        use crate::schema::users;
+
+        diesel::delete(users::table)
+            .filter(users::id.eq(id))
+            .get_result::<User>(&mut self.db_conn)
+            .map_err(|_| Error::WrongId.into())
+    }
+
     pub fn user_from_credentials(&mut self, credentials: UserCredentials) -> Result<User, ErrorInfo> {
         use crate::schema::{
             users,

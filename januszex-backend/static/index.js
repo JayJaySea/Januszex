@@ -148,3 +148,14 @@ give_feedback.addEventListener("click", function() {
   	.then(data => console.log(data))
   	.catch(error => console.error(error));
 });
+
+const delete_account = document.getElementById("delete_account");
+
+delete_account.addEventListener("click", function() {
+	fetch('/delete_account', {
+		method: 'DELETE',
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
