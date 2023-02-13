@@ -35,3 +35,7 @@
     font-size: 2em;
     padding: 20px 50px;
 }
+
+.parentCss textarea, .parentCss input {
+    background-color: var(--text);
+}

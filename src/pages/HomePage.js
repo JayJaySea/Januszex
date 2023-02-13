@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { redirect, json, useRouteLoaderData, defer, useSubmit, Await } from "react-router-dom";
 import classes from "./HomePage.module.css";
 import CarCard from "../components/CarCard"
 import Filters from "../components/Filters"
+import { getAuthToken } from '../util/auth';
 
 const options = [
     {
@@ -71,9 +72,54 @@ const options = [
 ]
 
 
+
 function HomePage() {
-    const [items, setItems] = useState(options);
-    const [filters, setFilters] = useState(true);
+
+    const [filters, setFilters] = useState(false);
+
+    const [cars, setCars] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [items, setItems] = useState(cars);
+    const fetchReservationsHandler = useCallback(async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/cars.json');
+            if (!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+
+            const data = await response.json();
+            const loadedCars = [];
+
+            for (const key in data) {
+                loadedCars.push({
+                    id: key,
+                    howManySeats: data[key].seats,
+                    color: data[key].color,
+                    distanceCovered: data[key].distanceCovered,
+                    comfortScale: data[key].comfortScale,
+                    brand: data[key].brand,
+                    model: data[key].model,
+                    price: data[key].price,
+                    isATruck: data[key].isATruck,
+                    photoURL: data[key].photoURL,
+                });
+            }
+            setCars(loadedCars);
+            console.log(loadedCars);
+        } catch (error) {
+            setError("Something went wrong, try again.");
+        }
+        setIsLoading(false);
+    }, []);
+    useEffect(() => {
+        fetchReservationsHandler();
+    }, [fetchReservationsHandler]);
+
+
+    
 
     const filterChanged = (filters) => {
         setItems(prev => {
@@ -101,10 +147,10 @@ function HomePage() {
                     prev = prev.filter((option) => option.isATruck === false)
                 }
             }
-            if (filters.textMin !== null && filters.textMin!=="") {
+            if (filters.textMin !== null && filters.textMin !== "") {
                 prev = prev.filter((option) => option.price > filters.textMin)
             }
-            if (filters.textMax !== null && filters.textMax!=="") {
+            if (filters.textMax !== null && filters.textMax !== "") {
                 prev = prev.filter((option) => option.price < filters.textMax)
             }
 
@@ -115,7 +161,7 @@ function HomePage() {
     }
 
     const boolChange = (bool) => {
-        setItems(options)
+        setItems(cars)
         setFilters(prev => {
             return bool
         })
@@ -125,12 +171,12 @@ function HomePage() {
         <div className={classes.homePage}>
             <div className={classes.container}>
                 <div className={classes.filters}>
-                    <Filters options={options} onFilterChange={filterChanged} onBoolChange={boolChange} />
+                    <Filters options={cars} onFilterChange={filterChanged} onBoolChange={boolChange} />
                 </div>
                 <div className={classes.cardsContainer}>
                     {
                         /* globalVal.filteredOptions.map((opt,id)=>{return (<CarCard key={id} car={opt} showButton={true}/>)})*/
-                        (filters == true) ? (items.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) })) : (options.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) }))
+                        (filters == true) ? (items.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) })) : (cars.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) }))
                     }
                 </div>
             </div>

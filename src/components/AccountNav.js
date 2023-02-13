@@ -9,7 +9,7 @@ function AccountNav({ reserv }) {
     return (
         <div className={classes.navContainer}>
             <ul>
-                <li><Link to="/account:userId">Moje konto</Link></li>
+                <li><Link className={classes.myAccount} to="/account:userId">Moje konto</Link></li>
                 <li><Link to="/account:userId/reservationsHistory">Historia rezerwacji</Link></li>
                 <li><Link to="/account:userId/loyalityCard">Karta lojalnościowa</Link></li>
                 <li><Form action="/logout" method="post">

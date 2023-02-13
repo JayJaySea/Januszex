@@ -26,6 +26,7 @@
 
 .signUpForm input {
     padding: 7px;
+    background-color: var(--text);
 }
 
 .accountInfo {

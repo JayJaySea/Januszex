@@ -87,7 +87,7 @@ function Filters({ options, onFilterChange, onBoolChange }) {
             <div className={classes.filtersTitle}>Filtry:</div>
             <div className={classes.carParameters}>
                 <span className={classes.line}></span>
-                <div className={classes.parametersTitle}>Paramtery auta</div>
+                <div className={classes.parametersTitle}>Parametry auta</div>
                 <div className={classes.filtersData}>Marka:</div>
                 <select className={classes.select} id="brandSelect">
                     <option className="checkBoxesCss">---</option>
@@ -123,7 +123,7 @@ function Filters({ options, onFilterChange, onBoolChange }) {
                         seatsOptions.map((opt, id) => { return (<SeatsFilter key={id} car={opt} />) })
                     }
                 </select>
-                <div className={classes.filtersData}>Is a transporter:</div>
+                <div className={classes.filtersData}>Kategoria C:</div>
                 <select className={classes.select} id="transporterSelect">
                     <option>---</option>
                     <option>Tak</option>

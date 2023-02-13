@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { redirect, json, useRouteLoaderData, defer, useSubmit, Await } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
 import { getAuthToken } from '../util/auth';
+import classes from "./ResHistoryPage.module.css"
 
 function ResHistoryPage() {
     const [reservations, setReservations] = useState([]);
@@ -62,23 +63,27 @@ function ResHistoryPage() {
     }
 
     return (
-        <div className="account-page">
+        <div className={classes.accountContainer}>
             <AccountNav />
-            <h1>Twoje rezerwacje</h1>
-            <div >
-                <ul>
-                    {reservations.map((res) => (
-                        <li key={res.id}>
-                            <div>Numer rezerwacji: {res.id}</div>
-                            <div>Samochód: {res.carName}</div>
-                            <div>Cena: {res.price}</div>
-                            <div>Data rozpoczęcia wypożyczenia: {res.startDate}</div>
-                            <div>Data zakończenia wypożyczenia: {res.endDate}</div>
-                            {(res.startDate > currDate) && res.isActive &&
-                                <button onClick={startCancelHandler}>Anuluj rezerwację</button>}
-                        </li>
-                    ))}
-                </ul>
+            <div className={classes.mainElem}>
+                <h1>Twoje rezerwacje</h1>
+                <div >
+                    <ul>
+                        {reservations.map((res) => (
+                            <li className={classes.reservation} key={res.id}>
+                                <div className={classes.elem}>Numer rezerwacji: {res.id}</div>
+                                <div className={classes.elem}>Samochód: {res.carName}</div>
+                                <div className={classes.elem}>Cena: {res.price}</div>
+                                <div className={classes.elem}>Data rozpoczęcia wypożyczenia: {res.startDate}</div>
+                                <div className={classes.elem}>Data zakończenia wypożyczenia: {res.endDate}</div>
+                                {(res.startDate > currDate) && res.isActive &&
+                                    <div className={classes.btnContainer}>
+                                        <button className={classes.btnSubmit} onClick={startCancelHandler}>Anuluj rezerwację</button>
+                                    </div>}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );
@@ -89,40 +94,40 @@ export default ResHistoryPage;
 
 export async function action({ params, request }) {
     const method = request.method;
-  const data = await request.formData();
-  const reservId = params.reserveID;
+    const data = await request.formData();
+    const reservId = params.reserveID;
 
-  const eventData = {
-    title: data.get('title'),
-    image: data.get('image'),
-    date: data.get('date'),
-    description: data.get('description'),
-  };
+    const eventData = {
+        title: data.get('title'),
+        image: data.get('image'),
+        date: data.get('date'),
+        description: data.get('description'),
+    };
 
-  let url = 'http://localhost:8080/events';
+    let url = 'http://localhost:8080/events';
 
-  if (method === 'PATCH') {
-    const eventId = params.reservId;
-    url = 'http://localhost:8080/events/' + reservId;
-  }
+    if (method === 'PATCH') {
+        const eventId = params.reservId;
+        url = 'http://localhost:8080/events/' + reservId;
+    }
 
-  const token = getAuthToken();
-  const response = await fetch(url, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    body: JSON.stringify(eventData),
-  });
+    const token = getAuthToken();
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(eventData),
+    });
 
-  if (response.status === 422) {
-    return response;
-  }
+    if (response.status === 422) {
+        return response;
+    }
 
-  if (!response.ok) {
-    throw json({ message: 'Could not save event.' }, { status: 500 });
-  }
+    if (!response.ok) {
+        throw json({ message: 'Could not save event.' }, { status: 500 });
+    }
 
-  return redirect('/events');
-  }
+    return redirect('/events');
+}

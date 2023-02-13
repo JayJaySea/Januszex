@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { redirect, json, useRouteLoaderData, defer, useSubmit, Await } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
 import { getAuthToken } from '../util/auth';
+import classes from "./LoyalityCardPage.module.css"
 
 
 function LoyalityCard () {
@@ -39,14 +40,16 @@ function LoyalityCard () {
 
 
     return (
-        <div className="account-page">
+        <div className={classes.accountContainer}>
             <AccountNav />
+            <div className={classes.mainElem}>
             <h1>Karta lojalnościowa</h1>
             <div >
                 <ul>
                     <li>Liczba rezerwacji: {cardData.numbOfRes}</li>
                     <li>Liczba punktów: {cardData.points}</li>
                 </ul>
+            </div>
             </div>
         </div>
     );

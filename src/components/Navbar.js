@@ -8,7 +8,7 @@ import logo from "../icons/logo.png";
 
 function PageNav() {
 
-  const token = "null"; //useRouteLoaderData('root');
+  const token = null; //useRouteLoaderData('root');
 
   return (
     <div className={classes.pageNav}>

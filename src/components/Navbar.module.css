@@ -61,6 +61,7 @@
 .rightIcons .account {
   display: flex;
   flex-direction: row;
+  gap: 40px;
 }
 
 .rightIcons .notLogged {

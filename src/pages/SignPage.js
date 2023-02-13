@@ -15,12 +15,10 @@ function SignPage() {
             <PageNav />
             {isLogin ? <LoginForm method="POST" /> : <SignUpForm method="POST" />}
             <Link to={`?mode=${isLogin ? 'signup' : 'login'}`}>
-                {isLogin ? 'Don\'t have an account? Sign up!' : 'Already have an account? Log in!'}
+                {isLogin ? 'Nie masz jeszcze konta? Kliknij tu i zarejestruj się!' : 'Masz już konto? Kliknij tu i się zaloguj!'}
             </Link>
         </div>
     );
 }
 
 export default SignPage;
-
-
