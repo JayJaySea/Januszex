@@ -1,14 +1,15 @@
 import React from "react";
-import { redirect, json, useRouteLoaderData, defer, useSubmit, Await } from "react-router-dom";
+import { redirect, json, useRouteLoaderData, defer, useSubmit, Await, Link } from "react-router-dom";
 import PersInfoPanel from "../components/PersInfoPanel";
 import { getAuthToken } from '../util/auth';
+import AccountNav from "../components/AccountNav";
+import classes from "./AccountPage.module.css"
 
 function AccountPage() {
 
-
   const { user } = useRouteLoaderData('user-detail');
 
-  const token = useRouteLoaderData('root');
+  const token = "null"//useRouteLoaderData('root');
   const submit = useSubmit();
 
   function startDeleteHandler() {
@@ -21,12 +22,15 @@ function AccountPage() {
 
 
   return (
-    <div className="account-page">
-      <h1>Your account</h1>
-      <Await resolve={user}>
-      {(loadedUser) => <PersInfoPanel user={loadedUser} />}
-      </Await>
-      <button onClick={startDeleteHandler}>Delete</button>
+    <div className={classes.accountContainer}>
+      <AccountNav />
+      <div className={classes.mainElem}>
+        <h1>Your account</h1>
+        <Await resolve={user}>
+          {(loadedUser) => <PersInfoPanel user={loadedUser} />}
+        </Await>
+        <button onClick={startDeleteHandler}>Delete</button>
+      </div>
     </div>
   );
 }
@@ -34,7 +38,7 @@ function AccountPage() {
 export default AccountPage;
 
 async function loadUser(id) {
-  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json' );//+ id
+  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json');//+ id
 
   if (!response.ok) {
     throw json(

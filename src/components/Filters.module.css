@@ -1,36 +1,41 @@
-.filterButton
-{
-    width: 240px;
-    height: 55px;
-    
+
+
+.filterButton {
+  padding: 18px 32px;
 }
 
-.minMaxText
-{
-    width: 60px;
-    font-size: 30;
+.minMaxText {
+  width: 60px;
+  font-size: 1em;
 }
 
-.select
-{
-    width: 100%;
+.select {
+  width: 60%;
 }
 
-.maxInputCss
-{
-    flex-grow: 1;
-    height: 13px;
+.maxInputCss {
+  flex-grow: 1;
+  height: 13px;
 }
 
-.minInputCss
-{
-    flex-grow: 1;
-    height: 13px;
+.minInputCss {
+  flex-grow: 1;
+  height: 13px;
 }
 
-.singeRange{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.singeRange {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtersData{
+    font-size: 1em;
+    margin-left: 20px;
+}
+
+.select{
+    font-size: 1em;
+    margin-left: 20px;
 }

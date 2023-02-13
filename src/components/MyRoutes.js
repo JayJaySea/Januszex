@@ -11,8 +11,11 @@ import AccountPage, {
 } from "../pages/AccountPage"
 import RootLayout from '../pages/Root';
 import { action as signAction } from '../components/SignUpForm';
-import { action as logoutAction} from '../pages/LogoutPage';
+import { action as logoutAction } from '../pages/LogoutPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth.js';
+import ResHistoryPage, {action as deleteReservationAction} from '../pages/ResHistoryPage';
+import DamagesPage from '../pages/DamagesPage';
+import AboutUs from '../pages/AboutUs';
 
 function MyRoutes() {
 
@@ -39,7 +42,7 @@ function MyRoutes() {
         },
         {
           path: '/account:userId',
-          id: '/user-detail',
+          id: 'user-detail',
           loader: userDetailLoader,
           children: [
             {
@@ -47,17 +50,24 @@ function MyRoutes() {
               element: <AccountPage />,
               action: deleteUserAction,
             },
-            /*{
-              path: 'edit',
-              element: <EditEventPage />,
-              action: manipulateEventAction,
-              loader: checkAuthLoader,
-            },*/
+            {
+              path: '/account:userId/reservationsHistory',
+              element: <ResHistoryPage />,
+              action: deleteReservationAction,
+            },
           ],
         },
         {
           path: '/logout',
           action: logoutAction,
+        },
+        {
+          path: '/damages',
+          element: <DamagesPage />,
+        },
+        {
+          path: '/aboutUs',
+          element: <AboutUs />,
         },
       ],
     },

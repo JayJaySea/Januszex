@@ -1,54 +1,53 @@
 import classes from "./Filters.module.css";
 
-const BrandFilter = ({car})=>{
+const BrandFilter = ({ car }) => {
     return (
         <option className={classes.option}>{car.brand}</option>
 
     )
 }
-const ModelFilter = ({car})=>{
+const ModelFilter = ({ car }) => {
     return (
         <option className={classes.option}>{car.model}</option>
 
     )
 }
-const ComfortFilter = ({car})=>{
+const ComfortFilter = ({ car }) => {
     return (
         <option className={classes.option}>{car.comfortScale}</option>
 
     )
 }
-const ColorFilter = ({car})=>{
+const ColorFilter = ({ car }) => {
     return (
         <option className={classes.option}>{car.color}</option>
 
     )
 }
-const SeatsFilter = ({car})=>{
+const SeatsFilter = ({ car }) => {
     return (
         <option className={classes.option}>{car.howManySeats}</option>
 
     )
 }
 
-function GetFilters(filterChange,boolChange)
-{
-    var selectedBrand=document.getElementById("brandSelect");
-    var textBrand=selectedBrand.options[selectedBrand.selectedIndex].text;
-    var selectedModel=document.getElementById("modelSelect");
-    var textModel=selectedModel.options[selectedModel.selectedIndex].text;
-    var selectedComfort=document.getElementById("comfortSelect");
-    var textComfort=selectedComfort.options[selectedComfort.selectedIndex].text;
-    var selectedColor=document.getElementById("colorSelect");
-    var textColor=selectedColor.options[selectedColor.selectedIndex].text;
-    var selectedSeats=document.getElementById("seatsSelect");
-    var textSeats=selectedSeats.options[selectedSeats.selectedIndex].text;
-    var selectedTransporter=document.getElementById("transporterSelect");
-    var textTransporter=selectedTransporter.options[selectedTransporter.selectedIndex].text;
-    var selectedMin=document.getElementById("min");
-    var textMin=selectedMin.value;
-    var selectedMax=document.getElementById("max");
-    var textMax=selectedMax.value;
+function GetFilters(filterChange, boolChange) {
+    var selectedBrand = document.getElementById("brandSelect");
+    var textBrand = selectedBrand.options[selectedBrand.selectedIndex].text;
+    var selectedModel = document.getElementById("modelSelect");
+    var textModel = selectedModel.options[selectedModel.selectedIndex].text;
+    var selectedComfort = document.getElementById("comfortSelect");
+    var textComfort = selectedComfort.options[selectedComfort.selectedIndex].text;
+    var selectedColor = document.getElementById("colorSelect");
+    var textColor = selectedColor.options[selectedColor.selectedIndex].text;
+    var selectedSeats = document.getElementById("seatsSelect");
+    var textSeats = selectedSeats.options[selectedSeats.selectedIndex].text;
+    var selectedTransporter = document.getElementById("transporterSelect");
+    var textTransporter = selectedTransporter.options[selectedTransporter.selectedIndex].text;
+    var selectedMin = document.getElementById("min");
+    var textMin = selectedMin.value;
+    var selectedMax = document.getElementById("max");
+    var textMax = selectedMax.value;
 
     const filters = {
         textBrand,
@@ -65,80 +64,80 @@ function GetFilters(filterChange,boolChange)
     filterChange(filters);
 }
 
-function ResetFilters(boolChange)
-{
-    document.getElementById("brandSelect").selectedIndex=0;
-    document.getElementById("modelSelect").selectedIndex=0;
-    document.getElementById("comfortSelect").selectedIndex=0;
-    document.getElementById("colorSelect").selectedIndex=0;
-    document.getElementById("seatsSelect").selectedIndex=0;
-    document.getElementById("transporterSelect").selectedIndex=0;
-    document.getElementById("min").value=null;
-    document.getElementById("max").value=null;
+function ResetFilters(boolChange) {
+    document.getElementById("brandSelect").selectedIndex = 0;
+    document.getElementById("modelSelect").selectedIndex = 0;
+    document.getElementById("comfortSelect").selectedIndex = 0;
+    document.getElementById("colorSelect").selectedIndex = 0;
+    document.getElementById("seatsSelect").selectedIndex = 0;
+    document.getElementById("transporterSelect").selectedIndex = 0;
+    document.getElementById("min").value = null;
+    document.getElementById("max").value = null;
     boolChange(false);
 }
 
-function Filters ({options, onFilterChange,onBoolChange}){
-    const brandOptions=[...new Map(options.map(option=>[option["brand"],option])).values()];
-    const modelOptions=[...new Map(options.map(option=>[option["model"],option])).values()];
-    const comfortOptions=[...new Map(options.map(option=>[option["comfortScale"],option])).values()];
-    const colorOptions=[...new Map(options.map(option=>[option["color"],option])).values()];
-    const seatsOptions=[...new Map(options.map(option=>[option["howManySeats"],option])).values()];
+function Filters({ options, onFilterChange, onBoolChange }) {
+    const brandOptions = [...new Map(options.map(option => [option["brand"], option])).values()];
+    const modelOptions = [...new Map(options.map(option => [option["model"], option])).values()];
+    const comfortOptions = [...new Map(options.map(option => [option["comfortScale"], option])).values()];
+    const colorOptions = [...new Map(options.map(option => [option["color"], option])).values()];
+    const seatsOptions = [...new Map(options.map(option => [option["howManySeats"], option])).values()];
     return (
-        <div>
-             <select className={classes.select} id="brandSelect">
+        <div className={classes.filterCont}>
+        <div className={classes.filtersBrand}>Marka:</div>
+            <select className={classes.select} id="brandSelect">
                 <option className="checkBoxesCss">---</option>
                 {
-                    brandOptions.map((opt,id)=>{return (<BrandFilter key={id} car={opt} />)})
+                    brandOptions.map((opt, id) => { return (<BrandFilter key={id} car={opt} />) })
                 }
-                </select>
-                <div className={classes.filtersData}>Model:</div>
-                <select className={classes.select} id="modelSelect">
+            </select>
+            <div className={classes.filtersData}>Model:</div>
+            <select className={classes.select} id="modelSelect">
                 <option>---</option>
                 {
-                    modelOptions.map((opt,id)=>{return (<ModelFilter key={id} car={opt} />)})
+                    modelOptions.map((opt, id) => { return (<ModelFilter key={id} car={opt} />) })
                 }
-                </select>
-                <div className={classes.filtersData}>Comfort Scale:</div>
-                <select className={classes.select} id="comfortSelect">
+            </select>
+            <div className={classes.filtersData}>Komfort:</div>
+            <select className={classes.select} id="comfortSelect">
                 <option>---</option>
                 {
-                    comfortOptions.map((opt,id)=>{return (<ComfortFilter key={id} car={opt} />)})
+                    comfortOptions.map((opt, id) => { return (<ComfortFilter key={id} car={opt} />) })
                 }
-                </select>
-                <div className={classes.filtersData}>Color:</div>
-                <select className={classes.select} id="colorSelect">
+            </select>
+            <div className={classes.filtersData}>Kolor:</div>
+            <select className={classes.select} id="colorSelect">
                 <option>---</option>
                 {
-                    colorOptions.map((opt,id)=>{return (<ColorFilter key={id} car={opt} />)})
+                    colorOptions.map((opt, id) => { return (<ColorFilter key={id} car={opt} />) })
                 }
-                </select>
-                <div className={classes.filtersData}>Seats:</div>
-                <select className={classes.select} id="seatsSelect">
+            </select>
+            <div className={classes.filtersData}>Ilość miejsc:</div>
+            <select className={classes.select} id="seatsSelect">
                 <option>---</option>
                 {
-                    seatsOptions.map((opt,id)=>{return (<SeatsFilter key={id} car={opt} />)})
+                    seatsOptions.map((opt, id) => { return (<SeatsFilter key={id} car={opt} />) })
                 }
-                </select>
-                <div className={classes.filtersData}>Is a transporter:</div>
-                <select className={classes.select} id="transporterSelect">
+            </select>
+            <div className={classes.filtersData}>Is a transporter:</div>
+            <select className={classes.select} id="transporterSelect">
                 <option>---</option>
-                <option>Yes</option>
-                <option>No</option>
-                </select>
-                <div className={classes.filtersPrice}>Price Range:</div>
-                <div className={classes.singeRange}>
-                    <span className={classes.minMaxText}>Min:</span>
-                    <input className={classes.minInputCss} type="number" id="min"/>
-                </div>
-                <div className={classes.singeRange}>
-                    <span className={classes.minMaxText}>Max:</span>
-                        <input className={classes.maxInputCss} type="number" id="max"/>
-                </div>
-                <button className={classes.filterButton} type="button" onClick={()=>GetFilters(onFilterChange,onBoolChange)}>Filter</button>
-                <br></br>
-                <button className={classes.filterButton} type="button" onClick={()=>ResetFilters(onBoolChange)}>Cancel Bottoms</button>
+                <option>Tak</option>
+                <option>Nie</option>
+            </select>
+            <div className={classes.filtersPrice}>Cena:</div>
+            <div className={classes.singeRange}>
+                <span className={classes.minMaxText}>Min:</span>
+                <input className={classes.minInputCss} type="number" id="min" />
             </div>
+            <div className={classes.singeRange}>
+                <span className={classes.minMaxText}>Maks:</span>
+                <input className={classes.maxInputCss} type="number" id="max" />
+            </div>
+            <button className={classes.filterButton} type="button" onClick={() => GetFilters(onFilterChange, onBoolChange)}>Filtruj</button>
+            <br></br>
+            <button className={classes.filterButton} type="button" onClick={() => ResetFilters(onBoolChange)}>Wyczyść filtry</button>
+        </div>
     )
 }
 

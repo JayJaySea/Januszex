@@ -28,12 +28,12 @@ const CarCard = ({ car, showButton }) => {
                         <div className={classes.brandAndName}>
                             {car.brand + " " + car.model}
                         </div>
-                        <div>{"Seats: " + car.howManySeats}</div>
-                        <div>{"Color: " + car.color}</div>
-                        <div>{"Comfort: " + car.comfortScale}</div>
-                        <div>{"Mileage: " + car.distanceCovered}</div>
-                        <div>{"Truck: " + (car.isATruck ? "Yes" : "No")}</div>
-                        <div className={classes.price}>{"Price: " + car.price}</div>
+                        <div>{"Liczba miejsc: " + car.howManySeats}</div>
+                        <div>{"Kolor: " + car.color}</div>
+                        <div>{"Komfort: " + car.comfortScale}</div>
+                        <div>{"Przebieg: " + car.distanceCovered}</div>
+                        <div>{"Dostawczy: " + (car.isATruck ? "Tak" : "Nie")}</div>
+                        <div className={classes.price}>{"Cena: " + car.price}</div>
                     </div>
                     {showButton &&
                     <div className={classes.buttonContainer}>
