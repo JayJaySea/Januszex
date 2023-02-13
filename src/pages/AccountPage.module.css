@@ -1,0 +1,6 @@
+@import "../components/colors.module.css";
+
+.accountContainer {
+    display: flex;
+    flex-direction: row;
+}

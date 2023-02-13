@@ -12,6 +12,7 @@ function ReservationPage(props) {
 
     const [reservData, setReservData] = useState('');
     const [carData, setCarData] = useState(location.state?.car ?? {});
+    const [dates, setDates] = useState('');
 
     const nameRef = useRef('');
     const surnameRef = useRef('');
@@ -20,7 +21,7 @@ function ReservationPage(props) {
     const licCategNumbRef = useRef('');
 
     function datePickerHandler(dates) {
-        //add adding id to res info
+        setDates(dates);
         const resData = {
             rentDate: dates.startDate,
             returnDate: dates.endDate,
@@ -50,7 +51,8 @@ function ReservationPage(props) {
             headers: { 'Content-type': 'application/json' }
         });
         const data = await response.json();
-        navigate("/");
+        console.log((parseInt(dates.endDate.slice(8,10)) - parseInt(dates.startDate.slice(8,10))));
+        navigate("/payment", {state: { numbOfDays: (parseInt(dates.endDate.slice(8,10)) - parseInt(dates.startDate.slice(8,10))), price: carData.price}});
     }
 
     return (
