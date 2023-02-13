@@ -3,6 +3,8 @@
 .navContainer {
     background-color: var(--button-idle);
     border-radius: 10px;
+    height: 180px;
+    margin-top: 50px;
 }
 
 li {

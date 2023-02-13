@@ -9,36 +9,42 @@ function SignUpForm({ method }) {
   const isSubmitting = navigation.state === "submitting";
 
   return (
-    <div className="pi-form" >
-      <Form method={method}>
-        <h1>Sign up</h1>
-        <div className="pi-form__container">
-          <label htmlFor="email"><strong>E-mail</strong></label>
-          <input id="email" type="email" placeholder="Enter E-mail" name="email" required />
-          <label htmlFor="username"><strong>Username</strong></label>
-          <input id="username" type="text" placeholder="Enter Username" name="username" required />
-          <label htmlFor="password"><strong>Password</strong></label>
-          <input id="password" type="password" placeholder="Enter Password" name="password" required />
-        </div>
-        <h2>Personal information form</h2>
-          <h3>Full name</h3>
-          <div className={classes.formElem}>
-            <input type="text" placeholder="Enter Name" name="name" id="name" required />
-            <input type="text" placeholder="Enter Surname" name="surname" id="surname" required />
-            <label htmlFor="name"><strong>Name</strong></label>
-            <label htmlFor="surname"><strong>Surname</strong></label>
-          </div>   
-          <h3>Driving license information</h3>
-          <div className={classes.formElem}>
-            <input type="text" placeholder="Enter driving license number" name="driv-lic-numb" id="driv-lic-numb" required />
-            <input type="text" placeholder="Enter driving license category" name="lic-categ" id="lic-categ" required />
-            <label htmlFor="driv-lic-numb"><strong>Driving license number</strong></label>
-            <label htmlFor="lic-categ"><strong>Category</strong></label>
+    <div className={classes.signUpForm} >
+      <div className={classes.container}>
+        <Form method={method}>
+          <h1 className={classes.header}>Zarejestruj się</h1>
+          <div className={classes.accountInfo}>
+            <label htmlFor="email">E-mail</label>
+            <input id="email" type="email" placeholder="Wpisz adres e-mail" name="email" required />
+            <label htmlFor="username">Nazwa użytkownika</label>
+            <input id="username" type="text" placeholder="Wpisz nazwę użytkownika" name="username" required />
+            <label htmlFor="password">Hasło</label>
+            <input id="password" type="password" placeholder="Wpisz hasło" name="password" required />
           </div>
-        <button disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-      </Form>
+          <div className={classes.persInfo}>
+            <h2>Formularz danych osobowych</h2>
+            <h3>Dane osobowe</h3>
+            <div className={classes.formElem}>
+              <label htmlFor="name">Imię</label>
+              <label htmlFor="surname">Nazwisko</label>
+              <input type="text" placeholder="Wpisz imię" name="name" id="name" required />
+              <input type="text" placeholder="Wpisz nazwisko" name="surname" id="surname" required />
+            </div>
+            <h3>Informacje o prawo jazdy</h3>
+            <div className={classes.formElem}>
+              <label htmlFor="driv-lic-numb">Numer prawa jazdy</label>
+              <label htmlFor="lic-categ">Kategoria prawa jazdy</label>
+              <input type="text" placeholder="Wpisz numer prawa jazdy" name="driv-lic-numb" id="driv-lic-numb" required />
+              <input type="text" placeholder="Wpisz kategorię prawa jazdy" name="lic-categ" id="lic-categ" required />
+            </div>
+          </div>
+          <div className={classes.btnContainer}>
+            <button className={classes.btnSubmit} disabled={isSubmitting}>
+              {isSubmitting ? "Wysyłanie..." : "Wyślij"}
+            </button>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 }

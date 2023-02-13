@@ -25,11 +25,11 @@ function AccountPage() {
     <div className={classes.accountContainer}>
       <AccountNav />
       <div className={classes.mainElem}>
-        <h1>Your account</h1>
+        <h1>Moje konto</h1>
         <Await resolve={user}>
           {(loadedUser) => <PersInfoPanel user={loadedUser} />}
         </Await>
-        <button onClick={startDeleteHandler}>Delete</button>
+        <button className={classes.btnSubmit} onClick={startDeleteHandler}>Usuń konto</button>
       </div>
     </div>
   );

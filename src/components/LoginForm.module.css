@@ -1,0 +1,40 @@
+.loginForm
+{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.loginForm h1
+{
+    text-align: center;
+}
+
+.loginFormContainer
+{
+    width: 100%;
+    align-items: center;
+}
+
+.loginFormContainer input
+{
+    width: 18vw;
+    padding: 7px;
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.btnSubmit {
+    background-color: var(--not-member);
+    padding: 10px 30px;
+    border-radius: 10px;
+}

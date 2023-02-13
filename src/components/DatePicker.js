@@ -7,7 +7,7 @@ function DatePicker(props) {
     function addZero(numb) {
         return (numb < 10) ? '0' : ''
     }
-    const currDate = current.getFullYear() + '-' + addZero(current.getMonth()+1) + (current.getMonth()+1) + '-' + addZero(current.getDate());
+    const currDate = current.getFullYear() + '-' + addZero(current.getMonth() + 1) + (current.getMonth() + 1) + '-' + addZero(current.getDate());
 
     const [startDate, setStartDate] = useState('');
     const startDateRef = useRef(null);
@@ -32,11 +32,17 @@ function DatePicker(props) {
 
     return (
         <div className={classes.datePicker}>
-        <h1>Wybierz daty rezerwacji</h1>
-            <label htmlFor="from">Rezerwacja od:</label>
-            <input type="date" id="from" name="from" min={currDate} onChange={handleStartChange} ref={startDateRef} required/>
-            <label htmlFor="to">Rezerwacja do:</label>
-            <input type="date" id="to" name="to" min={startDate} onChange={handleEndChange} ref={endDateRef} required/>
+            <h2>Wybierz daty rezerwacji</h2>
+            <div className={classes.dates}>
+                <div className={classes.picker}>
+                    <label htmlFor="from">Rezerwacja od:</label>
+                    <input type="date" id="from" name="from" min={currDate} onChange={handleStartChange} ref={startDateRef} required />
+                </div>
+                <div className={classes.picker}>
+                    <label htmlFor="to">Rezerwacja do:</label>
+                    <input type="date" id="to" name="to" min={startDate} onChange={handleEndChange} ref={endDateRef} required />
+                </div>
+            </div>
         </div>
     );
 

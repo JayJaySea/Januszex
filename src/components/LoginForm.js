@@ -1,5 +1,6 @@
 import React from "react";
 import { useActionData, useNavigation, Form, json } from 'react-router-dom';
+import classes from "./LoginForm.module.css";
 function LoginForm({method}) {
 
   const navigation = useNavigation();
@@ -7,19 +8,27 @@ function LoginForm({method}) {
   const isSubmitting = navigation.state === 'submitting';
 
   return (
-    <div className="login-form">
+    <div className={classes.loginForm}>
       <Form method={method}>
-        <h1>Login Form</h1>
-        <div className="login-form__container">
-          <label htmlFor="username"><strong>Username</strong></label>
-          <input type="text" placeholder="Enter Username" name="username" required />
-          <label htmlFor="password"><strong>Password</strong></label>
-          <input type="password" placeholder="Enter Password" name="password" required />
+        <br></br>
+        <br></br>
+        <br></br>
+        <h1>Login</h1>
+        <div className={classes.loginFormContainer}>
+          <label htmlFor="userName">Nazwa użytkownika</label>
+          <br></br>
+          <input type="text" placeholder="Wpisz login" name="username" required />
+          <br></br>
+          <br></br>
+          <label htmlFor="password">Hasło</label>
+          <br></br>
+          <input type="password" placeholder="Wpisz hasło" name="password" required />
         </div>
-        <button disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Submit'}
-        </button>
-
+        <div className={classes.btnContainer}>
+            <button className={classes.btnSubmit} disabled={isSubmitting}>
+              {isSubmitting ? "Logowanie..." : "Zaloguj się"}
+            </button>
+          </div>
       </Form>
     </div>
   );

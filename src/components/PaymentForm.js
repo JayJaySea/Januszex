@@ -7,7 +7,7 @@ const navigate = useNavigate();
  
   function submitHandler() {
     // Checking if user is not loggedIn 
-      navigate("/");
+      navigate("/thankYou");
   };
 
     return (

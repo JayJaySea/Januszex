@@ -2,22 +2,23 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background-color: var(--button-idle);
+    
     margin: 10px 0px;
 }
 
 .card{
     border: 5px outset black;
-    width:790px;
-    height: 320px;
+    width: 300px;
+    height: 500px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     border-radius: 5px;
+    background-color: var(--button-idle);
 }
 
 .image{
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    height: 50%;
     background-size: 100% 100%;
 }
 
@@ -61,7 +62,6 @@
 .button{
     padding: 10px 30px;
     background-color: var(--not-member);
-    border-radius: 10px;
 }
 .button:hover {
     color: var(--not-member);

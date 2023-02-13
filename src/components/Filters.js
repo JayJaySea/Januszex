@@ -84,59 +84,69 @@ function Filters({ options, onFilterChange, onBoolChange }) {
     const seatsOptions = [...new Map(options.map(option => [option["howManySeats"], option])).values()];
     return (
         <div className={classes.filterCont}>
-        <div className={classes.filtersBrand}>Marka:</div>
-            <select className={classes.select} id="brandSelect">
-                <option className="checkBoxesCss">---</option>
-                {
-                    brandOptions.map((opt, id) => { return (<BrandFilter key={id} car={opt} />) })
-                }
-            </select>
-            <div className={classes.filtersData}>Model:</div>
-            <select className={classes.select} id="modelSelect">
-                <option>---</option>
-                {
-                    modelOptions.map((opt, id) => { return (<ModelFilter key={id} car={opt} />) })
-                }
-            </select>
-            <div className={classes.filtersData}>Komfort:</div>
-            <select className={classes.select} id="comfortSelect">
-                <option>---</option>
-                {
-                    comfortOptions.map((opt, id) => { return (<ComfortFilter key={id} car={opt} />) })
-                }
-            </select>
-            <div className={classes.filtersData}>Kolor:</div>
-            <select className={classes.select} id="colorSelect">
-                <option>---</option>
-                {
-                    colorOptions.map((opt, id) => { return (<ColorFilter key={id} car={opt} />) })
-                }
-            </select>
-            <div className={classes.filtersData}>Ilość miejsc:</div>
-            <select className={classes.select} id="seatsSelect">
-                <option>---</option>
-                {
-                    seatsOptions.map((opt, id) => { return (<SeatsFilter key={id} car={opt} />) })
-                }
-            </select>
-            <div className={classes.filtersData}>Is a transporter:</div>
-            <select className={classes.select} id="transporterSelect">
-                <option>---</option>
-                <option>Tak</option>
-                <option>Nie</option>
-            </select>
-            <div className={classes.filtersPrice}>Cena:</div>
-            <div className={classes.singeRange}>
-                <span className={classes.minMaxText}>Min:</span>
-                <input className={classes.minInputCss} type="number" id="min" />
+            <div className={classes.filtersTitle}>Filtry:</div>
+            <div className={classes.carParameters}>
+                <span className={classes.line}></span>
+                <div className={classes.parametersTitle}>Parametry auta</div>
+                <div className={classes.filtersData}>Marka:</div>
+                <select className={classes.select} id="brandSelect">
+                    <option className="checkBoxesCss">---</option>
+                    {
+                        brandOptions.map((opt, id) => { return (<BrandFilter key={id} car={opt} />) })
+                    }
+                </select>
+                <div className={classes.filtersData}>Model:</div>
+                <select className={classes.select} id="modelSelect">
+                    <option>---</option>
+                    {
+                        modelOptions.map((opt, id) => { return (<ModelFilter key={id} car={opt} />) })
+                    }
+                </select>
+                <div className={classes.filtersData}>Komfort:</div>
+                <select className={classes.select} id="comfortSelect">
+                    <option>---</option>
+                    {
+                        comfortOptions.map((opt, id) => { return (<ComfortFilter key={id} car={opt} />) })
+                    }
+                </select>
+                <div className={classes.filtersData}>Kolor:</div>
+                <select className={classes.select} id="colorSelect">
+                    <option>---</option>
+                    {
+                        colorOptions.map((opt, id) => { return (<ColorFilter key={id} car={opt} />) })
+                    }
+                </select>
+                <div className={classes.filtersData}>Ilość miejsc:</div>
+                <select className={classes.select} id="seatsSelect">
+                    <option>---</option>
+                    {
+                        seatsOptions.map((opt, id) => { return (<SeatsFilter key={id} car={opt} />) })
+                    }
+                </select>
+                <div className={classes.filtersData}>Kategoria C:</div>
+                <select className={classes.select} id="transporterSelect">
+                    <option>---</option>
+                    <option>Tak</option>
+                    <option>Nie</option>
+                </select>
             </div>
-            <div className={classes.singeRange}>
-                <span className={classes.minMaxText}>Maks:</span>
-                <input className={classes.maxInputCss} type="number" id="max" />
+            <div className={classes.pricesFilter}>
+                <span className={classes.line}></span>
+                <div className={classes.priceTitle}>Cena</div>
+                <div className={classes.singeRange}>
+                    <span className={classes.minMaxText}>Min:</span>
+                    <input className={classes.minInputCss} type="number" id="min" />
+                </div>
+                <div className={classes.singeRange}>
+                    <span className={classes.minMaxText}>Maks:</span>
+                    <input className={classes.maxInputCss} type="number" id="max" />
+                </div>
             </div>
-            <button className={classes.filterButton} type="button" onClick={() => GetFilters(onFilterChange, onBoolChange)}>Filtruj</button>
-            <br></br>
-            <button className={classes.filterButton} type="button" onClick={() => ResetFilters(onBoolChange)}>Wyczyść filtry</button>
+            <span className={classes.line}></span>
+            <div className={classes.buttons}>
+                <button className={classes.filterButton} type="button" onClick={() => GetFilters(onFilterChange, onBoolChange)}>Filtruj</button>
+                <button className={classes.filterButton} type="button" onClick={() => ResetFilters(onBoolChange)}>Wyczyść</button>
+            </div>
         </div>
     )
 }

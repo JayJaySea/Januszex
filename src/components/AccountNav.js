@@ -11,6 +11,7 @@ function AccountNav({ reserv }) {
             <ul>
                 <li><Link to="/account:userId">Moje konto</Link></li>
                 <li><Link to="/account:userId/reservationsHistory">Historia rezerwacji</Link></li>
+                <li><Link to="/account:userId/loyalityCard">Karta lojalnościowa</Link></li>
                 <li><Form action="/logout" method="post">
                   <button>Wyloguj się</button>
                 </Form></li>

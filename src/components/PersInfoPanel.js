@@ -10,10 +10,10 @@ function PresInfoPanel({ user }) {
         <li className="email">E-mail: {user.email}</li>
         <li className="name">Imię: {user.name}</li>
         <li className="surname">Nazwisko: {user.surname}</li>
-        <li className="driving-license">Numer prawa jazdy: {user.drivLic}</li>
-        <li className="lic-categ">Kategoria prawa jazdy: {user.licCateg}</li>
+        <li className="driving-license">Numer prawa jazdy:{user.drivLic}</li>
+        <li className="lic-categ">Kategoria prawa jazdy:{user.licCateg}</li>
       </ul>
-
+      <br />
     </div>
   );
 }

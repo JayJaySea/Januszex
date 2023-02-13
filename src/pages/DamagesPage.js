@@ -1,4 +1,4 @@
-import classes from "./DamagePage.module.css";
+import classes from "./DamagesPage.module.css";
 import React, {useRef} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +29,7 @@ function DamagesPage() {
             <div className={classes.bodyCss}>
                 <p className={classes.titleCommunicatsCss}>Zgłoś usterkę</p>
                 <form onSubmit={submitHandler}>
-                    <label className={classes.communicatsCss} htmlFor="reserveID"><strong>Numer rezerwacji</strong></label>
+                    <label className={classes.communicatsCss} htmlFor="reserveID">Numer rezerwacji</label>
                     <br></br>
                     <br></br>
                     <input className={classes.reservationNumberCss} id="reserveID" type="text" placeholder="Pole dla numeru rezerwacji" name="reserveID" ref={reserveIDRef} required />
@@ -38,7 +38,7 @@ function DamagesPage() {
                     <label className={classes.communicatsCss} htmlFor="damage-msg">Proszę opisać usterkę</label>
                     <br></br>
                     <br></br>
-                    <textarea className={classes.damagemsgCss} placeholder="Pole do opisu usterke" rows="10" ref={damageRef} required></textarea>
+                    <textarea className={classes.damagemsgCss} placeholder="Pole do opisu usterki" rows="10" ref={damageRef} required></textarea>
                     <br></br>
                     <br></br>
                     <button className={classes.buttonCss}>Wyślij</button>

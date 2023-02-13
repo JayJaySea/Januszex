@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import classes from "./HomePage.module.css";
 import CarCard from "../components/CarCard"
 import Filters from "../components/Filters"
@@ -93,7 +94,7 @@ function HomePage() {
                 prev = prev.filter((option) => option.howManySeats === filters.textSeats)
             }
             if (filters.textTransporter !== "---") {
-                if (filters.textTransporter === "Yes") {
+                if (filters.textTransporter === "Tak") {
                     prev = prev.filter((option) => option.isATruck === true)
                 }
                 else {
@@ -124,15 +125,12 @@ function HomePage() {
         <div className={classes.homePage}>
             <div className={classes.container}>
                 <div className={classes.filters}>
-                    <div className={classes.filtersTitle}>Filters:</div>
-                    <div className={classes.filtersData}>Brand:
-                        <Filters options={options} onFilterChange={filterChanged} onBoolChange={boolChange} />
-                    </div>
+                    <Filters options={options} onFilterChange={filterChanged} onBoolChange={boolChange} />
                 </div>
                 <div className={classes.cardsContainer}>
                     {
                         /* globalVal.filteredOptions.map((opt,id)=>{return (<CarCard key={id} car={opt} showButton={true}/>)})*/
-                        (filters === true) ? (items.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) })) : (options.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) }))
+                        (filters == true) ? (items.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) })) : (options.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) }))
                     }
                 </div>
             </div>

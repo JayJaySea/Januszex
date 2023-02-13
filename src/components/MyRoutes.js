@@ -15,7 +15,9 @@ import { action as logoutAction } from '../pages/LogoutPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth.js';
 import ResHistoryPage, {action as deleteReservationAction} from '../pages/ResHistoryPage';
 import DamagesPage from '../pages/DamagesPage';
-import AboutUs from '../pages/AboutUs';
+import LoyalityCardPage from '../pages/LoyalityCardPage';
+import ThankYouPage from '../pages/ThankYouPage';
+import AboutUsPage from '../pages/AboutUsPage';
 
 function MyRoutes() {
 
@@ -55,6 +57,10 @@ function MyRoutes() {
               element: <ResHistoryPage />,
               action: deleteReservationAction,
             },
+            {
+              path: '/account:userId/loyalityCard',
+              element: <LoyalityCardPage />,
+            },
           ],
         },
         {
@@ -66,8 +72,12 @@ function MyRoutes() {
           element: <DamagesPage />,
         },
         {
+          path: '/thankYou',
+          element: <ThankYouPage />,
+        },
+        {
           path: '/aboutUs',
-          element: <AboutUs />,
+          element: <AboutUsPage />,
         },
       ],
     },

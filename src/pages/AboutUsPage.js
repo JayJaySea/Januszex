@@ -1,4 +1,4 @@
-import classes from "./AboutUs.module.css";
+import classes from "./AboutUsPage.module.css";
 import React from "react";
 
 const AboutUs =()=> {
@@ -10,6 +10,7 @@ const AboutUs =()=> {
     return(
         <div className={classes.parent}>
             <div className={classes.titleJanuszexCss}>Januszex</div>
+            <div className={classes.phoneCss}>Telefon kontaktowy: 213 769 420</div>
             <div className={classes.container}>
                 <div className={classes.image}>
                     <img src="https://i.imgur.com/Evk3Nom.png" alt="Tu powinno być nasze logo"></img>

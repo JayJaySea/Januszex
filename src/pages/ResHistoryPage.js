@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { redirect, json, useRouteLoaderData, defer, useSubmit, Await } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
 import { getAuthToken } from '../util/auth';
+import classes from "./ResHistoryPage.module.css"
 
 function ResHistoryPage() {
     const [reservations, setReservations] = useState([]);
@@ -30,6 +31,7 @@ function ResHistoryPage() {
                     price: data[key].price,
                     startDate: data[key].rentDate,
                     endDate: data[key].returnDate,
+                    isActive: data[key].isActive
                 });
             }
 
@@ -52,32 +54,34 @@ function ResHistoryPage() {
 
     const submit = useSubmit();
 
-    function startDeleteHandler() {
+    function startCancelHandler() {
         const proceed = window.confirm('Are you sure?');
 
         if (proceed) {
-            submit(null, { method: 'delete' });
+            submit(null, { method: 'patch' });
         }
     }
 
     return (
-        <div className="account-page">
+        <div className={classes.accountContainer}>
             <AccountNav />
+            <div className={classes.mainElem}>
             <h1>Twoje rezerwacje</h1>
             <div >
                 <ul>
                     {reservations.map((res) => (
                         <li key={res.id}>
-                            <div>Numer rezerwacji: {res.id}</div>
-                            <div>Samochód: {res.carName}</div>
-                            <div>Cena: {res.price}</div>
-                            <div>Data rozpoczęcia wypożyczenia: {res.startDate}</div>
-                            <div>Data zakończenia wypożyczenia: {res.endDate}</div>
-                            {res.startDate > currDate &&
-                                <button onClick={startDeleteHandler}>Anuluj rezerwację</button>}
+                            <li>Numer rezerwacji: {res.id}</li>
+                            <li>Samochód: {res.carName}</li>
+                            <li>Cena: {res.price}</li>
+                            <li>Data rozpoczęcia wypożyczenia: {res.startDate}</li>
+                            <li>Data zakończenia wypożyczenia: {res.endDate}</li>
+                            {(res.startDate > currDate) && res.isActive &&
+                                <button className={classes.btnSubmit} onClick={startCancelHandler}>Anuluj rezerwację</button>}                           
                         </li>
                     ))}
                 </ul>
+            </div>
             </div>
         </div>
     );
@@ -87,23 +91,41 @@ function ResHistoryPage() {
 export default ResHistoryPage;
 
 export async function action({ params, request }) {
-    const reservId = params.reserveID;
-  
-    const token = getAuthToken();
-    const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations/' + reservId, {
-      method: request.method,
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    });
-  
-    if (!response.ok) {
-      throw json(
-        { message: 'Could not cancel reservation.' },
-        {
-          status: 500,
-        }
-      );
-    }
-    return null;
+    const method = request.method;
+  const data = await request.formData();
+  const reservId = params.reserveID;
+
+  const eventData = {
+    title: data.get('title'),
+    image: data.get('image'),
+    date: data.get('date'),
+    description: data.get('description'),
+  };
+
+  let url = 'http://localhost:8080/events';
+
+  if (method === 'PATCH') {
+    const eventId = params.reservId;
+    url = 'http://localhost:8080/events/' + reservId;
+  }
+
+  const token = getAuthToken();
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify(eventData),
+  });
+
+  if (response.status === 422) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: 'Could not save event.' }, { status: 500 });
+  }
+
+  return redirect('/events');
   }

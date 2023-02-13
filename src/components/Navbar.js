@@ -26,11 +26,14 @@ function PageNav() {
       <div className={classes.rightIcons}>
         <ul>
           {!token && (
+            <div className={classes.notLogged}>
             <li>
               <Link to="/sign?mode=login">
                 <img className="account-icon" src={accountIcon} width="25px" height="25px" />
               </Link>
             </li>
+            <li><Link className={classes.signUp} to="/sign?mode=signUp">Zarejestruj się</Link></li>
+            </div>
           )}
           {token && (
             <div className={classes.account}>
