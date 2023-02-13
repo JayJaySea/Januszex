@@ -104,6 +104,19 @@ pub async fn fail_cancel_reservation() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
 }
 
+#[get("/reservation_history")]
+pub async fn reservation_history(state: &State<Mutex<GlobalState>>, id: UserId) -> Result<Json<Vec<Reserve>>, Json<ErrorInfo>> {
+    let state = &mut state.lock().await;
+    let reservations = state.get_user_reservations(id.0)?;
+
+    Ok(Json::from(reservations))
+}
+
+#[get("/reservation_history", rank = 1)]
+pub async fn fail_reservation_history() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
+
 #[derive(Deserialize, Default, Clone)]
 #[serde(crate = "rocket::serde")]
 #[serde(default)]

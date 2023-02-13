@@ -81,7 +81,7 @@ reserve.addEventListener("click", function() {
 				rentDate: "2004-02-12T00:00:00",
 				returnDate: "2004-02-12T00:00:00",
 				deliveryAddress: "abcd",
-				carID: 6
+				carID: 3
 			})
 })	
   	.then(response => response.json())
@@ -170,6 +170,18 @@ const delete_account = document.getElementById("delete_account");
 delete_account.addEventListener("click", function() {
 	fetch('/delete_account', {
 		method: 'DELETE',
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
+
+
+const reservation_history = document.getElementById("reservation_history");
+
+reservation_history.addEventListener("click", function() {
+	fetch('/reservation_history', {
+		method: 'GET',
 })	
   	.then(response => response.json())
   	.then(data => console.log(data))

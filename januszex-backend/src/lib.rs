@@ -163,7 +163,7 @@ impl GlobalState {
         diesel::insert_into(reservations::table)
             .values(reserve)
             .get_result::<Reserve>(&mut self.db_conn)
-            .map_err(|_| Error::InternalServerError(file!(), line!()).into())
+            .map_err(|_| Error::WrongData.into())
     }
 
     pub fn check_reservation(&mut self, reserve: &ReserveNew) -> Result<(), ErrorInfo> {
@@ -196,6 +196,20 @@ impl GlobalState {
             .set(reservations::valid.eq(false))
             .get_result::<Reserve>(&mut self.db_conn)
             .map_err(|_| Error::WrongId.into())
+    }
+
+    pub fn get_user_reservations(&mut self, user_id: i32) -> Result<Vec<Reserve>, ErrorInfo> {
+        use crate::schema::{
+            reservations,
+            reservations::userID,
+            reservations::valid
+        };
+
+        reservations::table
+            .filter(userID.eq(user_id))
+            .filter(valid.eq(true))
+            .load::<Reserve>(&mut self.db_conn)
+            .map_err(|_| Error::WrongData.into())
     }
 
     pub fn add_damage_report(&mut self, damage: DamageNew) -> Result<Damage, ErrorInfo> {

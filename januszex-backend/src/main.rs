@@ -41,6 +41,8 @@ fn rocket() -> _ {
             reserve::reserve_guest,
             reserve::cancel_reservation,
             reserve::fail_cancel_reservation,
+            reserve::reservation_history,
+            reserve::fail_reservation_history,
         ])
         .mount("/", FileServer::from("./static"))
         .register("/", catchers![internal_error, not_found, wrong_data])
