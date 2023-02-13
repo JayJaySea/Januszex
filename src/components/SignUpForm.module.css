@@ -1,0 +1,69 @@
+
+.signUpForm {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.container {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header {
+    text-align: center;
+}
+
+.signUpForm form {
+    width: 100%;
+}
+
+.signUpForm input {
+    padding: 7px;
+}
+
+.accountInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountInfo input {
+    width: 18vw;
+    margin-bottom: 30px;
+}
+
+.formElem {
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 50px));
+    align-items: center;
+    column-gap: 100px;
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.btnSubmit {
+    background-color: var(--not-member);
+    padding: 10px 30px;
+    border-radius: 10px;
+}
+
+.btnSubmit:hover {
+    background-color: var(--button-idle);
+    color: var(--not-member);
+    padding: 10px 30px;
+    border-radius: 10px;
+}
