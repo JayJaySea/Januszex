@@ -187,3 +187,19 @@ reservation_history.addEventListener("click", function() {
   	.then(data => console.log(data))
   	.catch(error => console.error(error));
 });
+
+const get_car = document.getElementById("get_car");
+
+get_car.addEventListener("click", function() {
+	fetch('/get_car', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(
+			{
+				id: 1
+			})
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});

@@ -34,6 +34,7 @@ fn rocket() -> _ {
             users::fail_delete_account,
 
             cars::list_cars,
+            cars::get_car,
             cars::give_feedback,
             cars::report_damage,
 

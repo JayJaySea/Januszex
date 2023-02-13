@@ -6,6 +6,7 @@ use rocket::{
 };
 
 use crate::{
+    AnyId,
     GlobalState,
     models::{
         Car,
@@ -22,6 +23,14 @@ use tokio::sync::Mutex;
 pub async fn list_cars(state: &State<Mutex<GlobalState>>) -> Result<Json<Vec<Car>>, Json<ErrorInfo>> {
     let state = &mut state.lock().await;
     let cars = state.get_cars_list()?;
+
+    Ok(Json::from(cars))
+}
+
+#[post("/get_car", format = "json", data = "<car_id>")]
+pub async fn get_car(state: &State<Mutex<GlobalState>>, car_id: Json<AnyId>) -> Result<Json<Car>, Json<ErrorInfo>> {
+    let state = &mut state.lock().await;
+    let cars = state.get_car(car_id.id)?;
 
     Ok(Json::from(cars))
 }

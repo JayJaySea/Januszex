@@ -10,6 +10,7 @@ use rocket::{
 };
 
 use crate::{
+    AnyId,
     GlobalState,
     models::{
         ReserveNew,
@@ -115,13 +116,6 @@ pub async fn reservation_history(state: &State<Mutex<GlobalState>>, id: UserId) 
 #[get("/reservation_history", rank = 1)]
 pub async fn fail_reservation_history() -> Json<ErrorInfo> {
     Json(Error::NotLoggedIn.into())
-}
-
-#[derive(Deserialize, Default, Clone)]
-#[serde(crate = "rocket::serde")]
-#[serde(default)]
-pub struct AnyId {
-    pub id: i32,
 }
 
 #[derive(Deserialize, Default, Clone)]

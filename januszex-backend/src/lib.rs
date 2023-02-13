@@ -3,6 +3,7 @@ use diesel::{
     prelude::*,
     sqlite::SqliteConnection,
 };
+use rocket::serde::{Deserialize};
 use dotenvy::dotenv;
 use std::env;
 
@@ -155,6 +156,15 @@ impl GlobalState {
             .map_err(|_| Error::InternalServerError(file!(), line!()).into())
     }
 
+    pub fn get_car(&mut self, id: i32) -> Result<Car, ErrorInfo> {
+        use crate::schema::cars;
+        
+        cars::table
+            .filter(cars::id.eq(id))
+            .first::<Car>(&mut self.db_conn)
+            .map_err(|_| Error::WrongId.into())
+    }
+
     pub fn add_reservation(&mut self, reserve: ReserveNew) -> Result<Reserve, ErrorInfo> {
         use crate::schema::reservations;
 
@@ -230,3 +240,11 @@ impl GlobalState {
             .map_err(|_| Error::WrongData.into())
     }
 }
+
+#[derive(Deserialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct AnyId {
+    pub id: i32,
+}
+
