@@ -158,15 +158,44 @@ impl GlobalState {
     pub fn add_reservation(&mut self, reserve: ReserveNew) -> Result<Reserve, ErrorInfo> {
         use crate::schema::reservations;
 
+        self.check_reservation(&reserve)?;
+
         diesel::insert_into(reservations::table)
             .values(reserve)
             .get_result::<Reserve>(&mut self.db_conn)
-            .map_err(|err| {
-                match err {
-                    result::Error::DatabaseError(result::DatabaseErrorKind::UniqueViolation,.. ) => Error::AlreadyReserved.into(),
-                    _ => Error::WrongData.into()
-                }
-            })
+            .map_err(|_| Error::InternalServerError(file!(), line!()).into())
+    }
+
+    pub fn check_reservation(&mut self, reserve: &ReserveNew) -> Result<(), ErrorInfo> {
+        use crate::schema::{
+            reservations,
+            reservations::carID,
+            reservations::valid
+        };
+
+        let conflicting: i64 = reservations::table
+            .filter(carID.eq(reserve.carID))
+            .filter(valid.eq(true))
+            .count()
+            .get_result(&mut self.db_conn)
+            .map_err(|_| Error::InternalServerError(file!(), line!()))?;
+
+        if conflicting > 0 {
+            Err(Error::AlreadyReserved.into())
+        }
+        else {
+            Ok(())
+        }
+    }
+
+    pub fn cancel_reservation(&mut self, id: i32) -> Result<Reserve, ErrorInfo> {
+        use crate::schema::reservations;
+
+        diesel::update(reservations::table)
+            .filter(reservations::id.eq(id))
+            .set(reservations::valid.eq(false))
+            .get_result::<Reserve>(&mut self.db_conn)
+            .map_err(|_| Error::WrongId.into())
     }
 
     pub fn add_damage_report(&mut self, damage: DamageNew) -> Result<Damage, ErrorInfo> {

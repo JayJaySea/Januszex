@@ -38,7 +38,8 @@ CREATE TABLE "reservations" (
 	"rentDate"				DATETIME NOT NULL,
 	"returnDate"			DATETIME NOT NULL,
 	"deliveryAddress"		TEXT NOT NULL,
-	"carID"					INTEGER NOT NULL UNIQUE,
+	"valid"					BOOLEAN NOT NULL,
+	"carID"					INTEGER NOT NULL,
 	"userID"				INTEGER NOT NULL,
 	CONSTRAINT fk_car
 		FOREIGN KEY ("carID") 

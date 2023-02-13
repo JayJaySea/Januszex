@@ -1,6 +1,7 @@
 use rocket::{
     State,
     get,
+    put,
     post,
     serde::{Deserialize, 
         json::Json,
@@ -37,6 +38,7 @@ pub async fn reserve_logged(
         rentDate: reserve.rentDate,
         returnDate: reserve.returnDate,
         deliveryAddress: reserve.deliveryAddress,
+        valid: true,
         carID: reserve.carID,
         userID: id.0
     };
@@ -64,6 +66,7 @@ pub async fn reserve_guest(
         rentDate: reserve.rentDate,
         returnDate: reserve.returnDate,
         deliveryAddress: reserve.deliveryAddress,
+        valid: true,
         carID: reserve.carID,
         userID: user.id
     };
@@ -82,6 +85,30 @@ pub async fn check_guest_data_valid(user: &UserNew) -> Result<(), ErrorInfo> {
     };
 
     Ok(())
+}
+
+#[put("/cancel_reservation", format = "json", data = "<res_id>")]
+pub async fn cancel_reservation(
+    state: &State<Mutex<GlobalState>>,
+    _user_id: UserId,
+    res_id: Json<AnyId>
+) -> Result<Json<Reserve>, Json<ErrorInfo>> {
+    let state = &mut state.lock().await;
+
+    Ok(Json(state.cancel_reservation(res_id.into_inner().id)?))
+}
+
+
+#[put("/cancel_reservation", rank = 1)]
+pub async fn fail_cancel_reservation() -> Json<ErrorInfo> {
+    Json(Error::NotLoggedIn.into())
+}
+
+#[derive(Deserialize, Default, Clone)]
+#[serde(crate = "rocket::serde")]
+#[serde(default)]
+pub struct AnyId {
+    pub id: i32,
 }
 
 #[derive(Deserialize, Default, Clone)]

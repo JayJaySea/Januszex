@@ -35,6 +35,7 @@ diesel::table! {
         rentDate -> Timestamp,
         returnDate -> Timestamp,
         deliveryAddress -> Text,
+        valid -> Bool,
         carID -> Integer,
         userID -> Integer,
     }

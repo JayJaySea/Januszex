@@ -78,10 +78,26 @@ reserve.addEventListener("click", function() {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(
 			{
-				rentDate: "2004-02-12T15:19:21",
-				returnDate: "2004-02-12T15:19:21",
+				rentDate: "2004-02-12T00:00:00",
+				returnDate: "2004-02-12T00:00:00",
 				deliveryAddress: "abcd",
 				carID: 6
+			})
+})	
+  	.then(response => response.json())
+  	.then(data => console.log(data))
+  	.catch(error => console.error(error));
+});
+
+const cancel_res = document.getElementById("cancel_res");
+
+cancel_res.addEventListener("click", function() {
+	fetch('/cancel_reservation', {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(
+			{
+				id: 1
 			})
 })	
   	.then(response => response.json())
@@ -105,8 +121,8 @@ reserve_guest.addEventListener("click", function() {
 					role: 1
 				},
 				reserve: {
-					rentDate: "2004-02-12T15:19:21",
-					returnDate: "2004-02-12T15:19:21",
+					rentDate: "2004-02-12T00:00:00",
+					returnDate: "2004-02-12T00:00:00",
 					deliveryAddress: "abcd",
 					carID: 6
 				}

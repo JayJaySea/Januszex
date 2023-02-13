@@ -68,6 +68,7 @@ pub struct ReserveNew {
     pub rentDate: NaiveDateTime,
     pub returnDate: NaiveDateTime,
     pub deliveryAddress: String,
+    pub valid: bool,
     pub carID: i32,
     pub userID: i32,
 }
@@ -88,6 +89,7 @@ pub struct Reserve {
     pub rentDate: NaiveDateTime,
     pub returnDate: NaiveDateTime,
     pub deliveryAddress: String,
+    pub valid: bool,
     pub carID: i32,
     pub userID: i32,
 }
