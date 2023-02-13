@@ -1,0 +1,36 @@
+.filterButton
+{
+    width: 240px;
+    height: 55px;
+    
+}
+
+.minMaxText
+{
+    width: 60px;
+    font-size: 30;
+}
+
+.select
+{
+    width: 100%;
+}
+
+.maxInputCss
+{
+    flex-grow: 1;
+    height: 13px;
+}
+
+.minInputCss
+{
+    flex-grow: 1;
+    height: 13px;
+}
+
+.singeRange{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

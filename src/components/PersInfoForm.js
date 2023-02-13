@@ -3,15 +3,11 @@ import classes from "./PersInfoForm.module.css";
 
 function PersInfoForm(props) {
 
-  const [agreement, setAgreement] = useState(false);
   const [error, setError] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const ifCreateAcc = (event) => {
-    setAgreement(event.target.checked);
-  }
 
 
   //get users from database
@@ -54,33 +50,12 @@ function PersInfoForm(props) {
   const emailRef = useRef('');
   const drivLicNumbRef = useRef('');
   const licCategNumbRef = useRef('');
-  const usernameRef = useRef('');
-  const passwordRef = useRef('');
 
   function submitHandler(event) {
     event.preventDefault();
     // could add validation here...
 
-    // Compare user info
-    if (users.find((user) => user.usernameDB != usernameRef.current.value)) {
-      if (users.find((user) => user.emailDB != emailRef.current.value)) {
-        setError(null);
-        setIsSubmitted(true);
-      } else {
-        // Invalid password
-        setError("Account already exists for this e-mail!");
-        return;
-      }
-    } else {
-      // Username not found
-      setError("Username already exists!");
-      return;
-    }
-
-
     const tmpUser = {
-      username: usernameRef.current.value !== null ? usernameRef.current.value : null,
-      password: passwordRef.current.value !== null ? passwordRef.current.value : null,
       name: nameRef.current.value,
       surname: surnameRef.current.value,
       email: emailRef.current.value,
@@ -90,7 +65,6 @@ function PersInfoForm(props) {
     props.onPersInfoForm(tmpUser);
   }
 
-
   return (
     <div className={classes.piForm} >
       <form className={classes.form} onSubmit={submitHandler}>
@@ -99,7 +73,7 @@ function PersInfoForm(props) {
           <h2>Full name</h2>
           <div className={classes.formElem}>
             <input type="text" placeholder="Enter Name" name="name" ref={nameRef} required />
-            <input type="text" placeholder="Enter Name" name="surname" ref={surnameRef} required />
+            <input type="text" placeholder="Enter Surname" name="surname" ref={surnameRef} required />
             <label htmlFor="name"><strong>Name</strong></label>
             <label htmlFor="surname"><strong>Surname</strong></label>
           </div>
@@ -120,18 +94,6 @@ function PersInfoForm(props) {
         </div>
 
         <button type="submit">Submit</button>
-
-        <div className={classes.additional}>
-          <label>
-            <input type="checkbox" name="create-acc" onChange={ifCreateAcc} /> Create account
-          </label>
-        </div>
-        <div className="loginForm__container-acc">
-          <label htmlFor="username"><strong>Username</strong></label>
-          <input type="text" placeholder="Enter Username" name="username" readOnly={!agreement} ref={usernameRef} />
-          <label htmlFor="password"><strong>Password</strong></label>
-          <input type="password" placeholder="Enter Password" name="password" readOnly={!agreement} ref={passwordRef} />
-        </div>
       </form>
     </div>
   );
