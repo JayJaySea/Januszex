@@ -78,72 +78,64 @@ function HomePage() {
     const filterChanged = (filters) => {
         setItems(prev => {
 
-            if(filters.textBrand!="---")
-            {
-                prev=prev.filter((option)=>option.brand==filters.textBrand)
+            if (filters.textBrand != "---") {
+                prev = prev.filter((option) => option.brand == filters.textBrand)
             }
-            if(filters.textModel!="---")
-            {
-                prev=prev.filter((option)=>option.model==filters.textModel)
+            if (filters.textModel != "---") {
+                prev = prev.filter((option) => option.model == filters.textModel)
             }
-            if(filters.textComfort!="---")
-            {
-                prev=prev.filter((option)=>option.comfortScale==filters.textComfort)
+            if (filters.textComfort != "---") {
+                prev = prev.filter((option) => option.comfortScale == filters.textComfort)
             }
-            if(filters.textColor!="---")
-            {
-                prev=prev.filter((option)=>option.color==filters.textColor)
+            if (filters.textColor != "---") {
+                prev = prev.filter((option) => option.color == filters.textColor)
             }
-            if(filters.textSeats!="---")
-            {
-                prev=prev.filter((option)=>option.howManySeats==filters.textSeats)
+            if (filters.textSeats != "---") {
+                prev = prev.filter((option) => option.howManySeats == filters.textSeats)
             }
-            if(filters.textTransporter!="---")
-            {
-                if(filters.textTransporter=="Yes")
-                {
-                    prev=prev.filter((option)=>option.isATruck==true)
+            if (filters.textTransporter != "---") {
+                if (filters.textTransporter == "Yes") {
+                    prev = prev.filter((option) => option.isATruck == true)
                 }
-                else
-                {
-                    prev=prev.filter((option)=>option.isATruck==false)
+                else {
+                    prev = prev.filter((option) => option.isATruck == false)
                 }
             }
-            if(filters.textMin!=null)
-            {
-                prev=prev.filter((option)=>option.price>filters.textMin)
+            if (filters.textMin != null) {
+                prev = prev.filter((option) => option.price > filters.textMin)
             }
-            if(filters.textMax!=null)
-            {
-                prev=prev.filter((option)=>option.price<filters.textMax)
+            if (filters.textMax != null) {
+                prev = prev.filter((option) => option.price < filters.textMax)
             }
 
             return prev
-                }
+        }
 
         )
     }
 
-    const boolChange=(bool)=>{
+    const boolChange = (bool) => {
         setItems(options)
-        setFilters(prev=>{
+        setFilters(prev => {
             return bool
         })
     }
 
-    return (      
+    return (
         <div className={classes.homePage}>
-            <div className={classes.filters}>
-                <div className={classes.filtersTitle}>Filters:</div>
-                <div className={classes.filtersData}>Brand:
-                <Filters options={options} onFilterChange={filterChanged} onBoolChange={boolChange}/>
-                </div>             
-            </div>
-            <div className={classes.cardsContainer}>
-                {
-                  /* globalVal.filteredOptions.map((opt,id)=>{return (<CarCard key={id} car={opt} showButton={true}/>)})*/
-                   (filters==true) ? (items.map((opt,id)=>{return (<CarCard key={id} car={opt} showButton={true}/>)})) :  (options.map((opt,id)=>{return (<CarCard key={id} car={opt} showButton={true}/>)}))
-                }
+            <div className={classes.container}>
+                <div className={classes.filters}>
+                    <div className={classes.filtersTitle}>Filters:</div>
+                    <div className={classes.filtersData}>Brand:
+                        <Filters options={options} onFilterChange={filterChanged} onBoolChange={boolChange} />
+                    </div>
+                </div>
+                <div className={classes.cardsContainer}>
+                    {
+                        /* globalVal.filteredOptions.map((opt,id)=>{return (<CarCard key={id} car={opt} showButton={true}/>)})*/
+                        (filters == true) ? (items.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) })) : (options.map((opt, id) => { return (<CarCard key={id} car={opt} showButton={true} />) }))
+                    }
+                </div>
             </div>
         </div>
     )

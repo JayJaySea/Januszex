@@ -12,15 +12,17 @@ function PageNav() {
 
   return (
     <div className={classes.pageNav}>
-    <ul className={classes.leftIcons}>
-      <li><Link to="/"><img className={classes.logo} src={logo} width="90px" height="65px" /></Link></li>
-      <li><Link to="/damages">Zgłoś usterkę</Link></li>
+    <div className={classes.container}>
+      <Link className={classes.logo} to="/">
+        <img className={classes.logoImg} src={logo} width="90px" height="65px" />
+        <div className={classes.compName}>Januszex</div>
+      </Link>
+
+      <ul className={classes.middle}>
+        <li><Link to="/">Przeglądaj auta</Link></li>
+        <li><Link to="/damages">Zgłoś usterkę</Link></li>
+        <li><Link to="">O nas</Link></li>
       </ul>
-      {/*<div className={classes.searchBar}>
-        <input type="text" className={classes.input} placeholder="Search..." />
-        <img className={classes.searchIcon} src={searchIcon} width="20px" height="20px" />
-      </div>*/}
-      <span className={classes.space}></span>
       <div className={classes.rightIcons}>
         <ul>
           {!token && (
@@ -41,6 +43,7 @@ function PageNav() {
             </div>
           )}
         </ul>
+      </div>
       </div>
     </div>
   );

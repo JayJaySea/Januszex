@@ -1,11 +1,20 @@
 @import "../components/colors.module.css";
 
 .homePage {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: var(--background);
+    color: var(--text);
+    padding: 0;
+    padding-top: 50px; 
+}
+
+.container {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    background-color: var(--background);
-    color: var(--text);
+    width: 65%;
 }
 
 .cardsContainer{
@@ -14,15 +23,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width:60%;
-    margin-left: 20%;
-    margin-right: 20%;
 }
 
 .filters{
-    margin-left:5% ;
-    width: 20%;
-    position: fixed;
 }
 
 

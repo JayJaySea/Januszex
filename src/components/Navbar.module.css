@@ -3,6 +3,7 @@
 .pageNav {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   margin: auto;
   z-index: 99;
@@ -14,37 +15,26 @@
   top: 0;
 }
 
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 65%;
+  padding: 0;
+}
+
 .logo {
-  padding-left: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-self: start;
 }
 
-.searchBar {
-  display: flex;
-  justify-self: center;
-  position: relative;
-  left: calc(50% - 282px);
-  z-index: 10;
-}
-
-.input {
-  width: calc(300px - 18px);
-  height: 29px;
-  border-radius: 15px;
-  border: none;
-  background-color: var(--button-idle);
-  padding-left: 18px;
-}
-
-.searchIcon {
-  position: relative;
-  right: 36px;
-  top: 5px;
-}
-
-.space {
-  width: 1000px;
-  max-width: calc(65%);
+.compName {
+  padding-left: 10px;
+  font-weight: 900;
+  font-size: 1.5em;
+  color: var(--not-member);
 }
 
 .rightIcons {
@@ -57,7 +47,6 @@
   list-style: none;
   align-items: center;
   padding: 0;
-  margin-right: 80px;
 }
 
 .rightIcons li {
@@ -73,14 +62,14 @@
   flex-direction: row;
 }
 
-button {
+.pageNav button {
   background-color: var(--top-panel);
   border: none;
   color: var(--text);
   font-size: 1em;
 }
 
-button:hover {
+.pageNav button:hover {
   color: var(--not-member);
   cursor: pointer;
 }
@@ -94,4 +83,9 @@ button:hover {
 .leftIcons li{
   margin: 0 10px;
   width: max-content;
+}
+
+.middle {
+  display: flex;
+  flex-direction: row;
 }

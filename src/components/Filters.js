@@ -84,6 +84,7 @@ function Filters({ options, onFilterChange, onBoolChange }) {
     const seatsOptions = [...new Map(options.map(option => [option["howManySeats"], option])).values()];
     return (
         <div className={classes.filterCont}>
+        <div className={classes.filtersBrand}>Marka:</div>
             <select className={classes.select} id="brandSelect">
                 <option className="checkBoxesCss">---</option>
                 {
@@ -97,21 +98,21 @@ function Filters({ options, onFilterChange, onBoolChange }) {
                     modelOptions.map((opt, id) => { return (<ModelFilter key={id} car={opt} />) })
                 }
             </select>
-            <div className={classes.filtersData}>Comfort Scale:</div>
+            <div className={classes.filtersData}>Komfort:</div>
             <select className={classes.select} id="comfortSelect">
                 <option>---</option>
                 {
                     comfortOptions.map((opt, id) => { return (<ComfortFilter key={id} car={opt} />) })
                 }
             </select>
-            <div className={classes.filtersData}>Color:</div>
+            <div className={classes.filtersData}>Kolor:</div>
             <select className={classes.select} id="colorSelect">
                 <option>---</option>
                 {
                     colorOptions.map((opt, id) => { return (<ColorFilter key={id} car={opt} />) })
                 }
             </select>
-            <div className={classes.filtersData}>Seats:</div>
+            <div className={classes.filtersData}>Ilość miejsc:</div>
             <select className={classes.select} id="seatsSelect">
                 <option>---</option>
                 {
@@ -121,21 +122,21 @@ function Filters({ options, onFilterChange, onBoolChange }) {
             <div className={classes.filtersData}>Is a transporter:</div>
             <select className={classes.select} id="transporterSelect">
                 <option>---</option>
-                <option>Yes</option>
-                <option>No</option>
+                <option>Tak</option>
+                <option>Nie</option>
             </select>
-            <div className={classes.filtersPrice}>Price Range:</div>
+            <div className={classes.filtersPrice}>Cena:</div>
             <div className={classes.singeRange}>
                 <span className={classes.minMaxText}>Min:</span>
                 <input className={classes.minInputCss} type="number" id="min" />
             </div>
             <div className={classes.singeRange}>
-                <span className={classes.minMaxText}>Max:</span>
+                <span className={classes.minMaxText}>Maks:</span>
                 <input className={classes.maxInputCss} type="number" id="max" />
             </div>
-            <button className={classes.filterButton} type="button" onClick={() => GetFilters(onFilterChange, onBoolChange)}>Filter</button>
+            <button className={classes.filterButton} type="button" onClick={() => GetFilters(onFilterChange, onBoolChange)}>Filtruj</button>
             <br></br>
-            <button className={classes.filterButton} type="button" onClick={() => ResetFilters(onBoolChange)}>Cancel Bottoms</button>
+            <button className={classes.filterButton} type="button" onClick={() => ResetFilters(onBoolChange)}>Wyczyść filtry</button>
         </div>
     )
 }
