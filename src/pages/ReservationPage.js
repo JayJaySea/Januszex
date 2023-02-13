@@ -24,10 +24,10 @@ function ReservationPage(props) {
     function datePickerHandler(dates) {
         setDates(dates);
         const resData = {
-            rentDate: dates.startDate,
-            returnDate: dates.endDate,
-            carID: carData.id,
-            collectAddress: collectAddressRef.current.value
+            rentDate: dates.startDate + "T00:00:00",
+            returnDate: dates.endDate + "T00:00:00",
+            deliveryAddress: collectAddressRef.current.value,
+            carID: carData.id
         }
         setReservData(resData);
     }
@@ -39,7 +39,7 @@ function ReservationPage(props) {
             surname: surnameRef.current.value,
             email: emailRef.current.value,
             drivingLicense: drivLicNumbRef.current.value,
-            licCategNumb: licCategNumbRef.current.value,
+            licCategoryNumber: licCategNumbRef.current.value,
             role: 1
         }
         const all = {
@@ -47,7 +47,7 @@ function ReservationPage(props) {
             reserve: reservData
         }
 
-        const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
+        const response = await fetch('/reserve', {
             method: 'POST',
             body: JSON.stringify(!token ? all : reservData),
             headers: { 'Content-type': 'application/json' }

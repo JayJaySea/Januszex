@@ -85,7 +85,8 @@ function HomePage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/cars.json');
+            const response = await fetch('/list_cars');
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -96,7 +97,7 @@ function HomePage() {
             for (const key in data) {
                 loadedCars.push({
                     id: key,
-                    howManySeats: data[key].seats,
+                    howManySeats: data[key].howManySeats,
                     color: data[key].color,
                     distanceCovered: data[key].distanceCovered,
                     comfortScale: data[key].comfortScale,
@@ -104,7 +105,7 @@ function HomePage() {
                     model: data[key].model,
                     price: data[key].price,
                     isATruck: data[key].isATruck,
-                    photoURL: data[key].photoURL,
+                    photoURL: data[key].pictureURL,
                 });
             }
             setCars(loadedCars);

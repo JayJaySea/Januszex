@@ -15,7 +15,7 @@ function DamagesPage() {
         description: damageRef.current.value
     }
     
-    const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/damages.json', {
+    const response = await fetch('/report_damage', {
         method: 'POST',
         body: JSON.stringify(tmpData),
         headers: { 'Content-type': 'application/json' }

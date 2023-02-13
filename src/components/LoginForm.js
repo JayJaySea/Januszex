@@ -48,14 +48,13 @@ export async function action({ request }) {
   const data = await request.formData();
 
   const authData = {
-          email: data.get('email'),
           login: data.get('username'),
           password: data.get('password')
   };
   
   console.log(data);
   
-  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json', { //http://localhost:8080/' + mode
+  const response = await fetch('/login', { //http://localhost:8080/' + mode
       method: method,
       headers: {
           'Content-Type': 'application/json',
