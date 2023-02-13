@@ -6,7 +6,7 @@ import classes from "./ReservationPage.module.css";
 
 function ReservationPage(props) {
 
-    const token = null; //useRouteLoaderData('root');
+    const token = localStorage.getItem("ifLogged"); //useRouteLoaderData('root');
     const location = useLocation();
     const navigate = useNavigate();
 

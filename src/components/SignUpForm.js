@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, useActionData, useNavigation, json } from "react-router-dom";
+import { Form, useActionData, useNavigation, Link } from "react-router-dom";
 import classes from "./SignUpForm.module.css"
 
 function SignUpForm({ method }) {
@@ -22,15 +22,17 @@ function SignUpForm({ method }) {
             <input id="password" type="password" placeholder="Enter Password" name="password" required />
           </div>
           <div className={classes.persInfo}>
-            <h2>Personal information form</h2>
-            <h3>Full name</h3>
+            <h2>Dane osobiste</h2>
+            <span className={classes.line}></span>
+            <h3>Pełne imię</h3>
             <div className={classes.formElem}>
               <label htmlFor="name">Imię</label>
               <label htmlFor="surname">Nazwisko</label>
               <input type="text" placeholder="Enter Name" name="name" id="name" required />
               <input type="text" placeholder="Enter Surname" name="surname" id="surname" required />
             </div>
-            <h3>Driving license information</h3>
+            <span className={classes.line}></span>
+            <h3>Prawo jazdy</h3>
             <div className={classes.formElem}>
               <label htmlFor="driv-lic-numb">Numer prawa jazdy</label>
               <label htmlFor="lic-categ">Kategoria prawa jazdy</label>
@@ -40,9 +42,10 @@ function SignUpForm({ method }) {
           </div>
           <div className={classes.btnContainer}>
             <button className={classes.btnSubmit} disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit"}
+              {isSubmitting ? "Rejestrowanie..." : "Zarejestruj się"}
             </button>
           </div>
+          <div className={classes.btnContainer}><Link to={'/login'}>Masz już konto? Kliknij tu i zaloguj się!</Link></div>
         </Form>
       </div>
     </div>
@@ -51,53 +54,3 @@ function SignUpForm({ method }) {
 
 export default SignUpForm;
 
-export async function action({ request }) {
-  const searchParams = new URL(request.url).searchParams;
-  let mode = searchParams.get("mode") || "login";
-  const method = request.method;
-
-  if (mode !== "login" && mode !== "signup") {
-    mode = "login";
-  }
-
-  const data = await request.formData();
-
-  const authData = {
-    name: data.get("name"),
-    surname: data.get("surname"),
-    email: data.get("email"),
-    login: data.get("username"),
-    password: data.get("password"),
-    drivingLicense: data.get("driv-lic-numb"),
-    licCategoryNumber: data.get("lic-categ"),
-    role: 1
-  };
-
-  const response = 
-    await fetch("/register", { 
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(authData),
-  });
-  console.log(authData);
-  if (response.status === 422 || response.status === 401) {
-    return response;
-  }
-
-  if (!response.ok) {
-    throw json({ message: "Could not authenticate user." }, { status: 500 });
-  }
-
-  // manage that token
-  const resData = await response.json();
-  const token = resData.token;
-
-  localStorage.setItem("token", token);
-  const expiration = new Date();
-  expiration.setHours(expiration.getHours() + 1);
-  localStorage.setItem("expiration", expiration.toISOString());
-
-  return null; //redirect("/");
-}

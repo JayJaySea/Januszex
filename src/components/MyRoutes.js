@@ -1,5 +1,4 @@
 import React from 'react';
-import SignPage from "../pages/SignPage";
 import HomePage from "../pages/HomePage";
 // importing components from react-router-dom package
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -10,7 +9,8 @@ import AccountPage, {
   action as deleteUserAction,
 } from "../pages/AccountPage"
 import RootLayout from '../pages/Root';
-import { action as signAction } from '../components/SignUpForm';
+import SignPage, { action as signAction } from '../pages/SignPage';
+import LoginPage, { action as loginAction } from '../pages/LoginPage';
 import { action as logoutAction } from '../pages/LogoutPage';
 import { checkAuthLoader, tokenLoader } from '../util/auth.js';
 import ResHistoryPage, {action as deleteReservationAction} from '../pages/ResHistoryPage';
@@ -35,6 +35,11 @@ function MyRoutes() {
           action: signAction,
         },
         {
+          path: '/login',
+          element: <LoginPage />,
+          action: loginAction,
+        },
+        {
           path: '/reservation',
           element: <ReservationPage />,
         },
@@ -43,7 +48,7 @@ function MyRoutes() {
           element: <PaymentPage />,
         },
         {
-          path: '/account:userId',
+          path: '/account',
           id: 'user-detail',
           loader: userDetailLoader,
           children: [
@@ -53,12 +58,12 @@ function MyRoutes() {
               action: deleteUserAction,
             },
             {
-              path: '/account:userId/reservationsHistory',
+              path: '/account/reservationsHistory',
               element: <ResHistoryPage />,
               action: deleteReservationAction,
             },
             {
-              path: '/account:userId/loyalityCard',
+              path: '/account/loyalityCard',
               element: <LoyalityCardPage />,
             },
           ],

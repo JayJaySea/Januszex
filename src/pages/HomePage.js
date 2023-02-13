@@ -86,7 +86,6 @@ function HomePage() {
         setError(null);
         try {
             const response = await fetch('/list_cars');
-
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }

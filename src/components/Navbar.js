@@ -8,7 +8,7 @@ import logo from "../icons/logo.png";
 
 function PageNav() {
 
-  const token = null; //useRouteLoaderData('root');
+  const token = localStorage.getItem('ifLogged'); //useRouteLoaderData('root');
 
   return (
     <div className={classes.pageNav}>
@@ -28,16 +28,16 @@ function PageNav() {
           {!token && (
             <div className={classes.notLogged}>
             <li>
-              <Link to="/sign?mode=login">
+              <Link to="/login">
                 <img className="account-icon" src={accountIcon} width="25px" height="25px" />
               </Link>
             </li>
-            <li><Link className={classes.signUp} to="/sign?mode=signUp">Zarejestruj się</Link></li>
+            <li><Link className={classes.signUp} to="/sign">Zarejestruj się</Link></li>
             </div>
           )}
           {token && (
             <div className={classes.account}>
-              <li><Link to="/account:userId"><img className="account-icon" src={accountIcon} width="25px" height="25px" /></Link></li>
+              <li><Link to="/account"><img className="account-icon" src={accountIcon} width="25px" height="25px" /></Link></li>
               <li>
                 <Form action="/logout" method="post">
                   <button>Wyloguj się</button>

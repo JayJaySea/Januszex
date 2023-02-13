@@ -9,7 +9,7 @@ function AccountPage() {
 
   const { user } = useRouteLoaderData('user-detail');
 
-  const token = "null"//useRouteLoaderData('root');
+  const token = localStorage.getItem('isLogged');//useRouteLoaderData('root');
   const submit = useSubmit();
 
   function startDeleteHandler() {
@@ -49,7 +49,7 @@ async function loadUser(id) {
     );
   } else {
     const resData = await response.json();
-    const user = { //delete that later
+    /*const user = { //delete that later
       username: 'username',
       email: 'email',
       name: 'name',
@@ -57,8 +57,8 @@ async function loadUser(id) {
       drivLic: 'hh',
       licCateg: 'fgf'
     };
-    return user; //delete that later
-    //return resData.user;
+    return user; //delete that later*/
+    return resData.user;
   }
 }
 
@@ -77,7 +77,7 @@ export async function action({ params, request }) {
   const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users/' + userId, {
     method: request.method,
     headers: {
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer ' + token //?????
     }
   });
 
