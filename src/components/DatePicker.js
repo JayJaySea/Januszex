@@ -7,8 +7,8 @@ function DatePicker(props) {
     function addZero(numb) {
         return (numb < 10) ? '0' : ''
     }
-    const currDate = current.getFullYear() + '-' + addZero(current.getMonth() + 1) + (current.getMonth() + 1) + '-' + addZero(current.getDate());
-
+    const currDate = current.getFullYear() + '-' + addZero(current.getMonth() + 1) + (current.getMonth() + 1) + '-' + addZero(current.getDate()) + (current.getDate());
+    console.log(currDate);
     const [startDate, setStartDate] = useState('');
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);

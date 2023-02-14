@@ -49,8 +49,8 @@ function MyRoutes() {
         },
         {
           path: '/account',
-          id: 'user-detail',
-          loader: userDetailLoader,
+          //id: 'user-detail',
+          //loader: userDetailLoader,
           children: [
             {
               index: true,
@@ -60,7 +60,7 @@ function MyRoutes() {
             {
               path: '/account/reservationsHistory',
               element: <ResHistoryPage />,
-              action: deleteReservationAction,
+              //action: deleteReservationAction,
             },
             {
               path: '/account/loyalityCard',

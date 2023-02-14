@@ -77,3 +77,21 @@
     opacity: 30%;
     margin: 10px 0px;
   }
+
+  .errorContainerInvisible{
+    display: none;
+  }
+  
+  .errorContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 10px;  
+  }
+  
+  .error {
+    color: var(--not-member);
+    font-weight: bold;
+  }
+  

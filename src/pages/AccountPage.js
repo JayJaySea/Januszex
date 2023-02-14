@@ -1,5 +1,5 @@
-import React from "react";
-import { redirect, json, useRouteLoaderData, defer, useSubmit, Await, Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { redirect, json, useSubmit } from "react-router-dom";
 import PersInfoPanel from "../components/PersInfoPanel";
 import { getAuthToken } from '../util/auth';
 import AccountNav from "../components/AccountNav";
@@ -7,13 +7,41 @@ import classes from "./AccountPage.module.css"
 
 function AccountPage() {
 
-  const { user } = useRouteLoaderData('user-detail');
+  //const { user } = useRouteLoaderData('user-detail');
 
   const token = localStorage.getItem('isLogged');//useRouteLoaderData('root');
   const submit = useSubmit();
 
+  const [user, setUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchUserHandler = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users/-NOBVDYDgVEpVt42fBeK.json');
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+      const data = await response.json();
+      setUser(data);
+
+    } catch (error) {
+      setError("Something went wrong, try again.");
+    }
+    setIsLoading(false);
+  }, []);
+
+
+  useEffect(() => {
+    fetchUserHandler();
+  }, [fetchUserHandler]);
+
+
   function startDeleteHandler() {
-    const proceed = window.confirm('Are you sure?');
+    const proceed = window.confirm('Czy jesteś pewny?');
 
     if (proceed) {
       submit(null, { method: 'delete' });
@@ -26,9 +54,8 @@ function AccountPage() {
       <AccountNav />
       <div className={classes.mainElem}>
         <h1>Moje konto</h1>
-        <Await resolve={user}>
-          {(loadedUser) => <PersInfoPanel user={loadedUser} />}
-        </Await>
+        <h2>Zmień swoje dane</h2>
+        <PersInfoPanel user={user} />
         <button className={classes.btnSubmit} onClick={startDeleteHandler}>Usuń konto</button>
       </div>
     </div>
@@ -37,48 +64,12 @@ function AccountPage() {
 
 export default AccountPage;
 
-async function loadUser(id) {
-  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users.json');//+ id
-
-  if (!response.ok) {
-    throw json(
-      { message: 'Could not fetch details for selected user.' },
-      {
-        status: 500,
-      }
-    );
-  } else {
-    const resData = await response.json();
-    /*const user = { //delete that later
-      username: 'username',
-      email: 'email',
-      name: 'name',
-      surname: 'surname',
-      drivLic: 'hh',
-      licCateg: 'fgf'
-    };
-    return user; //delete that later*/
-    return resData.user;
-  }
-}
-
-export async function loader({ request, params }) {
-  const id = params.userId;
-
-  return defer({
-    user: await loadUser(id)
-  });
-}
-
 export async function action({ params, request }) {
-  const userId = params.userId;
+  const userId = params.id;
 
-  const token = getAuthToken();
-  const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users/' + userId, {
+
+  const response = await fetch('/delete_account', {
     method: request.method,
-    headers: {
-      'Authorization': 'Bearer ' + token //?????
-    }
   });
 
   if (!response.ok) {
@@ -89,5 +80,8 @@ export async function action({ params, request }) {
       }
     );
   }
+
+  alert('Usunięto konto');
+
   return redirect('/');
 }

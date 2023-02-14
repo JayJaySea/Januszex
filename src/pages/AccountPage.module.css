@@ -6,7 +6,7 @@
     gap: 100px;
     justify-content: center;
     margin-right: 200px;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .mainElem {
@@ -21,8 +21,13 @@
 }
 
 .btnSubmit {
-    background-color: var(--not-member);
+    background-color: var(--button-idle);
+    color: var(--not-member);
     padding: 10px 30px;
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 40px;
 }
+
+.btnSubmit:hover {
+    background-color: var(--not-member);
+  }

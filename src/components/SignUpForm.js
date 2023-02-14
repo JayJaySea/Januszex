@@ -5,7 +5,7 @@ import classes from "./SignUpForm.module.css"
 function SignUpForm({ method }) {
 
   const navigation = useNavigation();
-  const data = useActionData();
+  const error = useActionData();
   const isSubmitting = navigation.state === "submitting";
 
   return (
@@ -40,6 +40,7 @@ function SignUpForm({ method }) {
               <input type="text" placeholder="Enter driving license category" name="lic-categ" id="lic-categ" required />
             </div>
           </div>
+          <div className={error ? classes.errorContainer : classes.errorContainerInvisible}>{error && <div className={classes.error}>{error}</div>}</div>
           <div className={classes.btnContainer}>
             <button className={classes.btnSubmit} disabled={isSubmitting}>
               {isSubmitting ? "Rejestrowanie..." : "Zarejestruj się"}

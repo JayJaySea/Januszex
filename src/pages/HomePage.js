@@ -85,7 +85,7 @@ function HomePage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('/list_cars');
+            const response = await fetch('');
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -95,7 +95,7 @@ function HomePage() {
 
             for (const key in data) {
                 loadedCars.push({
-                    id: key,
+                    id: parseInt(data[key].id),
                     howManySeats: data[key].howManySeats,
                     color: data[key].color,
                     distanceCovered: data[key].distanceCovered,
@@ -108,7 +108,7 @@ function HomePage() {
                 });
             }
             setCars(loadedCars);
-            console.log(loadedCars);
+            
         } catch (error) {
             setError("Something went wrong, try again.");
         }
@@ -137,7 +137,7 @@ function HomePage() {
                 prev = prev.filter((option) => option.color === filters.textColor)
             }
             if (filters.textSeats !== "---") {
-                prev = prev.filter((option) => option.howManySeats === filters.textSeats)
+                prev = prev.filter((option) => option.howManySeats == filters.textSeats)
             }
             if (filters.textTransporter !== "---") {
                 if (filters.textTransporter === "Yes") {

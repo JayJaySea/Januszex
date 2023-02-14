@@ -22,16 +22,16 @@ export async function action({ request }) {
     const searchParams = new URL(request.url).searchParams;
     const mode = searchParams.get('mode') || 'login';
     const method = request.method;
+    let error = {};
 
     const data = await request.formData();
-  
+
     const authData = {
-            login: data.get('username'),
-            password: data.get('password')
+        login: data.get('username'),
+        password: data.get('password')
     };
-    
-    console.log(data);
-    
+
+
     const response = await fetch('/login', { //http://localhost:8080/' + mode
         method: method,
         headers: {
@@ -39,15 +39,20 @@ export async function action({ request }) {
         },
         body: JSON.stringify(authData),
     });
-    console.log(authData);
-    if (response.status === 422 || response.status === 401) {
-        return response;
+
+    const modResponse = response.json();
+
+    for (let i = 1; i <= 9; i++) {
+        if (modResponse.error_id === i) {
+            error = modResponse.msg;
+            return error;
+        }
     }
-  
+
     if (!response.ok) {
-        throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+        throw json({ message: 'Something went wrong.' }, { status: 500 });
     }
-  
+
     // soon: manage that token
     /*const resData = await response.json();
     const token = resData.token;
@@ -58,7 +63,7 @@ export async function action({ request }) {
     localStorage.setItem('expiration', expiration.toISOString());*/
 
     localStorage.setItem('ifLogged', true);
-  
-  
+
+
     return redirect('/');
-  }
+}

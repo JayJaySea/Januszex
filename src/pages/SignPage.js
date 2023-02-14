@@ -43,11 +43,17 @@ export async function action({ request }) {
       },
       body: JSON.stringify(authData),
     });
-    console.log(authData);
-    if (response.status === 422 || response.status === 401) {
-      return response;
+    
+    let error = {};
+    const modResponse = response.json();
+
+    for (let i = 1; i <= 9; i++) {
+        if (modResponse.error_id === i) {
+            error = modResponse.msg;
+            return error;
+        }
     }
-  
+
     if (!response.ok) {
       throw json({ message: "Could not authenticate user." }, { status: 500 });
     }

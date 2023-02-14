@@ -14,28 +14,28 @@ function PaymentForm() {
     return (
         <div className={classes.paymentForm}>
             <form className={classes.form} onSubmit={submitHandler}>
-                <h1 className={classes.header}>Payment</h1>
+                <h1 className={classes.header}>Dane do płatności</h1>
                 <div className={classes.formContainer}>
                     <div className={classes.formElem}>
-                        <label htmlFor="name">Name</label>
-                        <label htmlFor="surname">Surname</label>
-                        <input type="text" placeholder="Enter Name" name="name" required />
-                        <input type="text" placeholder="Enter Surname" name="surname" required />
+                        <label htmlFor="name">Imię</label>
+                        <label htmlFor="surname">Nazwisko</label>
+                        <input type="text" placeholder="Wpisz imię" name="name" required />
+                        <input type="text" placeholder="Wpisz nazwisko" name="surname" required />
                     </div>
                     <div className={classes.formElem}>
-                        <label htmlFor="card-numb">Card number</label>
-                        <label htmlFor="card-date">Expiration date</label>
-                        <input type="text" placeholder="Enter card number" name="card-numb" required />
+                        <label htmlFor="card-numb">Numer karty</label>
+                        <label htmlFor="card-date">Data upływu ważności karty</label>
+                        <input type="text" placeholder="Wpisz numer karty" name="card-numb" required />
                         <input type="text" placeholder="MM/YY" name="card-date" required />
                     </div>
                     <div className={classes.formElem}>
-                        <label htmlFor="sec-numb">Security number</label>
+                        <label htmlFor="sec-numb">Kod CVC</label>
                         <span></span>
-                        <input type="text" placeholder="Enter CVC" name="sec-numb" required />
+                        <input type="text" placeholder="Wpisz CVC" name="sec-numb" required />
                     </div>
                 </div>
                 <div className={classes.btnContainier}>
-                    <button className={classes.button} type="submit">Submit</button>
+                    <button className={classes.button} type="submit">Zapłać</button>
                 </div>
             </form>
         </div>

@@ -6,7 +6,7 @@
     gap: 100px;
     justify-content: center;
     margin-right: 200px;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .mainElem {
@@ -38,6 +38,7 @@
     background-color: var(--button-idle);
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 50px;
 }
 
 .accountContainer .reservation .elem {

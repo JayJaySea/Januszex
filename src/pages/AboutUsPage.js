@@ -10,9 +10,10 @@ const AboutUs =()=> {
     return(
         <div className={classes.parent}>
             <div className={classes.titleJanuszexCss}>Januszex</div>
+            <div className={classes.phoneCss}>Telefon kontaktowy: 213 769 420</div>
             <div className={classes.container}>
                 <div className={classes.image}>
-                    <img src="https://i.imgur.com/Evk3Nom.png" alt="Tu powinno być nasze logo"></img>
+                    <img src="https://raw.githubusercontent.com/JayJaySea/Januszex/FrontendPrzemek/BogatyJanusz.png" alt="Tu powinno być nasze logo" crossorigin></img>
                 </div>
                 <div className={classes.text}>
                     <p className={classes.header}>

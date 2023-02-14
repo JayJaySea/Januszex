@@ -5,7 +5,7 @@ import { getAuthToken } from '../util/auth';
 import classes from "./LoyalityCardPage.module.css"
 
 
-function LoyalityCard () {
+function LoyalityCard() {
     const [cardData, setCardData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -15,19 +15,13 @@ function LoyalityCard () {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations.json');
+            const response = await fetch('/card');
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
 
             const data = await response.json();
-            const transformedCard = data.results.map((cardDataTmp) => {
-                return {
-                  numbOfRes: cardDataTmp.numbOfRes,
-                  points: cardDataTmp.points,
-                };
-              });
-              setCardData(transformedCard);
+            setCardData(data);
 
         } catch (error) {
             setError("Something went wrong, try again.");
@@ -43,13 +37,13 @@ function LoyalityCard () {
         <div className={classes.accountContainer}>
             <AccountNav />
             <div className={classes.mainElem}>
-            <h1>Karta lojalnościowa</h1>
-            <div >
-                <ul>
-                    <li>Liczba rezerwacji: {cardData.numbOfRes}</li>
-                    <li>Liczba punktów: {cardData.points}</li>
-                </ul>
-            </div>
+                <h1>Karta lojalnościowa</h1>
+                <div >
+                    <ul>
+                        <li>Liczba rezerwacji: {cardData.numbOfRes}</li>
+                        <li>Liczba punktów: {cardData.points}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     );

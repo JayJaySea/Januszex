@@ -20,12 +20,12 @@ function ResHistoryPage() {
             }
 
             const data = await response.json();
-            //console.log(data);
+
             const loadedReserv = [];
 
             for (const key in data) {
                 loadedReserv.push({
-                    id: key,
+                    id: data[key].id,
                     reserveID: data[key].reserveID,
                     carName: data[key].carName,
                     price: data[key].price,
@@ -50,15 +50,39 @@ function ResHistoryPage() {
     function addZero(numb) {
         return (numb < 10) ? '0' : ''
     }
-    const currDate = current.getFullYear() + '-' + addZero(current.getMonth() + 1) + (current.getMonth() + 1) + '-' + addZero(current.getDate());
+    const currDate = current.getFullYear() + '-' + addZero(current.getMonth() + 1) + (current.getMonth() + 1) + '-' + addZero(current.getDate()) + (current.getDate());
 
     const submit = useSubmit();
 
-    function startCancelHandler() {
-        const proceed = window.confirm('Are you sure?');
-
+    async function startCancelHandler(id) {
+        const proceed = window.confirm('Jesteś pewny?');
+        const idToSend = {
+            id: id
+        };
         if (proceed) {
-            submit(null, { method: 'patch' });
+            const response = await fetch('/delete_reserve', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(idToSend),
+            });
+
+            const modResponse = response.json();
+
+            for (let i = 1; i <= 9; i++) {
+                if (modResponse.error_id === i) {
+                    error = modResponse.msg;
+                    return error;
+                }
+            }
+
+
+            if (!response.ok) {
+                throw json({ message: 'Something went wrong.' }, { status: 500 });
+            }
+
+            return null;//redirect('/events');
         }
     }
 
@@ -70,16 +94,16 @@ function ResHistoryPage() {
                 <div >
                     <ul>
                         {reservations.map((res) => (
-                            <li className={classes.reservation} key={res.id}>
+                            <li key={res.id} className={classes.reservation}>
                                 <div className={classes.elem}>Numer rezerwacji: {res.id}</div>
                                 <div className={classes.elem}>Samochód: {res.carName}</div>
                                 <div className={classes.elem}>Cena: {res.price}</div>
                                 <div className={classes.elem}>Data rozpoczęcia wypożyczenia: {res.startDate}</div>
                                 <div className={classes.elem}>Data zakończenia wypożyczenia: {res.endDate}</div>
                                 {(res.startDate > currDate) && res.isActive &&
-                                    <div className={classes.btnContainer}>
-                                        <button className={classes.btnSubmit} onClick={startCancelHandler}>Anuluj rezerwację</button>
-                                    </div>}
+                                    <form className={classes.btnContainer} onSubmit={() => startCancelHandler(res.id)}>
+                                        <button className={classes.btnSubmit} type='submit'>Anuluj rezerwację</button>
+                                    </form>}
                             </li>
                         ))}
                     </ul>
@@ -94,31 +118,15 @@ export default ResHistoryPage;
 
 export async function action({ params, request }) {
     const method = request.method;
-    const data = await request.formData();
-    const reservId = params.reserveID;
+    const reservId = request.id;
+    console.log(reservId);
 
-    const eventData = {
-        title: data.get('title'),
-        image: data.get('image'),
-        date: data.get('date'),
-        description: data.get('description'),
-    };
-
-    let url = 'http://localhost:8080/events';
-
-    if (method === 'PATCH') {
-        const eventId = params.reservId;
-        url = 'http://localhost:8080/events/' + reservId;
-    }
-
-    const token = getAuthToken();
-    const response = await fetch(url, {
+    const response = await fetch('/delete_reserve', {
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
         },
-        body: JSON.stringify(eventData),
+        body: JSON.stringify(),
     });
 
     if (response.status === 422) {
@@ -129,5 +137,5 @@ export async function action({ params, request }) {
         throw json({ message: 'Could not save event.' }, { status: 500 });
     }
 
-    return redirect('/events');
+    return null;//redirect('/events');
 }

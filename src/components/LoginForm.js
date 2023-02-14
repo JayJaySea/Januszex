@@ -4,7 +4,7 @@ import classes from "./LoginForm.module.css";
 function LoginForm({ method }) {
 
   const navigation = useNavigation();
-  const data = useActionData();
+  const error = useActionData();
   const isSubmitting = navigation.state === 'submitting';
 
   return (
@@ -17,6 +17,7 @@ function LoginForm({ method }) {
           <label htmlFor="password">Hasło</label>
           <input type="password" placeholder="Wpisz hasło" name="password" required />
         </div>
+        <div className={error ? classes.errorContainer : classes.errorContainerInvisible}>{error && <div className={classes.error}>{error}</div>}</div>
         <div className={classes.btnContainer}>
           <button className={classes.btnSubmit} disabled={isSubmitting}>
             {isSubmitting ? "Logowanie..." : "Zaloguj się"}

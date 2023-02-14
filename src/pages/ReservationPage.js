@@ -13,6 +13,7 @@ function ReservationPage(props) {
     const [reservData, setReservData] = useState('');
     const [carData, setCarData] = useState(location.state?.car ?? {});
     const [dates, setDates] = useState('');
+    const [error, setError] = useState();
 
     const nameRef = useRef('');
     const surnameRef = useRef('');
@@ -47,13 +48,22 @@ function ReservationPage(props) {
             reserve: reservData
         }
 
-        const response = await fetch('/reserve', {
+        const response = await fetch('/reservation', {
             method: 'POST',
             body: JSON.stringify(!token ? all : reservData),
             headers: { 'Content-type': 'application/json' }
         });
         const data = await response.json();
-        console.log((parseInt(dates.endDate.slice(8, 10)) - parseInt(dates.startDate.slice(8, 10))));
+
+        const modResponse = response.json();
+
+        for (let i = 1; i <= 9; i++) {
+            if (modResponse.error_id === i) {
+                setError(modResponse.msg);
+                return;
+            }
+        }
+
         navigate("/payment", { state: { numbOfDays: (parseInt(dates.endDate.slice(8, 10)) - parseInt(dates.startDate.slice(8, 10))), price: carData.price } });
     }
 
@@ -101,6 +111,7 @@ function ReservationPage(props) {
                     <label htmlFor="comments">Uwagi do rezerwacji</label>
                     <textarea className="comments" placeholder="Wpisz uwagi" rows="5"></textarea>
                     <span className={classes.line}></span>
+                    <div className={error ? classes.errorContainer : classes.errorContainerInvisible}>{error && <div className={classes.error}>{error}</div>}</div>
                     <div className={classes.btnContainer}>
                         <button type="submit" className={classes.reservBtn}>Zarezerwuj</button>
                     </div>
