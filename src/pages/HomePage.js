@@ -91,7 +91,7 @@ function HomePage() {
                 prev = prev.filter((option) => option.color === filters.textColor)
             }
             if (filters.textSeats !== "---") {
-                prev = prev.filter((option) => option.howManySeats === filters.textSeats)
+                prev = prev.filter((option) => option.howManySeats == filters.textSeats)
             }
             if (filters.textTransporter !== "---") {
                 if (filters.textTransporter === "Tak") {

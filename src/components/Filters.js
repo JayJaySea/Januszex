@@ -41,7 +41,7 @@ function GetFilters(filterChange, boolChange) {
     var selectedColor = document.getElementById("colorSelect");
     var textColor = selectedColor.options[selectedColor.selectedIndex].text;
     var selectedSeats = document.getElementById("seatsSelect");
-    var textSeats = selectedSeats.options[selectedSeats.selectedIndex].text;
+    var textSeats = selectedSeats.options[selectedSeats.selectedIndex].value;
     var selectedTransporter = document.getElementById("transporterSelect");
     var textTransporter = selectedTransporter.options[selectedTransporter.selectedIndex].text;
     var selectedMin = document.getElementById("min");
