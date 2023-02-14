@@ -18,6 +18,7 @@ import DamagesPage from '../pages/DamagesPage';
 import LoyalityCardPage from '../pages/LoyalityCardPage';
 import ThankYouPage from '../pages/ThankYouPage';
 import AboutUsPage from '../pages/AboutUsPage';
+import ChangePersInfoPage, {action as changePersInfo} from '../pages/ChangePersInfoPage';
 
 function MyRoutes() {
 
@@ -60,11 +61,16 @@ function MyRoutes() {
             {
               path: '/account/reservationsHistory',
               element: <ResHistoryPage />,
-              //action: deleteReservationAction,
+              action: deleteReservationAction,
             },
             {
               path: '/account/loyalityCard',
               element: <LoyalityCardPage />,
+            },
+            {
+              path: '/account/changePersInfo',
+              element: <ChangePersInfoPage />,
+              action: changePersInfo,
             },
           ],
         },

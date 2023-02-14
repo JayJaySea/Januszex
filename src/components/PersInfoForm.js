@@ -1,66 +1,34 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useRef, useState } from "react";
+import { json, Form, useActionData } from "react-router-dom"
 import classes from "./PersInfoForm.module.css";
 
-function PersInfoForm(props) {
-
-  const [error, setError] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-
-  const nameRef = useRef('');
-  const surnameRef = useRef('');
-  const emailRef = useRef('');
-  const drivLicNumbRef = useRef('');
-  const licCategNumbRef = useRef('');
-
-  function submitHandler(event) {
-    event.preventDefault();
-    // could add validation here...
-
-    const tmpUser = {
-      name: nameRef.current.value,
-      surname: surnameRef.current.value,
-      email: emailRef.current.value,
-      drivLic: drivLicNumbRef.current.value,
-      licCateg: licCategNumbRef.current.value
-    };
-    props.onPersInfoForm(tmpUser);
-  }
+function PresInfoPanel({ user, method }) {
+  const data = useActionData();
 
   return (
-    <div className={classes.piForm} >
-      <form className={classes.form} onSubmit={submitHandler}>
-        <h1>Personal information form</h1>
-        <div className={classes.required}>
-          <h2>Full name</h2>
-          <div className={classes.formElem}>
-            <input type="text" placeholder="Enter Name" name="name" ref={nameRef} required />
-            <input type="text" placeholder="Enter Surname" name="surname" ref={surnameRef} required />
-            <label htmlFor="name"><strong>Name</strong></label>
-            <label htmlFor="surname"><strong>Surname</strong></label>
-          </div>
-         
-          <div className={classes.formElem}>
-            <input type="email" placeholder="Enter E-mail" name="email" ref={emailRef} required />
-            <span></span>
-            <label htmlFor="email"><strong>E-mail</strong></label>
-          </div>
-      
-          <h2>Driving license information</h2>
-          <div className={classes.formElem}>
-            <input type="text" placeholder="Enter driving license number" name="driv-lic-numb" ref={drivLicNumbRef} required />
-            <input type="text" placeholder="Enter Surname" name="lic-categ" ref={licCategNumbRef} required />
-            <label htmlFor="driv-lic-numb"><strong>Driving license number</strong></label>
-            <label htmlFor="lic-categ"><strong>Category</strong></label>
-          </div>
+    <div className={classes.panelContainer}>
+      <Form method={method} className={classes.form}>
+        <div className={classes.formElements}>
+          <label htmlFor="username">Nazwa użytkownika:</label>
+          <input type='text' name="username" value={user.username} id="username" required></input>
+          <label htmlFor="email">E-mail:</label>
+          <input type='email' name="email" value={user.email} id="email" required></input>
+          <label htmlFor="name">Imię:</label>
+          <input type='text' name="name" value={user.name} id="name" required></input>
+          <label htmlFor="surname">Nazwisko:</label>
+          <input type='text' name="surname" value={user.surname} id="surname" required></input>
+          <label htmlFor="drivingLicense">Numer prawo jazdy:</label>
+          <input type='text' name="drivingLicense" value={user.drivLic} id="drivingLicense" required></input>
+          <label htmlFor="licCategoryNumber">Kategoria prawo jazdy:</label>
+          <input type='text' name="licCategoryNumber" value={user.licCateg} id="licCategoryNumber" required></input>
+          <label htmlFor="password">Hasło:</label>
+          <input type='password' name="password" id="password" required></input>
         </div>
-
-        <button type="submit">Submit</button>
-      </form>
+        <div className={(data && data.error) ? classes.errorContainer : classes.errorContainerInvisible}>{data && data.error && <div className={classes.error}>{data.error}</div>}</div>
+        <div className={classes.btnContainer}><button className={classes.btnSubmit}>Zmień dane</button></div>
+      </Form>
     </div>
   );
 }
 
-export default PersInfoForm;
+export default PresInfoPanel;

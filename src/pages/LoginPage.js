@@ -40,14 +40,10 @@ export async function action({ request }) {
         body: JSON.stringify(authData),
     });
 
-    const modResponse = response.json();
 
-    for (let i = 1; i <= 9; i++) {
-        if (modResponse.error_id === i) {
-            error = modResponse.msg;
-            return error;
-        }
-    }
+    if (response.status === 422 || response.status === 400) {
+        return response;
+      }
 
     if (!response.ok) {
         throw json({ message: 'Something went wrong.' }, { status: 500 });

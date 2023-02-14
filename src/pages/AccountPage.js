@@ -54,7 +54,6 @@ function AccountPage() {
       <AccountNav />
       <div className={classes.mainElem}>
         <h1>Moje konto</h1>
-        <h2>Zmień swoje dane</h2>
         <PersInfoPanel user={user} />
         <button className={classes.btnSubmit} onClick={startDeleteHandler}>Usuń konto</button>
       </div>
@@ -79,6 +78,10 @@ export async function action({ params, request }) {
         status: 500,
       }
     );
+  }
+
+  if (response.status === 422 || response.status === 400) {
+    return response;
   }
 
   alert('Usunięto konto');

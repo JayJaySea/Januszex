@@ -1,44 +1,51 @@
-.paymentForm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+@import "./colors.module.css";
+
+li {
+    padding: 0.5em;
 }
 
-.formContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.paymentForm label {
-  margin-top: 20px;
-}
-
-.paymentForm input {
-  padding: 7px;
-}
-
-.formElem {
-  display: grid;
-  grid-template-columns: repeat(2, 18em);
-  gap: 0 2em;
-}
-
-.btnContainier {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.button {
+.btnSubmit {
     background-color: var(--not-member);
     padding: 10px 30px;
     border-radius: 10px;
-    margin-top: 30px;
-}
+  }
+  
+  .btnContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .btnSubmit:hover {
+      background-color: var(--button-idle);
+      color: var(--not-member);
+    }
+  
 
-.header {
-    text-align: center;
-}
+.errorContainerInvisible{
+    display: none;
+  }
+  
+  .errorContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 10px;  
+  }
+  
+  .error {
+    color: var(--not-member);
+    font-weight: bold;
+  }
+
+  .formElements {
+    display: grid;
+    grid-template-columns: repeat(2, 12em);
+  }
+
+  .formElements input {
+    background-color: var(--text);
+  }

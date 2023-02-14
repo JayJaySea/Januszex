@@ -14,7 +14,7 @@ function ResHistoryPage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('/reservation_history');
+            const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations.json');
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -26,12 +26,12 @@ function ResHistoryPage() {
             for (const key in data) {
                 loadedReserv.push({
                     id: data[key].id,
-                    reserveID: data[key].reserveID,
-                    carName: data[key].carName,
-                    price: data[key].price,
-                    startDate: data[key].rentDate,
-                    endDate: data[key].returnDate,
-                    isActive: data[key].isActive
+                    rentDate: data[key].rentDate,
+                    returnDate: data[key].returnDate,
+                    deliveryAddress: data[key].deliveryAddress,
+                    valid: data[key].valid,
+                    carID: data[key].carID,
+                    userID: data[key].userID,
                 });
             }
 
@@ -54,35 +54,11 @@ function ResHistoryPage() {
 
     const submit = useSubmit();
 
-    async function startCancelHandler(id) {
+    function startCancelHandler(id) {
         const proceed = window.confirm('Jesteś pewny?');
-        const idToSend = {
-            id: id
-        };
         if (proceed) {
-            const response = await fetch('/delete_reserve', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(idToSend),
-            });
-
-            const modResponse = response.json();
-
-            for (let i = 1; i <= 9; i++) {
-                if (modResponse.error_id === i) {
-                    error = modResponse.msg;
-                    return error;
-                }
-            }
-
-
-            if (!response.ok) {
-                throw json({ message: 'Something went wrong.' }, { status: 500 });
-            }
-
-            return null;//redirect('/events');
+            localStorage.setItem('resID', id);
+            submit(null, { method: 'PUT' });
         }
     }
 
@@ -96,14 +72,14 @@ function ResHistoryPage() {
                         {reservations.map((res) => (
                             <li key={res.id} className={classes.reservation}>
                                 <div className={classes.elem}>Numer rezerwacji: {res.id}</div>
-                                <div className={classes.elem}>Samochód: {res.carName}</div>
-                                <div className={classes.elem}>Cena: {res.price}</div>
-                                <div className={classes.elem}>Data rozpoczęcia wypożyczenia: {res.startDate}</div>
-                                <div className={classes.elem}>Data zakończenia wypożyczenia: {res.endDate}</div>
-                                {(res.startDate > currDate) && res.isActive &&
-                                    <form className={classes.btnContainer} onSubmit={() => startCancelHandler(res.id)}>
-                                        <button className={classes.btnSubmit} type='submit'>Anuluj rezerwację</button>
-                                    </form>}
+                                <div className={classes.elem}>Data rozpoczęcia wypożyczenia: {res.rentDate}</div>
+                                <div className={classes.elem}>Data zakończenia wypożyczenia: {res.returnDate}</div>
+                                <div className={classes.elem}>Adres odbioru: {res.deliveryAddress}</div>
+                                <div className={classes.elem}>Aktywne: {res.valid ? "Tak" : "Anulowana"}</div>
+                                {(res.rentDate > currDate) && res.valid &&
+                                    <div className={classes.btnContainer}>
+                                        <button className={classes.btnSubmit} onClick={() => startCancelHandler(res.id)}>Anuluj rezerwację</button>
+                                    </div>}
                             </li>
                         ))}
                     </ul>
@@ -118,24 +94,35 @@ export default ResHistoryPage;
 
 export async function action({ params, request }) {
     const method = request.method;
-    const reservId = request.id;
-    console.log(reservId);
+    const reservId = localStorage.getItem('resID');
+    let error = {};
 
-    const response = await fetch('/delete_reserve', {
-        method: method,
+    const idToSend = {
+        id: reservId
+    };
+    const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations/gfgdg.json', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(),
+        body: JSON.stringify(idToSend),
     });
 
-    if (response.status === 422) {
-        return response;
+    const modResponse = response.json();
+    console.log(response);
+    for (let i = 1; i <= 9; i++) {
+        if (modResponse.error_id === i) {
+            error = modResponse.msg;
+            return error;
+        }
     }
 
+
     if (!response.ok) {
-        throw json({ message: 'Could not save event.' }, { status: 500 });
+        throw json({ message: 'Something went wrong.' }, { status: 500 });
     }
+    localStorage.removeItem('resID');
+    window.location.reload(true);
 
     return null;//redirect('/events');
 }

@@ -44,14 +44,8 @@ export async function action({ request }) {
       body: JSON.stringify(authData),
     });
     
-    let error = {};
-    const modResponse = response.json();
-
-    for (let i = 1; i <= 9; i++) {
-        if (modResponse.error_id === i) {
-            error = modResponse.msg;
-            return error;
-        }
+    if (response.status === 422 || response.status === 401) {
+      return response;
     }
 
     if (!response.ok) {

@@ -1,38 +1,51 @@
 @import "./colors.module.css";
 
-.piForm {
+li {
+  padding: 0.5em;
+}
+
+.btnSubmit {
+  background-color: var(--not-member);
+  padding: 10px 30px;
+  border-radius: 10px;
+}
+
+.btnContainer {
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
-  margin-top: 2em;
-  background-color: var(--background);
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-h1 {
-  text-align: center;
+.btnSubmit:hover {
+    background-color: var(--button-idle);
+    color: var(--not-member);
+  }
+
+
+.errorContainerInvisible{
+  display: none;
 }
 
-.form {
-  display: grid;
-  flex-direction: column;
-  width: 70rem;
+.errorContainer {
+  width: 100%;
+  display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;  
 }
 
-.formElem {
+.error {
+  color: var(--not-member);
+  font-weight: bold;
+}
+
+.formElements {
   display: grid;
-  grid-template-columns: repeat(2, 18em);
-  gap: 0 2em;
+  grid-template-columns: repeat(2, 12em);
 }
 
-.formElem input {
-  height: 1em;
-  width: calc(100% - 1em);
-  padding: 8px;
-}
-
-.formElem label {
-  color: var(--secondary-text-color);
+.formElements input {
+  background-color: var(--text);
 }
