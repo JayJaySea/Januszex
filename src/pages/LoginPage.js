@@ -42,6 +42,7 @@ export async function action({ request }) {
 
 
     if (response.status === 422 || response.status === 400) {
+        alert('Coś poszło nie tak');
         return response;
       }
 

@@ -57,10 +57,11 @@ function ReservationPage(props) {
 
         if (response.status === 422 || response.status === 400) {
             setData(response);
+            alert('Coś poszło nie tak');
             return
-          }
+          }    
 
-        navigate("/payment", { state: { numbOfDays: (parseInt(dates.endDate.slice(8, 10)) - parseInt(dates.startDate.slice(8, 10))), price: carData.price } });
+        navigate("/payment", { state: { numbOfDays: (Date.parse(dates.endDate.slice(8, 10)) - parseInt(dates.startDate.slice(8, 10))), price: carData.price } });
     }
 
     return (

@@ -10,17 +10,17 @@ function PresInfoPanel({ user, method }) {
       <Form method={method} className={classes.form}>
         <div className={classes.formElements}>
           <label htmlFor="username">Nazwa użytkownika:</label>
-          <input type="text" name="username" value={user.username} id="username" required></input>
+          <input type="text" name="username" defaultValue={user.username} id="username" required></input>
           <label htmlFor="email">E-mail:</label>
-          <input type="text" name="email" value={user.email} id="email" required></input>
+          <input type="email" name="email" defaultValue={user.email} id="email" required></input>
           <label htmlFor="name">Imię:</label>
-          <input type="text" name="name" value={user.name} id="name" required></input>
+          <input type="text" name="name" defaultValue={user.name} id="name" required></input>
           <label htmlFor="surname">Nazwisko:</label>
-          <input type="text" name="surname" value={user.surname} id="surname" required></input>
+          <input type="text" name="surname" defaultValue={user.surname} id="surname" required></input>
           <label htmlFor="drivingLicense">Numer prawo jazdy:</label>
-          <input type="text" name="drivingLicense" value={user.drivLic} id="drivingLicense" required></input>
+          <input type="text" name="drivingLicense" defaultValue={user.drivLic} id="drivingLicense" required></input>
           <label htmlFor="licCategoryNumber">Kategoria prawo jazdy:</label>
-          <input type="text" name="licCategoryNumber" value={user.licCateg} id="licCategoryNumber" required></input>
+          <input type="text" name="licCategoryNumber" defaultValue={user.licCateg} id="licCategoryNumber" required></input>
           <label htmlFor="password">Hasło:</label>
           <input type='password' name="password" id="password" required></input>
         </div>
