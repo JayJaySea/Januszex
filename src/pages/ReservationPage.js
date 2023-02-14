@@ -55,8 +55,9 @@ function ReservationPage(props) {
         });
         const data = await response.json();
 
-        if (response.status === 422 || response.status === 401) {
+        if (response.status === 422 || response.status === 400) {
             setData(response);
+            return
           }
 
         navigate("/payment", { state: { numbOfDays: (parseInt(dates.endDate.slice(8, 10)) - parseInt(dates.startDate.slice(8, 10))), price: carData.price } });

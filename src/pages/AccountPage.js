@@ -84,6 +84,7 @@ export async function action({ params, request }) {
     return response;
   }
 
+  localStorage.removeItem('ifLogged');
   alert('Usunięto konto');
 
   return redirect('/');

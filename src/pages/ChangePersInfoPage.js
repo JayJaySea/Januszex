@@ -65,14 +65,14 @@ export async function action({ request }) {
         name: data.get("name"),
         surname: data.get("surname"),
         email: data.get("email"),
-        login: data.get("login"),
+        login: data.get("username"),
         password: data.get("password"),
         drivingLicense: data.get("drivingLicense"),
         licCategoryNumber: data.get("licCategoryNumber"),
       };
       console.log(newData);
 
-    const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users/-NOBVDYDgVEpVt42fBeK.json', { //http://localhost:8080/' + mode
+    const response = await fetch('/profile', { //http://localhost:8080/' + mode
         method: method,
         headers: {
             'Content-Type': 'application/json',

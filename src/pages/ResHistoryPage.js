@@ -14,7 +14,7 @@ function ResHistoryPage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations.json');
+            const response = await fetch('/reservation_history');
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -98,9 +98,9 @@ export async function action({ params, request }) {
     let error = {};
 
     const idToSend = {
-        id: reservId
+        id: parseInt(reservId)
     };
-    const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations/gfgdg.json', {
+    const response = await fetch('/cancel_reservation', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -108,21 +108,12 @@ export async function action({ params, request }) {
         body: JSON.stringify(idToSend),
     });
 
-    const modResponse = response.json();
-    console.log(response);
-    for (let i = 1; i <= 9; i++) {
-        if (modResponse.error_id === i) {
-            error = modResponse.msg;
-            return error;
-        }
-    }
-
 
     if (!response.ok) {
         throw json({ message: 'Something went wrong.' }, { status: 500 });
     }
     localStorage.removeItem('resID');
-    window.location.reload(true);
+    //window.location.reload(true);
 
     return null;//redirect('/events');
 }

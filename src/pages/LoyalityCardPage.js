@@ -40,7 +40,7 @@ function LoyalityCard() {
                 <h1>Karta lojalnościowa</h1>
                 <div >
                     <ul>
-                        <li>Liczba rezerwacji: {cardData.numbOfRes}</li>
+                        <li>Liczba rezerwacji: {cardData.orders}</li>
                         <li>Liczba punktów: {cardData.points}</li>
                     </ul>
                 </div>

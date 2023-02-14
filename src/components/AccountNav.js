@@ -12,7 +12,7 @@ function AccountNav({ reserv }) {
                 <li><Link className={classes.myAccount} to="/account">Moje konto</Link></li>
                 <li><Link to="/account/reservationsHistory">Historia rezerwacji</Link></li>
                 <li><Link to="/account/loyalityCard">Karta lojalnościowa</Link></li>
-                <li><Link to="/account/changePersInfo">Karta lojalnościowa</Link></li>
+                <li><Link to="/account/changePersInfo">Zmień dane</Link></li>
                 <li><Form action="/logout" method="post">
                   <button>Wyloguj się</button>
                 </Form></li>
