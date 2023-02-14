@@ -20,7 +20,7 @@ function AccountPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/users/-NOBVDYDgVEpVt42fBeK.json');
+      const response = await fetch('/profile');
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }

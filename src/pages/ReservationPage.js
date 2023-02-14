@@ -48,7 +48,7 @@ function ReservationPage(props) {
             reserve: reservData
         }
 
-        const response = await fetch('/reservation', {
+        const response = await fetch('/reserve', {
             method: 'POST',
             body: JSON.stringify(!token ? all : reservData),
             headers: { 'Content-type': 'application/json' }

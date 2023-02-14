@@ -15,7 +15,7 @@ function LoyalityCard() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('/card');
+            const response = await fetch('/loyality_card');
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }

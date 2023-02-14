@@ -1,4 +1,5 @@
-import React, { useRef, json, useState } from "react";
+import React, { useRef, useState } from "react";
+import { json } from "react-router-dom"
 import classes from "./PersInfoPanel.module.css";
 
 function PresInfoPanel({ user }) {
@@ -24,7 +25,7 @@ function PresInfoPanel({ user }) {
       licCategoryNumber: licCategNumbRef.current.value,
     };
 
-    const response = await fetch("/change", { //http://localhost:8080/" + mode
+    const response = await fetch("/update_profile", { //http://localhost:8080/" + mode
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

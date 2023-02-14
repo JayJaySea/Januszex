@@ -14,7 +14,7 @@ function ResHistoryPage() {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('https://januszex-d2112-default-rtdb.europe-west1.firebasedatabase.app/reservations.json');
+            const response = await fetch('/reservation_history');
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
