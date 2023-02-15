@@ -6,7 +6,7 @@ use rocket::{
     serde::{Deserialize, 
         json::Json,
     },
-    http::{ CookieJar, Cookie},
+    http::{ Status, CookieJar, Cookie},
 };
 
 use crate::{
@@ -31,7 +31,7 @@ pub async fn reserve_logged(
     state: &State<Mutex<GlobalState>>,
     id: UserId,
     reserve: Json<ReserveRequest>
-) -> Result<Json<Reserve>, Json<ErrorInfo>> {
+) -> Result<Json<Reserve>, (Status, Json<ErrorInfo>)> {
 
     let reserve = reserve.into_inner();
 
@@ -46,21 +46,26 @@ pub async fn reserve_logged(
 
     let state = &mut state.lock().await;
 
-    Ok(Json(state.add_reservation(reserve)?))
+    Ok(Json(state.add_reservation(reserve)
+        .map_err(|e| (Status::BadRequest, e.into()))?
+            ))
 }
 
 #[post("/reserve", format = "json", data = "<reserve_info>", rank = 1)]
 pub async fn reserve_guest(
     state: &State<Mutex<GlobalState>>,
     reserve_info: Json<ReserveInfo>
-    ) -> Result<Json<Reserve>, Json<ErrorInfo>> {
+    ) -> Result<Json<Reserve>, (Status, Json<ErrorInfo>)> {
 
     let mut reserve_info = reserve_info.into_inner();
-    check_guest_data_valid(&reserve_info.user).await?;
+    check_guest_data_valid(&reserve_info.user).await
+        .map_err(|e| (Status::BadRequest, e.into()))?;
     reserve_info.user.role = None;
 
     let state = &mut state.lock().await;
-    let user = state.insert_user(reserve_info.user)?;
+    let user = state.insert_user(reserve_info.user)
+        .map_err(|e| (Status::BadRequest, e.into()))?;
+
     let reserve = reserve_info.reserve;
 
     let reserve = ReserveNew {
@@ -72,7 +77,10 @@ pub async fn reserve_guest(
         userID: user.id
     };
 
-    Ok(Json(state.add_reservation(reserve)?))
+    Ok(Json(
+        state.add_reservation(reserve)
+        .map_err(|e| (Status::BadRequest, e.into()))?
+    ))
 
 }
 
@@ -93,29 +101,33 @@ pub async fn cancel_reservation(
     state: &State<Mutex<GlobalState>>,
     _user_id: UserId,
     res_id: Json<AnyId>
-) -> Result<Json<Reserve>, Json<ErrorInfo>> {
+) -> Result<Json<Reserve>, (Status, Json<ErrorInfo>)> {
     let state = &mut state.lock().await;
 
-    Ok(Json(state.cancel_reservation(res_id.into_inner().id)?))
+    Ok(
+        Json(state.cancel_reservation(res_id.into_inner().id)
+        .map_err(|e| (Status::BadRequest, e.into()))?
+    ))
 }
 
 
 #[put("/cancel_reservation", rank = 1)]
-pub async fn fail_cancel_reservation() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+pub async fn fail_cancel_reservation() -> (Status, Json<ErrorInfo>) {
+    (Status::BadRequest, Json(Error::NotLoggedIn.into()))
 }
 
 #[get("/reservation_history")]
-pub async fn reservation_history(state: &State<Mutex<GlobalState>>, id: UserId) -> Result<Json<Vec<Reserve>>, Json<ErrorInfo>> {
+pub async fn reservation_history(state: &State<Mutex<GlobalState>>, id: UserId) -> Result<Json<Vec<Reserve>>, (Status, Json<ErrorInfo>)> {
     let state = &mut state.lock().await;
-    let reservations = state.get_user_reservations(id.0)?;
+    let reservations = state.get_user_reservations(id.0)
+        .map_err(|e| (Status::BadRequest, e.into()))?;
 
     Ok(Json::from(reservations))
 }
 
 #[get("/reservation_history", rank = 1)]
-pub async fn fail_reservation_history() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+pub async fn fail_reservation_history() -> (Status, Json<ErrorInfo>) {
+    (Status::BadRequest, Json(Error::NotLoggedIn.into()))
 }
 
 #[derive(Deserialize, Default, Clone)]

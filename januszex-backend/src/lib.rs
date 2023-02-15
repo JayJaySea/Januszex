@@ -223,19 +223,25 @@ impl GlobalState {
             return Err(Error::WrongId.into());
         }
 
-        let conflicting: i64 = reservations::table
+        let same_car = reservations::table
             .filter(carID.eq(reserve.carID))
             .filter(valid.eq(true))
-            .count()
-            .get_result(&mut self.db_conn)
+            .load::<Reserve>(&mut self.db_conn)
             .map_err(|_| Error::InternalServerError(file!(), line!()))?;
 
-        if conflicting > 0 {
-            Err(Error::AlreadyReserved.into())
+        for r in same_car {
+            if reserve.rentDate.timestamp() < r.rentDate.timestamp() && reserve.returnDate.timestamp() < r.rentDate.timestamp() {
+                continue;
+            }
+            else if r.returnDate.timestamp() < reserve.rentDate.timestamp() && r.returnDate.timestamp() < reserve.returnDate.timestamp() {
+                continue;
+            }
+            else {
+                return Err(Error::AlreadyReserved.into())
+            }
         }
-        else {
-            Ok(())
-        }
+
+        Ok(())
     }
 
     pub fn cancel_reservation(&mut self, id: i32) -> Result<Reserve, ErrorInfo> {

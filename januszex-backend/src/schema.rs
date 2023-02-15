@@ -70,7 +70,7 @@ diesel::table! {
         login -> Nullable<Text>,
         password -> Nullable<Text>,
         drivingLicense -> Text,
-        licCategoryNumber -> Integer,
+        licCategoryNumber -> Text,
         role -> Nullable<Integer>,
     }
 }

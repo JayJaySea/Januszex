@@ -3,16 +3,12 @@
 use diesel::prelude::*;
 use crate::schema::{
     users,
-    roles,
     damages,
     feedbacks,
     reservations
 };
 
-use chrono::{
-    naive::NaiveDateTime,
-    Utc,
-};
+use chrono::naive::NaiveDateTime;
 
 use rocket::serde::{Serialize, Deserialize};
 
@@ -28,7 +24,7 @@ pub struct UserNew {
     pub login: String,
     pub password: String,
     pub drivingLicense: String,
-    pub licCategoryNumber: i32,
+    pub licCategoryNumber: String,
     pub role: Option<i32>,
 }
 
@@ -43,7 +39,7 @@ pub struct UserUpdate {
     pub login: String,
     pub password: String,
     pub drivingLicense: String,
-    pub licCategoryNumber: i32,
+    pub licCategoryNumber: String,
 }
 
 #[derive(Queryable, Serialize, Default, Clone)]
@@ -56,7 +52,7 @@ pub struct User {
     pub login: Option<String>,
     pub password: Option<String>,
     pub license: String,
-    pub licCategoryNumber: i32,
+    pub licCategoryNumber: String,
     pub role: Option<i32>,
 }
 

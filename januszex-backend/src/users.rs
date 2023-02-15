@@ -34,15 +34,19 @@ pub async fn register(
     state: &State<Mutex<GlobalState>>,
     cookies: &CookieJar<'_>,
     user: Json<UserNew>
-) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+) -> Result<Json<UserInfo>, (Status, Json<ErrorInfo>)> {
 
     let mut user = user.into_inner();
-    check_user_data_valid(&user).await?;
+    check_user_data_valid(&user).await
+        .map_err(|e| (Status::BadRequest, e.into()))?;
 
     let state = &mut state.lock().await;
-    state.check_if_user_exists(&user)?;
+    state.check_if_user_exists(&user)
+        .map_err(|e| (Status::BadRequest, e.into()))?;
     user.role = Some(0);
-    let user = state.insert_user(user)?;
+    let user = state.insert_user(user)
+        .map_err(|e| (Status::BadRequest, e.into()))?;
+
     cookies.add_private(Cookie::new("id", user.id.to_string()));
 
     Ok(Json::from(UserInfo::from(user)))
@@ -67,10 +71,11 @@ pub async fn login(
     state: &State<Mutex<GlobalState>>,
     cookies: &CookieJar<'_>,
     credentials: Json<UserCredentials<'_>>
-) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+) -> Result<Json<UserInfo>, (Status, Json<ErrorInfo>)> {
 
     let state = &mut state.lock().await;
-    let user = state.user_from_credentials(credentials.into_inner())?;
+    let user = state.user_from_credentials(credentials.into_inner())
+        .map_err(|e| (Status::BadRequest, e.into()))?;
 
     cookies.add_private(Cookie::new("id", user.id.to_string()));
     Ok(Json::from(UserInfo::from(user)))
@@ -80,10 +85,11 @@ pub async fn login(
 pub async fn profile(
     state: &State<Mutex<GlobalState>>,
     id: UserId
-) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+) -> Result<Json<UserInfo>, (Status, Json<ErrorInfo>)> {
 
     let state = &mut state.lock().await;
-    let user = state.user_from_id(id.0)?;
+    let user = state.user_from_id(id.0)
+        .map_err(|e| (Status::BadRequest, e.into()))?;
 
     Ok(Json::from(UserInfo::from(user)))
 }
@@ -98,17 +104,18 @@ pub async fn update_profile(
     state: &State<Mutex<GlobalState>>,
     id: UserId,
     user: Json<UserUpdate>
-) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+) -> Result<Json<UserInfo>, (Status, Json<ErrorInfo>)> {
     let state = &mut state.lock().await;
 
-    let user = state.user_update(id.0, user.into_inner())?;
+    let user = state.user_update(id.0, user.into_inner())
+        .map_err(|e| (Status::BadRequest, e.into()))?;
 
     Ok(Json(UserInfo::from(user)))
 }
 
 #[put("/profile", rank = 1)]
-pub async fn fail_update_profile() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+pub async fn fail_update_profile() -> (Status, Json<ErrorInfo>) {
+    (Status::BadRequest, Json(Error::NotLoggedIn.into()))
 }
 
 #[delete("/delete_account")]
@@ -116,28 +123,32 @@ pub async fn delete_account(
     state: &State<Mutex<GlobalState>>,
     cookies: &CookieJar<'_>,
     id: UserId
-) -> Result<Json<UserInfo>, Json<ErrorInfo>> {
+) -> Result<Json<UserInfo>, (Status, Json<ErrorInfo>)> {
 
     let state = &mut state.lock().await;
-    let user = state.delete_user(id.0)?;
+    let user = state.delete_user(id.0)
+        .map_err(|e| (Status::BadRequest, e.into()))?;
+
     cookies.remove_private(Cookie::named("id"));
 
     Ok(Json::from(UserInfo::from(user)))
 }
 
 #[delete("/delete_account", rank = 1)]
-pub async fn fail_delete_account() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+pub async fn fail_delete_account() -> (Status, Json<ErrorInfo>) {
+    (Status::BadRequest, Json(Error::NotLoggedIn.into()))
 }
 
-#[delete("/loyality_card")]
+#[get("/loyality_card")]
 pub async fn loyality_card(
     state: &State<Mutex<GlobalState>>,
     id: UserId
-) -> Result<Json<LoyalityCard>, Json<ErrorInfo>> {
+) -> Result<Json<LoyalityCard>, (Status, Json<ErrorInfo>)> {
 
     let state = &mut state.lock().await;
-    let reser_count = state.get_user_reservations(id.0)?.len();
+    let reser_count = state.get_user_reservations(id.0)
+        .map_err(|e| (Status::BadRequest, e.into()))?
+        .len();
 
     let card = LoyalityCard {
         points: (reser_count * 123) as i32,
@@ -147,9 +158,9 @@ pub async fn loyality_card(
     Ok(Json::from(card))
 }
 
-#[delete("/loyality_card", rank = 1)]
-pub async fn fail_loyality_card() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+#[get("/loyality_card", rank = 1)]
+pub async fn fail_loyality_card() -> (Status, Json<ErrorInfo>) {
+    (Status::BadRequest, Json(Error::NotLoggedIn.into()))
 }
 
 #[get("/logout")]
@@ -159,8 +170,8 @@ pub async fn logout(_id: UserId, cookies: &CookieJar<'_>) -> Json<String> {
 }
 
 #[get("/logout", rank = 1)]
-pub async fn fail_logout() -> Json<ErrorInfo> {
-    Json(Error::NotLoggedIn.into())
+pub async fn fail_logout() -> (Status, Json<ErrorInfo>) {
+    (Status::BadRequest, Json(Error::NotLoggedIn.into()))
 }
 
 
@@ -193,16 +204,17 @@ pub struct UserCredentials<'a> {
 #[serde(default)]
 pub struct UserInfo {
     pub id: i32,
+    pub username: String,
+    pub email: String,
     pub name: String,
     pub surname: String,
-    pub email: String,
-    pub license: String,
-    pub category_number: i32,
+    pub drivLic: String,
+    pub licCateg: String
 }
 
 impl From<User> for UserInfo {
     fn from(user: User) -> Self {
-        Self { id: user.id, name: user.name, surname: user.surname, email: user.email, license: user.license, category_number: user.licCategoryNumber}
+        Self { id: user.id, username: user.login.unwrap(), name: user.name, surname: user.surname, email: user.email, drivLic: user.license, licCateg: user.licCategoryNumber}
     }
 }
 

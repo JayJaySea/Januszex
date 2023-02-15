@@ -1,4 +1,5 @@
 use rocket::serde::Serialize;
+use rocket::http::Status;
 
 
 #[derive(Serialize)]
@@ -31,7 +32,7 @@ impl From<Error> for ErrorInfo {
             Error::NotLoggedIn => ErrorInfo::new(5, "Operation available only for users that logged in", ""),
             Error::InternalServerError(file, line) => ErrorInfo::new(6, "Oh sh*t, contact your backend guy", &format!("File: {}, Line: {}", file, line)),
             Error::MissingCredentials => ErrorInfo::new(7, "Missing credentials, cannot create user", ""),
-            Error::AlreadyReserved => ErrorInfo::new(8, "Car is already reserved", ""),
+            Error::AlreadyReserved => ErrorInfo::new(8, "Car is already reserved for this period", ""),
             Error::NotFound(resource) => ErrorInfo::new(9, &format!("Cannot find resource: {}", resource), ""),
         }
     }
